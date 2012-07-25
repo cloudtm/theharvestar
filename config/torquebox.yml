@@ -1,0 +1,42 @@
+messaging:
+  /queue/commands:
+    Madmass::Agent::JmsExecutor:
+      selector: "perception IS NULL AND ((synchronous IS NULL) OR (synchronous <> 'true'))"
+      concurrency: 1
+    Madmass::Agent::SyncJmsExecutor:
+      selector: "perception IS NULL AND synchronous = 'true'"
+      concurrency: 1
+
+
+topics:
+  /topic/perceptions:
+     durable: false
+queues:
+  /queue/commands:
+    durable: false
+
+#jobs:
+#  edges.processor:
+#    job:  EdgesProcessor
+#    cron: '*/30 * * * * ?'
+#    description:  Process edges for all geo objects
+#    singleton: true
+
+#stomp:
+#  stomplets:
+#    test_stomplet:
+#      class: Madmass::CommandsStomplet
+#      route: '/madmass/domain'
+#      config:
+#        perceptions_destination: /topic/perceptions
+#        commands_destination: /queue/commands
+
+
+tasks:
+  Backgroundable:
+    concurrency: 8
+
+#Check if needed (it should be this way only in production)
+pooling:
+  messaging: shared
+
