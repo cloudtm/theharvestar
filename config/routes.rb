@@ -1,7 +1,11 @@
 Theharvestar::Application.routes.draw do
+  match 'mechanics', :to => 'mechanics#execute', :via => [:post]
+
   devise_for :users
 
   mount Madmass::Engine => '/madmass', :as => 'madmass_engine'
+
+  root :to => 'play#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
