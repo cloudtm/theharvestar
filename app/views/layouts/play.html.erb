@@ -45,8 +45,8 @@ containing many containers to be shown at different game states.  -->
 
   Game.config = {
     env: '<%= Rails.env %>',
-    //wssServer: <%#= Socky.random_host.to_json.html_safe %>,
-    //pusherKey: '<%#= Pusher.key.html_safe %>',
+    wssServer: <%= Socky.random_host.to_json.html_safe %>,
+    pusherKey: '<%= Pusher.key.html_safe %>',
     debugging: (function() {
       <% if Rails.env.development? and params[:debug] != 'false' %>
       return {debug:true, log:true};
