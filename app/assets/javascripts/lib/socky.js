@@ -9,7 +9,7 @@
  */
 
 // Set URL of your WebSocketMain.swf here:
-WEB_SOCKET_SWF_LOCATION = "/javascripts/lib/socky/WebSocketMain.swf";
+WEB_SOCKET_SWF_LOCATION = "/socky/WebSocketMain.swf";
 // Set this to dump debug message from Flash to console.log:
 WEB_SOCKET_DEBUG = true;
 
