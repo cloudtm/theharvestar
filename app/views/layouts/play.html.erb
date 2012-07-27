@@ -2,15 +2,11 @@
 <html>
 <head>
   <title>Theharvestar</title>
-  <%#= stylesheet_link_tag "application", :media => "all" %>
+  <%= stylesheet_link_tag "play", :media => "all" %>
   <%= javascript_include_tag "play", "http://js.pusher.com/1.12/pusher.min.js" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
-</body>
 
 <!-- This div confguration allows to have an overflow hidden veiewport with a scrolling desk
 containing many containers to be shown at different game states.  -->
@@ -36,73 +32,20 @@ containing many containers to be shown at different game states.  -->
 </div>
 
 <script type="text/javascript">
-  /* SoundManager initialization. Must be here, that is before either
-   * onDOMContentLoaded() or window.onload() fire. */
-  soundManager.url = '/swfs/';
-  soundManager.flashVersion = 9; // optional: shiny features (default = 8)
-  soundManager.useFlashBlock = false; // optionally, enable when you're ready to dive in
-  //soundManager.useHTML5Audio = true;
-
   Game.config = {
-    env: '<%= Rails.env %>',
+    env:'<%= Rails.env %>',
     wssServer: <%= Socky.random_host.to_json.html_safe %>,
-    pusherKey: '<%= Pusher.key.html_safe %>',
-    debugging: (function() {
+    pusherKey:'<%= Pusher.key.html_safe %>',
+    debugging:(function() {
       <% if Rails.env.development? and params[:debug] != 'false' %>
       return {debug:true, log:true};
       <% else %>
       return {debug:false, log:false};
       <% end %>
     })()
-  }
-
-  // Adds placeholder to the jQuery support variables
-  jQuery.support.placeholder = false;
-  var phTest = document.createElement('input');
-  if('placeholder' in phTest){ jQuery.support.placeholder = true; }
-
-  /* Starts the game after the page loads.
-   * When the page has finished loading calls the main function.
-   * It cannot be done with body onload because it's overwritten by
-   * the layout body */
-  jQuery(document).ready(function() {
-    $("#loadInfo").show();
-    var loaded = false;
-
-    // Image preloader
-    $.preloadCssImages({
-        statusTextEl:'#textStatus',
-        statusBarEl:'#status',
-        onComplete:function() { //Do this when pre-loading finished
-          if(!loaded){
-            loaded = true;
-            $("#loadInfo").remove();
-            //loadFonts();
-            startGame();
-          }
-        }}
-    );
-
-    // Load fonts (has to be done after image preloading)
-    function loadFonts(){
-      WebFont.load({
-        custom: {
-          families: ['HelveticaNeueBI:i,bi'],
-          urls: ['/stylesheets/client/fonts.css']
-        },
-//        fontactive: function(fontFamily, fontDescription) {
-//          console.info("Loaded: " + fontFamily + ' => ' + fontDescription);
-//        },
-        active: function() {
-          startGame();
-        }
-      });
-    }
-
-    function startGame(){
-      //Game.initialize(<%= @percept.to_json.html_safe %>);
-    }
-  });
+  };
+  initialize();
 </script>
 
+</body>
 </html>
