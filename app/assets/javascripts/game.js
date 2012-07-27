@@ -16,7 +16,7 @@
 //= require client
 //= require_self
 
-function initialize(){
+function initialize(sensingPercept){
     /* SoundManager initialization. Must be here, that is before either
    * onDOMContentLoaded() or window.onload() fire. */
   soundManager.url = '/swfs/';
@@ -68,8 +68,7 @@ function initialize(){
     }
 
     function startGame(){
-      //Game.initialize(<%= @percept.to_json.html_safe %>);
-      console.info("Game started!");
+      Game.initialize(sensingPercept);
     }
   });
 

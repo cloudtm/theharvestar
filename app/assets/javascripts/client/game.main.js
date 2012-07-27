@@ -1,7 +1,3 @@
-// Game Namespace
-/****************************************************/
-var Game = Game || {}
-/****************************************************/
 
 Game.initialize = function(percept) {
   if($defined(window.INITIALIZED)){

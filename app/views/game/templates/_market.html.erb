@@ -1,0 +1,49 @@
+<%# ======== New market trade request ========  %>
+<div id="market-dialog-template">
+  <div class="market-dialog">
+    <div class="content">
+      <span class="tip">Your request to the other players:</span>
+    </div>
+    <div class="icon"></div>
+    <div class="title">Marketplace Trade Request</div>
+    <div class="bar"></div>
+    <div class="handle"></div>
+  </div>
+</div>
+
+<%# ======== Markteplace ========  %>
+<div id="marketplace-template">
+  <div class="marketplace">
+    <div class="icon"></div>
+    <div class="title">Marketplace</div>
+    <div class="popup"></div>
+    <div class="backtogame"></div>
+    <div class="content">
+
+      <div class="section me">
+        <p>Your request</p>
+        <span class="tip">Your request to the other players:</span>
+      </div>
+      <div class="offers me">
+        <span class="no-trade">No trades</span>
+      </div>
+      
+      <div class="section others">
+        <p>Other requests</p>
+        <span class="tip">Requests that other players made to you:</span>
+      </div>
+      <div class="offers others">
+        <span class="no-trade">No trades</span>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<%# =========== Trade Entry ============ %>
+<div id="market-entry-template">
+  <div class="market-entry">
+    <div class="highlight"></div>
+    <div class="name <%= 'player-{playerId}' %>">{playerName}</div>
+  </div>
+</div>

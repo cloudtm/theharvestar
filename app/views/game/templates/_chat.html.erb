@@ -1,0 +1,41 @@
+<%# =========== Game Chat =============%>
+<div id="game-chat-template">
+
+  <div class="chat">
+    <div class="chat-color">
+      <div class="handle"></div>
+    </div>
+    <div class="view">
+      <div class="viewport">
+      </div>
+      <%= text_field_tag 'message' , '', :class => 'send' %>
+    </div>
+  </div>
+  
+</div>
+
+<%# =========== Game Chat Message =============%>
+<div id="full-chat-message-template">
+  <div class="full-chat">
+    <span class="dot player-<%= "{playerId}" %>"></span><span class="name player-<%= "{playerId}" %>">{playerName}</span>
+    <span class="text">{messageContent}</span>
+  </div>
+</div>
+
+<div id="partial-chat-message-template">
+  <div class="partial-chat">
+      <span class="dot player-<%= "{playerId}" %>"></span><span class="text">{messageContent}</span>
+  </div>
+</div>
+
+<div id="error-chat-message-template">
+  <div class="error-chat">
+      <span class="error">{messageContent}</span>
+  </div>
+</div>
+
+<div id="result-chat-message-template">
+  <div class="result-chat">
+      <span class="result">{messageContent}</span>
+  </div>
+</div>

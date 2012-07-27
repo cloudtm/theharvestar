@@ -1,0 +1,39 @@
+<div id="account-form-template">
+  <div> <!-- custom class 'account-form' added by js-->
+    <div class="form">
+      <div class="detail-image"></div>
+      <%= text_field_tag 'game[account][nickname]' , '', :placeholder => t('account.form.nickname'), :class => 'nickname disabled', :disabled => "disabled" %>
+      <%= text_field_tag 'game[account][email]' , '', :placeholder => t('account.form.email'), :class => 'email disabled', :disabled => "disabled" %>
+      <%= text_field_tag 'game[account][first_name]' , '', :placeholder => t('account.form.first_name'), :class => 'first_name' %>
+      <%= text_field_tag 'game[account][last_name]' , '', :placeholder => t('account.form.last_name'), :class => 'last_name' %>
+      <%= select_tag 'game[account][language]' , options_for_select([[t('account.form.language'),'']] + GameOptions.options(:languages).to_a), :class => 'language' %>
+      <%= select_tag 'game[account][country]' , options_for_select([[t('account.form.country'),'']]) + countries_for_select, :class => 'country' %>
+      <%= text_field_tag 'game[account][birthday]' , '', :placeholder => t('account.form.birthday'), :class => 'birthday' %>
+      <%= select_tag 'game[account][gender]' , options_for_select([[t('account.form.gender'), ''], [t('account.form.genderMale'), 'M'],[t('account.form.genderFemale'), 'F']]), :class => 'gender' %>
+    </div>
+    <div class="nav"></div>
+    <div class="notification"></div>
+  </div>
+</div>
+
+<div id="picture-cropper-template">
+  <div class="picture-cropper">
+
+    <%= file_field_tag 'game[account][preview]' , :class => 'file-load', :accept => "image/*" %>
+
+    <div class="progress">
+      <div class="bar"></div>
+      <div class="perc">0%</div>
+    </div>
+
+    <div class="crop-area"></div>
+
+    <div class="frame200">
+      <div class="preview200"></div>
+    </div>
+    <div class="frame50">
+      <div class="preview50 player-1"></div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<%# ======== Player Container ======== %>
+<div id="players-template">
+  <div class="players">
+    <div class="others"></div>
+  </div>
+</div>
+
+<%# ======== Main Player ======== %>
+<div id="player-template">
+  <div class="player">
+    <div class="avatar <%= "{avatar}" %> player-<%= "{playerId}" %>"></div>
+    <div class="info">
+      <div class="marker player-<%= "{playerId}" %>"></div>
+      <div class="name player-<%= "{playerId}" %>" >{userName}</div>
+      <div class="score">{playerScore}</div>
+    </div>
+  </div>
+</div>

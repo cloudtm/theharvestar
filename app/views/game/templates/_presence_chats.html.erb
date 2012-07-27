@@ -1,0 +1,47 @@
+<%# =========== Presence Chat =============%>
+<div id="presence-chat-template">
+
+  <div class="presence-chat">
+
+    <div class="header">
+      <span class="users"></span>
+      <span class="add"></span>
+      <span class="close"></span>
+    </div>
+
+    <div class="view">
+      <div class="viewport"></div>
+      <%= text_field_tag 'message' , '', :class => 'send' %>
+    </div>
+
+    <div class="typing"></div>
+
+  </div>
+
+</div>
+
+<%# =========== Little search and user filter box to add new users to the chat =============%>
+<div id="user-adder-template">
+
+  <div>
+    <div class="filter">
+      <%= text_field_tag 'message' , '', :class => 'search', :placeholder => 'Add User' %>
+      <span class="close"></span>
+    </div>
+    <div class="filtered"></div>
+  </div>
+
+</div>
+
+<%# =========== Chat Messages =============%>
+<div id="full-presence-chat-message-template">
+  <div class="full-chat">
+    <span class="text">{messageContent}</span>
+  </div>
+</div>
+
+<div id="partial-presence-chat-message-template">
+  <div class="partial-chat">
+      <span class="text">{messageContent}</span>
+  </div>
+</div>

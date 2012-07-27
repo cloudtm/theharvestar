@@ -11,8 +11,8 @@ end
 
 module Theharvestar
   class Application < Rails::Application
-      # Use TorqueBox::Infinispan::Cache for the Rails cache store
-  config.cache_store = :torque_box_store
+    # Use TorqueBox::Infinispan::Cache for the Rails cache store
+    config.cache_store = :torque_box_store
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -20,6 +20,8 @@ module Theharvestar
 
     # Custom directories with classes and modules you want to be autoloadable.\n\t config.autoload_paths += Dir["#{config.root}/lib", "#{config.root}/lib/**/"]
     # config.autoload_paths += %W(#{config.root}/extras)
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -60,7 +62,7 @@ module Theharvestar
     config.assets.enabled = true
 
     # Include more assets compilation (default only application js and css get compiled)
-    config.assets.precompile += %w(play.js play.css)
+    config.assets.precompile += %w(game.js game.css)
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'

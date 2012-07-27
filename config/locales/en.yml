@@ -1,5 +1,209 @@
 # Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+
+  #----------------------------------------------------------------------------------------
+  # Logging
+  question_mark: "?"
+  edit_registration: "Edit registration"
+  logout: "Logout"
+  edit: "Edit"
+  email: "Email Address"
+  nickname: "Nickname"
+  password: "Password"
+  password_confirmation: "Password confirmation"
+  current_password: "Current password"
+  leave_blank_info: "(Leave it blank if you don't want to change your password)"
+  current_password_needed: "(Please insert your current password to confirm your changes)"
+  update: "save"
+  cancel_my_account: "Delete account"
+  sure: "Are you sure?"
+  back: "Back"
+  sign_up: "Sign up"
+  sign_in: "Sign in"
+  sign_in_with: "Sign in"
+  remember_me: "remember me"
+  send_me_password_reset_instructions: "Send me the instructions to reset my password."
+  didn_t_receive_confirmation_instructions: "Didn't receive confirmation instructions"
+  resend_unlock_instructions: "Resend unlock instructions"
+  send_me_password_reset_instructions: "Send me password reset instructions"
+  forgot_your_password: "Forgot your password"
+  new_password: "New password"
+  confirm_new_password: "Confirm new password"
+  change_my_password: "Change my password"
+  new: 'nuovo'
+  save: 'save'
+  list: 'list'
+
+  #----------------------------------------------------------------------------------------
+  # Resources
+  grain: 'grain'
+  water: 'water'
+  energy: 'energy'
+  titanium: 'titanium'
+  silicon: 'silicon'
+  magic_resource: 'recycled matter'
+
+  #----------------------------------------------------------------------------------------
+  # Actions
+  action:
+    admin:
+      command:
+        not_allowed: "You're not authorized to use this command!"
+        called: "<b>%{player}</b> has just invoked <b>%{command}</b>"
+    build:
+      already_occupied: "The target location is already occupied." #OK
+      pieces_depleted: "You have finished your %{type} pieces." #OK
+      no_resource: "You do not have enough resources to build the %{type}." #OK
+    link:
+      not_connected: "Links must be connected to existing outposts, stations or links." #OK
+      all_free_used: "You you are out of free links." #OK
+    outpost:
+      not_connected: "New outposts must be connected to a link." #OK
+      too_near: "You are too close to another outpost or station." #OK
+    station:
+      not_legal: "The target location is not an outpost!" #LOG only
+    research:
+      no_resource: "You do not have not enough funds for your research labs." #OK
+      not_enough_recycle: "You need to recycle more!." #OK
+      no_boycot: "There are no boycot group."  #OK
+      no_raiding: "There are no raiders around." #OK
+    market:
+      offer_not_exists: "This offer does not exist anymore." #OK
+      trade_not_exists: "Trying to close a trade even if the player has no trade."  #LOG only
+      not_offer_trader: "The offer you are trying to accept is not yours."  #LOG only
+      not_your_turn: "It's not you turn to make an offer."  #LOG only
+      no_resources: "There are not enough resources to trade."  #OK
+      no_bank_resources: "You need at least %{cost} units of %{give} to obtain %{count} %{receive}"  #OK
+      already_trading: "You can place one market request at a time!"  #OK
+      offer_accepted: "<b>%{publisher}</b> gave %{give} to <b>%{trader}</b> in exchange for %{receive}."  #OK
+    game:
+      not_exists: "Game doesn't exist"  #LOG only
+      named_not_exists: "Game %{name} doesn't exist."  #LOG only
+      cannot_end: "It's not possible to end the game without a winner!"  #LOG only
+      full: "The game you want to join is already full."  #OK
+      slot_taken: "The slot has already been taken."  #OK
+      not_all_ready: "Trying to play when not all players are ready."  #LOG only
+      ended: "The game is ended."
+    tips:
+      raider_alert: "You have too many resources! Beware of the Raiders!" #OK
+      raided_resource: "There were raids on your terrain!" #OK
+
+    raided_resources: "The Raiders stole <b>%{count}</b> of your resources!"  #OK
+    cannot_select_avatar: "You must join a game before selecting an avatar!"  #LOG only
+    state_mistmatch: "%{action} action is executable in %{action_states} but you are in %{user_state} state!" #LOG only
+    test_only: "This action can be invoked in test mode only!"
+
+  #----------------------------------------------------------------------------------------
+  # Account fields
+  account:
+    form:
+      nickname: 'Nickname'
+      email: 'E-Mail'
+      first_name: 'First Name'
+      last_name: 'Last Name'
+      language: 'Select Language'
+      country: 'Select Country'
+      birthday: 'Birthday'
+      date_format: "M-dd-yy"
+      gender: 'Select Gender'
+      genderMale: 'Male'
+      genderFemale: 'Female'
+      saved: "Account saved succesfully!"
+      changes: "Account changed! Remember to save."
+
+  #----------------------------------------------------------------------------------------
+  # Client gui translations
+  gui:
+    system_menu:
+      settings: "Settings"
+      account: "Account"
+      logout: "Logout"
+    settings:
+      title: "Settings"
+      fx: "Effects"
+      music: "Music"
+    presence:
+      list_state_title: "Looking for a game"
+      join_state_title: "Waiting for players"
+      play_state_title: "Playing"
+
+  #----------------------------------------------------------------------------------------
+  # Tutorial
+  tutorial:
+    title_1: "Welcome"
+    title_2: "Join an expedition"
+    title_3: "Wait for the launch"
+    title_4: "Take off"
+    title_5: "Your planet"
+    title_6: "Settle down"
+    title_7: "Collect Resources"
+    title_8: "Organized Crime"
+    title_9: "Explore"
+    title_10: "Place more outposts "
+    title_11: "Upgrade to station"
+    title_12: "Trade"
+    title_13: "Fund Research & Culture "
+    title_14: "Awards"
+    title_15: "Win"
+
+    intro_1: "In the year 2111, Earth is on its last legs  and  is unable to ensure a future for mankind. Open Society, a confederation of movements and schools of thought whose aim is to guide humanity towards a peaceful and sustainable civilization, kicks off the colonization project of the Kepler-11 system! But what will prevent humanity from falling into the errors of the past?"
+    more_1:  "Open-Society has stated that each school of thought  or movement that want to propose a socio-economic project, should have the chance to prove its validity  comparing the obtained results with the ones gained by other proposals. Have a try: Click now on Connect to join the Open-Society!"
+    expert_1: ""
+
+    intro_2: "Welcome to the Open-Society! A big opportunity will be given here to you: you are going to realize your ideal community model on a planet in the Kepler-11 system! Choose a school of thought  as your reference and show to everyone its validity  by joining an expedition towards a planet that can host your community or choose an empty planet at the observatory for your social experiment."
+    more_2: "If this one it’s your first expedition on Kepler-11 click on  TAKE a TOUR to get some information about the system and about your mission. If you are ready to start instead, you can choose any expedition in the waiting list, by clicking on Join button. In addition, clicking on New Game button, you can create your own expedition towards a new planet."
+    expert_2: "Any expedition can take off if  it has been joined by 2,3 or 4 communities. You can perform searches in the waiting expedition list,  based on expedition or member name. Write a keyword in the search form and then press enter. The result order will take in account  how many of your friends are present  and how many  communities are needed to start."
+
+    intro_3: "Congratulations! You are going to found you community on a planet in the Kepler-11 system! Any expedition has to wait for at least two communities that join it, before it can start. To make other communities know that you are ready to go, click on the button placed next to your avatar. The expedition will take off when it involves are at least two communities  and all of them are ready."
+    more_3: "If two or three communities have joined your expedition but you and your friends prefer more communities on your planet, wait for them before to click on the ready button. In the meantime, you can use the chat to become familiar with each other or to talk about your strategies."
+    expert_3: "If you have clicked on the ready button but you need to go away for a while, click again on the ready button: your state will switch to not-ready state,  your friends will know that you are not here at moment and the expedition will not start without you."
+
+    intro_4: "All your expedition partecipants are now here:  when all  of them will be ready, the engines will turn on and the journey to your planet in the Kepler-11 system, will start! Your social experiment now is becoming!"
+    more_4: ""
+    expert_4: ""
+
+    intro_5: "Your expedition has reached its destination! At the first glance the planet that is going to host your community, seems inhabited and able to supply all the resources necessary for a new human society based on technology, democracy and respect for environment. Now your task is to show the validity of your economic model and your personal capabilities: give rise to your community and  increase its social level!"
+    more_5: "Pay attention to the landscape: the planet is divided in many regions and each region can supply one of the five resources needed for your community progress: water and food for sustenance, titanium for  infrastracture, silicon for technological progress and energy. Any region has its own productivity that depends on the source size."
+    expert_5: ""
+
+    intro_6: "Ciascuna comunità sarà inizialmente ripartita in due avamposti che potrai costruire con il materiale che ti è stato fornito alla partenza. I luoghi su cui può sorgere un avamposto sono i Crocevia ovvero le aree dove convergono fino a tre distinte regioni del pianeta. Posizionare un avamposto lungo un crocevia consente alla tua comunità di accedere alle risorse delle regioni che vi convergono."
+    more_6: "Per posizionare i tuoi due primi avamposti clicca prima sul bottone Avamposto dal menù Build e poi sulla mappa in corrispondenza della posizione da te scelta. Non puoi scegliere un crocevia già occupato o un crocevia confinante con un avamposto già collocato. Ogni nuovo avamposto fa progredire la tuà comunità di un livello sociale."
+    expert_6: "Prima di scegliere la loro collocazione tieni a mente che la tua comunità potrà beneficiare direttamente di una risorsa se include almeno un avamposto o una  stazione che acceda ad un territorio in grado di produrla: inizialmente per costruire nuovi avamposti e collegamenti tra di essi avrai bisogno principalmente di titanio e energia ma anche di acqua e grano. In seguito tuttavia per consentire alla tua comunità di progredire avrai bisogno anche di silicio."
+
+    intro_7: "La tua comunità è già una giovane realtà organizzata in due avamposti: non appena li avrai posizionati potrai raccogliere le prime risorse. In particolare per ogni regione a cui i tuoi avamposti hanno accesso, otterrai una unità di risorsa da esso prodotta. Le regioni continueranno a produrre di quando in quando lungo tutta la durata della spedizione."
+    more_7: "Ogni qual volta una regione produce, le risorse della tua comunità incrementano di una unità per ogni avamposto sito su uno dei 6 crocevia di accesso alla regione; se l’avamposto si è sviluppato in una stazione otterrai invece due unità. Non tutte le regioni sono ugualmente produttive: maggiore è la sorgente ospitata da una regione maggiore è la frequenza con cui produrrà"
+    expert_7: ""
+
+    intro_8: "Nonostante l’Open-Society si sia mosso con cautela nel condurre il progetto sembra che una banda di criminali organizzati sia riuscita a raggiungere clandestinamente il pianeta e che abbia costruito il proprio quartier generale in una delle regioni. La banda, incapace di autosostentarsi, di quando in quando cercherà di approfittare delle comunità del pianeta per sottrarre loro beni e devastare il delicato equilibrio delle regioni che sceglierà come bersaglio."
+    more_8: "Quando il potere della criminalità organizzata si radica nel territorio essa si infiltra nelle comunità più ricche e ne dimezza le risorse. Sceglie poi una regione e ne assume il controllo interrompendo l’approvigionamento di risorse verso chi vi accede. Perché tale approvigionamento riparta è necessario che la regioni torni libera (o perché la criminalità l’avrà abbandonata per un nuovo bersaglio, o grazie all’intervento di una delle civiltà del pianeta)."
+    expert_8: "Fate attenzione a non accumulare troppe risorse: ogni qual volta la criminalità sceglie un nuovo bersaglio fa razzia delle risorse accumulate dalle civiltà del pianeta: se possiedi più di 10 unità di risorse esse verranno dimezzate. E’ buona norma dunque cercare di trasformarle quanto prima in infrastrutture e beni per la tua comunità."
+
+    intro_9: "Per espandere la tua comunità è necessario esplorare nuove regioni: una rete di collegamenti ben organizzata consente alla tua comunità di spostarsi rapidamente e di scegliere dove collocare nuovi avamposti. Puoi costruire i primi due collegamenti usufruendo del materiale che hai portato con te dalla Terra e posizionandoli a partire da un tuo avamposto, lungo il confine che separa due regioni. "
+    more_9: "Potrai arricchire la rete di collegamenti della tua civiltà utilizzando una unità di titanio e una di energia. Per fare ciò clicca sul bottone Collegamento del menù Build e scegli la posizione per il tuo nuovo collegamento: puoi posizionarlo lungo ciascun confine libero che abbia un crocevia già raggiunto dalla tua civiltà (sia tramite avamposti che tramite altri collegamenti). Non potrai posizionare più di 15 collegamenti."
+    expert_9: ""
+
+    intro_10: "Ogni crocevia libero, non confinante con alcun crocevia già occupato e raggiungibile dalla tua rete di collegamenti, può ospitare un nuovo avamposto. Per costruire un nuovo avamposto devi disporre di una unità di acqua, di una di grano, di una di titanio e di una di energia. Gli avamposti offrono alla tua comunità un maggiore accesso alle risorse per questo il tuo livello sociale progredisce di una unità per ogni nuovo avamposto ma non puoi collocarne più di 5."
+    more_10: ""
+    expert_10: ""
+
+    intro_11: "Se disponi di 2 unità di grano e 3 unità di silicio puoi far evolvere gli avamposti in insediamenti più avanzati: le stazioni. La maggiore organizzazione di una stazione rispetto a un avamposto rende più efficiente l’approvvigionamento di risorse: per ogni stazione posta su un crocevia di una regione produttiva ottieni due unità di risorsa invece che una sola. Il tuo livello sociale progredisce di una unità per ogni avamposto che evolve in stazione. La tua civiltà può includere al massimo 4 stazioni."
+    more_11: ""
+    expert_11: ""
+
+    intro_12: "Se la tua comunità non ha un agevole accesso ad alcune risorse proponi scambi alle altre comunità: indica le tue esigenze, attendi risposte e rilancia o accetta la proposta che risponde alle tue esigenze. Se anche non hai proposto scambi, controlla spesso la bacheca del mercato: altre comunità potrebbero avere bisogno di risorse che tu possiedi in abbondanza e senza il tuo aiuto potrebbero ricorrere al mercato nero gestito dalla criminalità organizzata!"
+    more_12: "Per proporre uno scambio clicca sul tasto Scambia del Menù Trade e indica ciò che ti occorre. Se il tasto Bacheca del Menù si illumina hai ricevuto una risposta: clicca su di esso e accetta o rilancia la proposta in essa contenuta. La Bacheca mostra inoltre le richieste che ti vengono inviate dalle altre comunità quindi controllala spesso. Se pensi di dover ricorrere al mercato nero clicca sul bottone Mercato Nero e indica la risorsa che preferisci e quella che sei disposta a cedere in cambio nel rapporto di 1 a 4 ."
+    expert_12: ""
+
+    intro_13: "Perché la tua civiltà prosperi più rapidamente dai alla cultura e alla ricerca l’importanza che merita. Utilizza quindi parte delle tue risorse per promuovere la formazione di associazioni e laboratori di ricerca. La comunità ne trarrà grandi benefici quali il potenziamento della rete di collegamenti, la nascita di impianti per il riciclaggio dei rifiuti e un maggior grado di scolarilizzazione e di coscienza sociale."
+    more_13: "Cliccando su Fund Now dal menu R&D donerai una unità di grano, una di acqua e una di silicio alle associazioni della tua comunità e uno dei seguenti progetti sarà completato: realizzazione di 2 collegamenti con materiali di scarto, costruzione di un impianto per la conversione di rifiuti in 2 risorse a tua scelta, incremento del livello di scolarizzazione e quindi di un livello sociale della tua comunità, sostegno ai cittadini che si oppongono la criminalità."
+    expert_13: "Se finanziando la ricerca otterrai 2 nuovi collegamenti, potrai posizionarli cliccando sul +2 che apparirà sul bottone Costruisci Collegamento nel Menù Build. Qualora tu abbia ottenuto 2 risorse dal riciclaggio, potrai trasformarle nelle risorse che preferisci cliccando sul tasto Ricicla del menù R&D.  Se infine avrai finanziato il sostegno alla lotta alla criminalità organizzata cliccando sul tasto Boycott del menù R&D libererai una regione dalla criminalità organizzata."
+
+    intro_14: "Alcune attività se condotte con maggior zelo delle altre comunità, ti fanno guadagnare un riconoscimento. Ogni comunità che ne detiene uno, ha diritto ad un incremento di livello sociale pari a due unità.. ma  tale primato deve essere mantenuto fino al termine della spedizione: se nel corso della spedizione una civiltà saprà far meglio di lei, il riconoscimento verrà  riassegnato e con esso i relativi livelli sociali! "
+    more_14: " Tra le che hanno posizionato almeno 5 collegamenti quella che ne ha collocati di più viene insignita del riconoscimento di COMUNITA’ DI ESPLORATORI. La comunità che ha sostenuto più iniziative contro la criminalità (in numero almeno pari a 3) viene invece insignita del riconoscimento di COMUNITA’ CON IL PIU’ ELEVATO IMPEGNO SOCIALE."
+    expert_14: ""
+
+    intro_15: "La  spedizione si concluderà non appena una delle comunità avrà raggiunto un livello sociale pari a 10: la comunità che avrà raggiunto tale traguardo sarà quella a cui l'Open-Society affiderà la gestione del pianeta. Ogni partecipante avrà sicuramente imparato molto da questa spedizione e quanto appreso consentirà a ciascuno di accumulare esperienza. Vuoi diventare il più esperto? Gioca ancora e controlla la tua posizione nella hall of fame!"
+    more_15: "SPIEGAZIONE DEL CALCOLO DEL PUNTEGGIO"
+    expert_15: ""

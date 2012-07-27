@@ -1,0 +1,153 @@
+# This file contains the game options.
+# Colony construction price.
+# NOTE: all costs must be negative numbers.
+
+:base:
+ 
+  :resource_order:
+    - energy
+    - titanium
+    - water
+    - grain
+    - silicon
+    
+  :colony_cost:
+    grain: -1
+    water:  -1
+    energy:  -1
+    titanium:  -1
+    silicon:    0
+
+  :city_cost:
+    grain: -2
+    water:   0
+    energy:   0
+    titanium:   0
+    silicon:   -3
+
+  :road_cost:
+    grain:  0
+    water:   0
+    energy:  -1
+    titanium:  -1
+    silicon:    0
+
+  :development_cost:
+    grain: -1
+    water:  -1
+    energy:   0
+    titanium:   0
+    silicon:   -1
+
+  # trade actions (it is a cost, so it is negative)
+  :bank_rate: -4
+  :magic_rate: -1
+  :trade_income: 1
+  # max player limit for a game
+  :max_player_limit: 4
+  :min_player_limit: 2
+  :max_colonies: 5
+  :max_cities: 4
+  :max_roads: 15
+  :init_settlements: 2
+  :init_roads: 2
+  #:init_city: 0
+  :transport_threshold: 4
+  :settlement_score_increment: 1
+  :cultural_score_increment: 1
+  :recycling_prize: 2
+  
+
+  # r&d progress parameters
+  :min_social_count: 3
+  :social_threshold: 2
+  :recycle_amount: 2
+  :transport_amount: 2
+  # probability distribution for development progress selection
+  # NOTE that keys must respect this convention:
+  #   class name = SocialProgress
+  #   key        = :social
+  # the probability is
+  #3 2 3 1
+  :development_probability:
+    :social: 4
+    :transport: 4
+    :recycling: 6
+    :cultural: 1
+
+  # Score
+  :winner_score: 10
+
+  #if enabled requires all players to have a minimum score for assigning points at the end of the game
+  :minimum_player_score: -1
+  :transport_challenge_points: 2
+  :social_challenge_points: 2
+  :victory_bonus: 5
+
+  #robber parameter
+  #resource units not effected by robber coming
+  :uneffected_resource: 10
+  :bad_dice_roll: 7
+  :wasted_amount: 1
+
+  :calamity_type_1: :radioactive_contamination
+
+  #mapping for production terrains to produced goods
+  :terrain_3: :titanium
+  :terrain_4: :water
+  :terrain_5: :silicon
+  :terrain_2: :grain
+  :terrain_6: :energy
+
+  # keys are production probabilities for a terrain, the value is their number
+  :production_probabilities:
+    2: 1
+    3: 2
+    4: 2
+    5: 2
+    6: 2
+    8: 2
+    9: 2
+    10: 2
+    11: 2
+    12: 1
+
+  # keys are terrain types and values their occurence number
+  :terrain_types:
+    :terrain_1: 1 #desert
+    :terrain_2: 4 #field
+    :terrain_3: 3 #mountain
+    :terrain_4: 4 #lake
+    :terrain_5: 3 #volcano
+    :terrain_6: 4 #cyclon
+    :blank: 0 # sea
+
+  :terrain_labels:
+    :terrain_1: desert
+    :terrain_2: field
+    :terrain_3: mountain
+    :terrain_4: lake
+    :terrain_5: volcano
+    :terrain_6: cyclon
+    :blank: sea
+
+#tells the LeaveOldPlayers job to:
+# - remove players in joining that are waiting for N hours
+:leave_joined_time: 3
+# - remove players in summary for N hours
+:leave_summary_time: 1
+# - remove players in play for N days
+:leave_play_time: 1
+
+# websockets configuration, available libraries: socky, pusher
+:websockets: socky
+
+# disable or enable action stats
+:stats_enabled: true
+
+# disable or enable game logging
+:game_logging_enabled: true
+
+#Available languages
+:languages:
+  English: en

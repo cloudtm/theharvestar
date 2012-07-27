@@ -1,0 +1,38 @@
+<div id="hiscores-list-template">
+  <div> <!-- custom class 'hiscores-list' added by js-->
+    <div class="nav">
+      <%= text_field_tag 'text' , '', :class => 'search' %>
+    </div>
+    <div class="scores"></div>
+  </div>
+</div>
+
+<div id="hiscore-entry-template">
+  <div class="hiscore-entry">
+
+    <div class="infos">
+
+      <div class="level">
+        <div class="title">LEVEL</div>
+        <div class="num">{level}</div>
+      </div>
+
+      <div class="tonext">
+        <div class="title">TO NEXT</div>
+        <div class="num">{toNext}</div>
+      </div>
+
+      <div class="skill">
+        <div class="title">SKILL</div>
+        <div class="num">{points}</div>
+      </div>
+
+      <div class="position">
+        <div class="title">POSITION</div>
+        <div class="num">{pos}</div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

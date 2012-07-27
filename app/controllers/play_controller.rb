@@ -1,2 +1,0 @@
-class PlayController < ApplicationController
-end

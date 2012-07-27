@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Theharvestar</title>
-  <%= stylesheet_link_tag "play", :media => "all" %>
-  <%= javascript_include_tag "play", "http://js.pusher.com/1.12/pusher.min.js" %>
+  <%= stylesheet_link_tag "game", :media => "all" %>
+  <%= javascript_include_tag "game", "http://js.pusher.com/1.12/pusher.min.js" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -31,6 +31,8 @@ containing many containers to be shown at different game states.  -->
 
 </div>
 
+<%= render 'templates' %>
+
 <script type="text/javascript">
   Game.config = {
     env:'<%= Rails.env %>',
@@ -44,7 +46,7 @@ containing many containers to be shown at different game states.  -->
       <% end %>
     })()
   };
-  initialize();
+  initialize(<%= @sensing.to_json.html_safe %>);
 </script>
 
 </body>

@@ -1,4 +1,4 @@
-class MechanicsController < ApplicationController
+class GameController < ApplicationController
   protect_from_forgery
 
   respond_to :json, :html
@@ -7,6 +7,15 @@ class MechanicsController < ApplicationController
   include ActionView::Helpers::JavaScriptHelper
 
   before_filter :authenticate_agent
+
+  def index
+    status = Madmass.current_agent.execute(:cmd => 'list_sensing')
+    @sensing = Madmass.current_perception.first.data[:sensing]
+    respond_to do |format|
+      format.html {render :index, :status => status}
+    end
+
+  end
 
   def execute
       return unless params[:agent]
@@ -22,8 +31,6 @@ class MechanicsController < ApplicationController
     # redirect_to :action => current_user.state
  
  end
-
-
 
 end
 

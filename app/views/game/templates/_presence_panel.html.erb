@@ -1,0 +1,31 @@
+<%# ======== Presence panel ======== %>
+<div id="presence-panel-template">
+
+  <div> <!-- custom class 'presence-panel' added by js-->
+
+    <div class="content">
+
+      <div class="header">
+        <span class="count"></span>
+        <span class="icon"></span>
+      </div>
+
+      <div class="users"></div>
+
+      <div class="footer">
+        <%= text_field_tag 'presence_search' , '', :class => 'search', :placeholder => 'Search User' %>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<%# ======== Presence user entry ======== %>
+<div id="presence-user-template">
+  <div> <!-- custom class 'presence-user' added by js-->
+    <span class="name">{name}</span>
+    <span class="state"></span>
+  </div>
+</div>

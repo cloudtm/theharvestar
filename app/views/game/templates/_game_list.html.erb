@@ -1,0 +1,51 @@
+<!-- The complete game entry dom with all of its layers: "listed", "select" and "joined" -->
+<div id="game-entry-template">
+  <div class="game-entry">
+
+    <div class="listed">
+      <div class="users">
+        <div class="slot p1"></div>
+        <div class="slot p2"></div>
+        <div class="slot p3"></div>
+        <div class="slot p4"></div>
+      </div>
+    </div>
+
+    <div class="select">
+      <span class="my-player"></span>
+      <span class="tip">CHOOSE YOUR<br />CHARACTER</span>
+      <span class="avatar-name"></span>
+      <div class="users"></div>
+    </div>
+
+    <div class="joined">
+      <span class="my-player"></span>
+      <span class="tip">Ready?</span>
+      <div class="selected-avatar"></div>
+      <div class="users"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- The joined user box (fb image, avatar, player number, name and color -->
+<div id="joined-user-template">
+  <div class="joined-user">
+    <div class="avatar {avatar} player-{slot}"></div>
+    <div class="fb-image player-{slot}"></div>
+    <span class="player player-{slot}">Player {slot}</span>
+    <div class="info">{name}</div>
+    <div class="ready"></div> <!-- visible only in joined layer -->
+  </div>
+</div>
+
+<!-- Avatar selection box shown when first joining a game. Allows to chose the avatar. -->
+<div id="avatar-selector-template">
+  <div class="avatar-selector">
+    <div class="vertical-selector player-{slot}"></div>
+    <div class="horizontal-selector player-{slot}">
+      <div class="left arrow"></div>
+      <div class="right arrow"></div>
+    </div>
+  </div>
+</div>
