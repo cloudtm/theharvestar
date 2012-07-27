@@ -1,0 +1,33 @@
+/*
+Document   : input
+Created on : 5-dic-2011, 16.11.48
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+Description:
+Purpose of the stylesheet follows.
+*/
+
+.input-pads{
+  position: absolute;
+
+  &.basepads >{
+    .base{
+      width: $base-width; height: $base-height;
+      //background-color: blue;
+    }
+  }
+  &.linkpads >{
+    .link{
+      //background-color: orange;
+      &.ver{
+        width: $link-ver-width; height: $link-ver-height;
+      }
+      &.hor{
+        width: $link-hor-width; height: $link-hor-height;
+      }
+      &.rot{
+        width: $link-rot-width; height: $link-rot-height;
+      }
+    }
+  }
+}
+.pad{ position: absolute; }

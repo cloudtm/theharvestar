@@ -1,0 +1,51 @@
+.madmass-konsole-panel{
+  $timestamp-color: #f2eded;
+  $timestamp-background: #383229;
+
+  $info-color: black;
+  $warning-color: mediumblue;
+  $error-color: red;
+
+  $message-border: #7A7F7F;
+  .madmass-konsole-messages{
+    .debug-message{
+      
+      -webkit-user-select: auto;
+      -khtml-user-select: auto;
+      -moz-user-select: auto;
+      -o-user-select: auto;
+      user-select: auto;
+      
+      border-bottom: 1px dotted $message-border;
+      padding: 2px 5px;
+      font-size: 13px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      .entry{
+        color: $timestamp-color;
+        font-weight: bold;
+        background-color: $timestamp-background;
+        padding: 0 2px;
+      }
+    }
+    .info{color: $info-color;}
+    .warn{color: $warning-color;}
+    .error{color: $error-color;}
+  }
+}
+.madmass-konsole-dialog{
+  .clear-button{
+    color: black;
+    background-color: white;
+    position: absolute;
+    right: 40px; top: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.3;
+    padding: 0 2px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    &:hover{background-color: red; color: yellow; opacity: 1; border: 1px solid white;}
+  }
+}

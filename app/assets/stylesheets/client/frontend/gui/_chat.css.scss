@@ -1,0 +1,99 @@
+/*
+Document   : _chat
+Created on : 13-mag-2011, 9.55.22
+Author     : Fabio Cottefoglie <cottefoglie@algorithmica.it>
+*/
+
+// DIMENSIONS
+// Overall chat width and height
+$chat-width: 409px;
+$chat-height: 150px;
+
+// Chat handle is external, on top,
+$chat-handle-width: 309px;
+$chat-handle-height: 22px;
+
+// Height of the viewport where messages are displayed
+$chat-viewport-height: 120px;
+
+// Height of the send input box
+$chat-send-height: 20px;
+
+//Note: $chat-height = $chat-viewport-height + 10px margin + $chat-send-height
+
+// Size of the colored dot on the left of the name
+$dot-size: 12px;
+
+.chat{
+  position: absolute;
+  font:{ family: $fonts; style: normal; size: 12px; }
+
+  .chat-color{
+    position: absolute;
+    right: 0px; top: -#{$chat-handle-height};
+    width: 100px; height: $chat-handle-height;
+    background-color: white;
+    .handle{
+      position: absolute;
+      @include texture($gui-texture);
+      background-position: 0 -581px;
+      right: 0px; top: 0px;
+      width: $chat-handle-width; height: $chat-handle-height;
+      cursor: pointer;
+    }
+  }
+
+  .view{
+    position: relative;
+    width: $chat-width; height: $chat-height;
+    background-color: black;
+    @include opacity(0.8);
+    overflow: hidden;
+
+    .viewport{
+      position: relative;
+      height: $chat-viewport-height;
+      overflow: auto;
+      margin: 5px;
+      .message{
+        position: relative; //really important! otherwise all the message will be placed in 0 0
+        color: white;
+        @include selectable;
+        .dot{
+          position: absolute;
+          left: 0; top: 1px;
+          @extend .player-bkg-colors;
+          width: $dot-size; height: $dot-size;
+          @include round-box(50%);
+        }
+        .name{
+          @extend .player-colors;
+          font:{ weight: bold; style: italic; }
+          margin-left: $dot-size + 5px;
+        }
+        &.full-chat{ margin-top: 5px; }
+        .text { word-wrap: break-word; } // all messages to break-word => no horizontal scroll
+        .error{ color: red; margin: 5px 0; }
+        &.result-chat{
+          .command{ color: white; }
+          .result{ color: #FF8700; margin: 5px 0; }
+          .sys{
+            color: #ffe343; margin: 5px 0;
+            .name{ margin-left: 0; }
+          }
+        }
+      }
+    }
+    .send{
+      position: absolute;
+      left: 4px; bottom: 2px;
+      padding: 0 3px;
+      width: $chat-width - 10px - 4px;
+      color: white;
+      border: none;
+      font-size: 14px;
+      background-color: #363636;
+    }
+  }
+
+}

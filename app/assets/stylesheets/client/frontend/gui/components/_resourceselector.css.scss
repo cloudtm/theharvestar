@@ -1,0 +1,112 @@
+/*
+    Document   : _game_gui_resourceselector
+    Created on : 2-mag-2011, 17.40.21
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+// NON EDIT PARAMS
+$selector-resource-width: 32px;
+$selector-resource-height: 32px;
+$selector-resource-closed-margin: 3px;
+$selector-resource-opened-margin: 8px;
+// EDIT PARAMS
+$selector-edit-bkg-width: 38px;
+$selector-edit-bkg-height: 38px;
+
+$selector-button-width: 44px;
+$selector-button-height: 49px;
+
+@mixin updown($start-x){
+  .up{ @include image-button($selector-button-width , $selector-button-height, $start-x, 479px, 0, 1, 1, 2); }
+  .down{ @include image-button($selector-button-width , $selector-button-height, $start-x, 532px, 0, 1, 1, 2); }
+}
+
+.resource-selector{
+  .counters{
+    $opened-selector-width: ($selector-resource-width + $selector-resource-opened-margin * 2) * 5;
+    $closed-selector-width: ($selector-resource-width + $selector-resource-closed-margin * 2) * 5;
+    position: relative;
+    width: $opened-selector-width; height: $selector-resource-height;
+    padding-left: 0px;
+
+    /******************************************************************/
+    // General settings
+    .resource{  // for all resources
+      position: relative;
+      @include texture($gui-texture);
+      width: $selector-resource-width; height: $selector-resource-height;
+      margin: 0 $selector-resource-closed-margin;
+      cursor: pointer;
+      float: left;
+      .editbkg{ // editing number background
+        position: absolute;
+        left: ($selector-resource-width - $selector-edit-bkg-width) / 2; top: ($selector-resource-height - $selector-edit-bkg-height) / 2;
+        @include texture($gui-texture);
+        width: $selector-edit-bkg-width; height: $selector-edit-bkg-height;
+        background-position: -621px -249px;
+      }
+      span{ //counter number
+        position: absolute;
+        left: 0px; top: 0px;
+        width: $selector-resource-width; height: $selector-resource-height;
+        line-height: $selector-resource-height;
+        text-align: center;
+        font:{family: $fonts; size: 16px; style: italic; }
+      }
+    }
+    // Rubber object: maintains the resources centered in the .counters div
+    .rubber{
+      position: relative;
+      margin: 0 auto;
+      width: $closed-selector-width; height: $selector-resource-height;
+    }
+    // Respace resources objects in edit mode.
+    &.edit{
+      .resource{ margin: 0 $selector-resource-opened-margin; }
+      .rubber{ width: $opened-selector-width; }
+    }
+
+    /******************************************************************/
+    // Buttons
+    .button{
+      position: absolute;
+      @include texture($gui-texture);
+      left: ($selector-resource-width - $selector-button-width) / 2;
+      &.up{ bottom: $selector-resource-height / 2 + 1; } // position up button
+      &.down{ top: $selector-resource-height / 2 + 1; } // position down button
+    }
+
+    /******************************************************************/
+    // Counter settings: circle, numbers color, buttons
+    .energy{
+      background-position: -626px -#{0 * $selector-resource-height + 287px};
+      span{ color: $energy-color; }
+      @include updown(0px);
+    }
+    .titanium{
+      background-position: -626px -#{1 * $selector-resource-height + 287px};
+      span{ color: $titanium-color; }
+      @include updown(132px);
+    }
+    .water{
+      background-position: -626px -#{2 * $selector-resource-height + 287px};
+      span{ color: $water-color; }
+      @include updown(264px);
+    }
+    .grain{
+      background-position: -626px -#{3 * $selector-resource-height + 287px};
+      span{ color: $grain-color; }
+      @include updown(396px);
+    }
+    .silicon{
+      background-position: -626px -#{4 * $selector-resource-height + 287px};
+      span{ color: $silicon-color; }
+      @include updown(528px);
+    }
+    .zero{
+      background-position: -626px -#{5 * $selector-resource-height + 287px};
+      span{ color: #383838; }
+    }
+
+  }
+}

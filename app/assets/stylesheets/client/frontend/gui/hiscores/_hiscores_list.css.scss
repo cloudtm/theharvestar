@@ -1,0 +1,171 @@
+$hiscores-entry-width: 746px;
+
+.hiscores-list{
+  position: relative;
+  font:{ family: $fonts; weight: bold; style: italic; }
+
+  .nav{
+    position: relative;
+    height: 94px;
+    .search{
+      $search-width: 290px; $search-padding: 10px;
+      position: absolute;
+      left: ($list-width - $search-width) / 2; bottom: 12px;
+      padding: 0 $search-padding;
+      width: $search-width - $search-padding * 2; height: 22px;
+      @include round-box(11px);
+      color: white;
+      border: none; outline: none;
+      font-size: 14px;
+      background-color: black;
+      &.placeholder{color: #888;}
+    }
+  }
+  .scores{ position: relative; padding-bottom: 10px; }
+
+  .hiscore-entry{
+    position: relative;
+    width: $hiscores-entry-width; height: 100px;
+    margin: 0 auto 20px;
+
+    @include round-box(50px);
+    background-color: black;
+    @include box-shadow(0px, 0px, 25px, #b660ab);
+
+    &.highlight{
+      @include gradient(black, #4A074D);
+      @include box-shadow(0px, 0px, 25px, white);
+    }
+
+    .infos{
+      position: relative;
+      left: 25px; top: 25px;
+      width: $hiscores-entry-width - (2 * 25px);
+
+      /************************************************/
+      // Customizes the joined user name style
+      .joined-user{
+        .info{
+          position: absolute;
+          width: 150px;
+          left: 100px; top: 14px;
+          font:{ weight: normal; size: 18px; }
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      /************************************************/
+      // Common definitions
+      .num{
+        position: relative;
+        margin: -3px;
+        text-align: center;
+      }
+      .title{
+        position: relative;
+        text-align: center;
+        font-size: 12px;
+        color: #0cbeff;
+      }
+      /************************************************/
+      // Level info
+      .level{
+        $level-width: 120px;
+        position: absolute;
+        left: 226px; top: -4px;
+        width: $level-width;
+        .num{ font-size: 53px; }
+      }
+      /************************************************/
+      // To next level
+      .tonext{
+        $tonext-width: 120px;
+        position: absolute;
+        left: 324px; top: -4px;
+        width: $tonext-width;
+        .num{ font:{size: 30px; weight: normal;} }
+      }
+      /************************************************/
+      // Points info
+      .skill{
+        $points-width: 100px;
+        position: absolute;
+        left: 431px; top: -4px;
+        width: $points-width;
+        .num{ font:{size: 30px; weight: normal;} }
+      }
+      /************************************************/
+      // Position info
+      .position{
+        $position-width: 150px;
+        position: absolute;
+        right: 0px; top: -4px;
+        width: $position-width;
+        .num{ font-size: 53px; }
+      }
+      /************************************************/
+    }
+  }
+
+  /****************************************************/
+  // BUTTONS
+  .btn-prev, .btn-next{
+    $nav-btn-width: 186px;
+    position: absolute; bottom: 12px;
+    width: $nav-btn-width - 40px; height: 22px;
+    padding: 0 20px;
+    @include round-box(11px);
+    line-height: 22px;
+    cursor: pointer;
+    font:{ size: 12px; weight: normal; }
+    background-color: black;
+    &.enabled:hover{ background-color: white; color: black; }
+    &.disabled{ cursor: auto; background-color: black; color: #505050; }
+  }
+  .btn-prev{ text-align: left; left: 245px; }
+  .btn-next{ text-align: right; right: 245px; }
+
+  $btn-width: 190px; $btn-height: 48px;
+  .btn-back, .btn-mypos, .btn-top{
+    position: absolute; top: 0px;
+    background-color: black;
+    width: $btn-width; height: $btn-height;
+    cursor: pointer;
+    @include round-box(24px);
+    @include box-shadow(0px, 0px, 16px, #b660ab);
+    .text{
+      position: absolute;
+      @include texture($gui-texture);
+    }
+    &.enabled:hover{ background-color: white; }
+  }
+
+  .btn-back{
+    $back-width: 143px; $back-height: 14px;
+    right: 233px;
+    .text{
+      left: ($btn-width - $back-width) / 2; top: ($btn-height - $back-height) / 2;
+      width: $back-width; height: $back-height;
+      background-position: -165px -707px;
+    }
+  }
+  .btn-mypos{
+    $mypos-width: 112px; $mypos-height: 14px;
+    left: ($list-width - $btn-width) / 2;
+    .text{
+      left: ($btn-width - $mypos-width) / 2; top: ($btn-height - $mypos-height) / 2;
+      width: $mypos-width; height: $mypos-height;
+      background-position: -308px -707px;
+    }
+  }
+  .btn-top{
+    $top-width: 36px; $top-height: 14px;
+    left: 233px;
+    .text{
+      left: ($btn-width - $top-width) / 2; top: ($btn-height - $top-height) / 2;
+      width: $top-width; height: $top-height;
+      background-position: -418px -647px;
+    }
+  }
+}

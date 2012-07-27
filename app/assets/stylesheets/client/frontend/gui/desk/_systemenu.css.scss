@@ -1,0 +1,63 @@
+.system-menu{
+  $button-width: 72px; $button-height: 29px;
+  position: absolute;
+
+  .btn-menu, .mute{
+    position: absolute;
+    @include round-box(3px);
+    border: 1px solid #3a3c3b;
+    @include gradient(#111, #3C3C3C);
+    @include opacity(0.9);
+    cursor: pointer;
+    &:hover{ @include opacity(1); @include gradient(#111, #777); }
+
+  }
+  .btn-menu{
+    left: 44px; top: 0px;
+    width: $button-width; height: $button-height;
+    // System Menu icon positining
+    .sys-menu{
+      position: absolute;
+      left: ($button-width - 30px) /2; top: ($button-height - 18px) /2;
+    }
+  }
+  .mute{
+    $mute-width: 41px; $mute-height: 29px;
+    left: 0px; top: 0px;
+    width: $mute-width; height: $mute-height;
+    .icon{
+      position: absolute;
+      left: ($mute-width - 23px) /2; top: ($mute-height - 20px) /2;
+      @include texture($gui-texture);
+      width: 23px; height: 20px;
+    }
+    &.on .icon{ background-position: -600px -368px; }
+    &.off .icon{ background-position: -600px -388px; }
+  }
+
+  /*************************************************************/
+  // Menu items
+  .menu-items{
+    position: absolute;
+    right: - $button-width - 45; top: $button-height + 2;
+    //@include round-box(3px);
+    @include gradient(#383838, #181818);
+    border: 1px solid #3a3c3b;
+    padding: 10px;
+
+    .menu-item{
+      $item-height: 22px;
+      position: relative;
+      padding-left: 30px;
+      width: 70px; height: $item-height;
+      margin-bottom: 12px; &:last-child{ margin-bottom: 0px; }
+      line-height: $item-height;
+      font:{ family: sans-serif; size: 15px; }
+      cursor: pointer;
+
+      .sprite{ position: absolute; left: 0px; top: 0px; }
+      &.enabled:hover{ background-color: #896091; outline: 2px solid #896091; }
+      &.disabled{ color: #AAA; }
+    }
+  }
+}

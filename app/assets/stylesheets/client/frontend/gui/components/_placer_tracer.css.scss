@@ -1,0 +1,16 @@
+/*
+    Document   : _placer_tracer
+    Created on : 17-mag-2011, 1.38.55
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+.placer-tracer{
+  position: absolute;
+  border: 1px solid;
+  @include round-box(5px);
+  background-color: white;
+  cursor: pointer;
+  padding: 2px 4px;
+  display: inline-block;
+  color: black;
+}

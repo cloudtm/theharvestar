@@ -1,0 +1,34 @@
+/*
+    Document   : _giveup
+    Created on : 14-set-2011, 13.38.41
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+$logo: image-url('client/the_harvestar_hiscores.png');
+$logo-width: 297px;
+$logo-height: 163px;
+
+.hiscores-control-panel{
+  position: relative;
+  height: 250px;
+  margin: 0;
+
+  .highscores{
+    position: absolute;
+    left: 245px; top: 107px;
+    font:{ family: $fonts; size: 60px; weight: bold; style: italic; }
+    div{ margin-bottom: -24px;}
+  }
+  //.algorithmica{
+  //  position: absolute;
+  //  left: 539px; top: 87px;
+  //  width: 103px; height: 32px;
+  //  @include texture($gui-texture);
+  //  background-position: -503px -695px;
+  //}
+  .harvestar{
+    position: absolute;
+    left: 645px; top: 44px;
+    width: $logo-width; height: $logo-height;
+    @include texture($logo);
+  }
+}

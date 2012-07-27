@@ -1,0 +1,105 @@
+/*
+Document   : _terrains
+Created on : 7-apr-2011, 0.25.48
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+Description: terrains css partial
+*/
+/*///////////////////////////////////////////////////////////////*/
+/*                 TERRAIN TYPES & PRODUCTIONS                   */
+/*///////////////////////////////////////////////////////////////*/
+
+$resource-production-width: 62px;
+$resource-production-height: $resource-production-width;
+
+// Terrains
+$terrain-mountain-1: image-url('client/hex-mountain1.gif');
+$terrain-mountain-2: image-url('client/hex-mountain2.gif');
+$terrain-mountain-3: image-url('client/hex-mountain3.gif');
+$terrain-mountain-4: image-url('client/hex-mountain4.gif');
+$terrain-mountain-5: image-url('client/hex-mountain5.gif');
+
+$terrain-volcano-1: image-url('client/hex-volcano1.gif');
+$terrain-volcano-2: image-url('client/hex-volcano2.gif');
+$terrain-volcano-3: image-url('client/hex-volcano3.gif');
+$terrain-volcano-4: image-url('client/hex-volcano4.gif');
+$terrain-volcano-5: image-url('client/hex-volcano5.gif');
+
+$terrain-lake-1: image-url('client/hex-lake1.gif');
+$terrain-lake-2: image-url('client/hex-lake2.gif');
+$terrain-lake-3: image-url('client/hex-lake3.gif');
+$terrain-lake-4: image-url('client/hex-lake4.gif');
+$terrain-lake-5: image-url('client/hex-lake5.gif');
+
+$terrain-cyclon-1: image-url('client/hex-cyclon1.gif');
+$terrain-cyclon-2: image-url('client/hex-cyclon2.gif');
+$terrain-cyclon-3: image-url('client/hex-cyclon3.gif');
+$terrain-cyclon-4: image-url('client/hex-cyclon4.gif');
+$terrain-cyclon-5: image-url('client/hex-cyclon5.gif');
+
+$terrain-field-1: image-url('client/hex-field1.gif');
+$terrain-field-2: image-url('client/hex-field2.gif');
+$terrain-field-3: image-url('client/hex-field3.gif');
+$terrain-field-4: image-url('client/hex-field4.gif');
+$terrain-field-5: image-url('client/hex-field5.gif');
+
+$raiders-base: image-url('client/raidersBase.gif');
+
+//=== TERRAINS =================================
+
+.terrain{ position: absolute; }
+.tile{ position: absolute; }
+.production{ position: absolute; @include texture($gui-resources); }
+
+.desert > .tile{ @include texture($raiders-base); }
+
+.mountain{ // produces titanium
+  &.p0 > .tile{ @include texture($terrain-mountain-1); }
+  &.p1 > .tile{ @include texture($terrain-mountain-2); }
+  &.p2 > .tile{ @include texture($terrain-mountain-3); }
+  &.p3 > .tile{ @include texture($terrain-mountain-4); }
+  &.p4 > .tile{ @include texture($terrain-mountain-5); }
+}
+.volcano{ // produces silicon
+  &.p0 > .tile{ @include texture($terrain-volcano-1); }
+  &.p1 > .tile{ @include texture($terrain-volcano-2); }
+  &.p2 > .tile{ @include texture($terrain-volcano-3); }
+  &.p3 > .tile{ @include texture($terrain-volcano-4); }
+  &.p4 > .tile{ @include texture($terrain-volcano-5); }
+}
+.cyclon{ // produces energy
+  &.p0 > .tile{ @include texture($terrain-cyclon-1); }
+  &.p1 > .tile{ @include texture($terrain-cyclon-2); }
+  &.p2 > .tile{ @include texture($terrain-cyclon-3); }
+  &.p3 > .tile{ @include texture($terrain-cyclon-4); }
+  &.p4 > .tile{ @include texture($terrain-cyclon-5); }
+}
+.lake{ // produces water
+  &.p0 > .tile{ @include texture($terrain-lake-1); }
+  &.p1 > .tile{ @include texture($terrain-lake-2); }
+  &.p2 > .tile{ @include texture($terrain-lake-3); }
+  &.p3 > .tile{ @include texture($terrain-lake-4); }
+  &.p4 > .tile{ @include texture($terrain-lake-5); }
+}
+.field{ // produces fruit
+  &.p0 > .tile{ @include texture($terrain-field-1); }
+  &.p1 > .tile{ @include texture($terrain-field-2); }
+  &.p2 > .tile{ @include texture($terrain-field-3); }
+  &.p3 > .tile{ @include texture($terrain-field-4); }
+  &.p4 > .tile{ @include texture($terrain-field-5); }
+}
+
+//=== RAIDERS ====================================
+$raiders: image-url('client/raiders.gif');
+$raider-trade-width: 93px;
+$raider-trade-height: 61px;
+
+.raiders{ position: absolute; @include texture($raiders); }
+.trade-me{
+  position: absolute;
+  display: none;
+  @include texture($gui-texture);
+  width: $raider-trade-width; height: $raider-trade-height;
+  background-position: -339px -337px;
+  cursor: pointer;
+  opacity: 0;
+}

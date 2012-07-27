@@ -1,0 +1,37 @@
+/*
+    Document   : _account_control_panel
+    Created on : 7-mag-2012, 16.38.41
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+$logo: image-url('client/the_harvestar_hiscores.png');
+$logo-width: 297px;
+$logo-height: 163px;
+
+.account-control-panel{
+  position: relative;
+  height: 220px;
+  margin: 0;
+
+  font:{ family: $fonts; weight: bold; style: italic; }
+
+  .account{
+    position: absolute;
+    left: 205px; top: 113px;
+    font-size: 60px;
+  }
+  //.algorithmica{
+  //  position: absolute;
+  //  left: 539px; top: 87px;
+  //  width: 103px; height: 32px;
+  //  @include texture($gui-texture);
+  //  background-position: -503px -695px;
+  //}
+  .harvestar{
+    position: absolute;
+    left: 645px; top: 54px;
+    width: $logo-width; height: $logo-height;
+    @include texture($logo);
+  }
+
+}
+

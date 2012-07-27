@@ -1,0 +1,99 @@
+/*
+    Document   : comingsoon
+    Created on : 10-feb-2012, 15.30.04
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+    Description: css of the coming soon page
+*/
+a {
+  border: 0;
+  &:link {
+    color: white;
+    text-decoration: none;
+  }
+  &:visited {
+    color: white;
+    text-decoration: none;
+  }
+  &:active {
+    color: white;
+    text-decoration: none;
+  }
+  &:hover {
+    color: white;
+  }
+}
+
+p { margin: 0; padding: 0; }
+img { border: 0; }
+
+body {
+  background: image-url('client/coming-soon-bkg.jpg') repeat-x;
+  background-position: top;
+  background-color: black;
+
+  #comingsoon {
+    position: absolute;
+    left: 0; top: 0px; bottom: 0px;
+    width: 100%; min-height: 690px;
+
+    .avatars {
+      position: relative;
+      margin: 0 auto;
+      width: 1159px; height: 100%;
+      overflow: hidden;
+
+      .fb-like {
+        position: absolute;
+        top: 25px; left: 20px;
+        z-index: 1;
+      }
+    }
+
+    .footer {
+      position: absolute;
+      width: 100%;
+      left: 0px; bottom: 20px;
+
+      .algorithmica {
+        position: relative;
+        width: 168px;
+        height: 48px;
+        margin: 0 auto 10px;
+      }
+      .info {
+        color: white;
+        position: relative;
+        left: 0px;
+        top: 0px;
+        width: 251px;
+        text-align: center;
+        margin: 0 auto;
+        font: { family: Verdana, sans-serif; size: 13px; font-weight: normal; }
+
+        .info_item {
+          float: left;
+          margin-right: 10px;
+        }
+      }
+    }
+
+  /************************************************************************************/
+  // Player style
+
+    .flashobject {
+      position: absolute;
+      bottom: 0;
+      left: -500px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .ui360 {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+
+  }
+}

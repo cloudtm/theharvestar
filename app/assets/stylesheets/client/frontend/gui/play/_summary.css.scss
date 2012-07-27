@@ -1,0 +1,268 @@
+/*
+Document   : _summary
+Created on : 19-apr-2011, 9.55.23
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+$summary-width: 776px;
+$summary-height: 430px;
+
+$user-entry-width: 195px;
+
+#play-gui{
+  .summary{
+    position: relative;
+    margin: 0 auto; top: 100px;
+    width: $summary-width; height: $summary-height;
+    @include round-box(50px);
+    background-color: black;
+    @include box-shadow(0px, 0px, 25px, #b660ab);
+    font:{ family: $fonts; style: italic; }
+
+    .winner{
+      position: absolute;
+      left: 288px; top: 13px;
+      @extend .player-colors;
+      font-size: 17px;
+    }
+    .tip{
+      position: absolute;
+      left: 284px; top: 30px;
+      font-size: 28px;
+    }
+
+    /*******************************************************/
+    // Buttons
+    .btn-leave, .btn-share, .btn-detail, .btn-prev, .btn-back, .btn-next{
+      position: absolute;
+      bottom: 42px;
+      width: 110px; height: 22px;
+      @include round-box(11px);
+      line-height: 22px;
+      cursor: pointer;
+      font-size: 12px;
+      text-align: center;
+    }
+    .btn-detail, .btn-prev, .btn-back, .btn-next{
+      background-color: #393939;
+      &.enabled:hover{ background-color: #696969; }
+      &.disabled{ @include opacity(0.4); }
+    }
+    .btn-leave{
+      left: 608px;
+      background-color: #FF0000;
+      &:hover{ background-color: #ff5300; }
+    }
+    .share{
+      position: absolute;
+      left: 431px; bottom: 38px;
+      width: 200px;
+      //background-color: #184070;
+      //&:hover{ background-color: #245da6; }
+      &>a{position: relative; float: left; margin-right: 8px; }
+      .addthis_button_google_plusone{ top: 4px; }
+    }
+    .btn-detail{ left: 290px; }
+    .btn-prev{ width: 90px; left: 290px; }
+    .btn-back{ width: 90px; left: 394px; }
+    .btn-next{ width: 90px; left: 496px; }
+
+    /*******************************************************/
+    // User entry box
+    .users{
+      position: absolute;
+      left: 300px; top: 100px;
+      width: $user-entry-width;
+    }
+
+    /*******************************************************/
+    // Detail entry box
+    .detail{
+      position: absolute;
+      left: 300px; top: 170px;
+      width: $user-entry-width;
+      .count{
+        position: absolute;
+        right: 0px; bottom: 0px;
+        width: 20px; height: 20px;
+        @include round-box(10px);
+        line-height: 20px;
+        text-align: center;
+        background-color: white;
+        font:{size: 14px; style: normal; }
+        color: black;
+        @include box-shadow(0px, 0px, 25px, white);
+      }
+      .off{ @include opacity(0.4); }
+      &>.outpost{left: 0px; top: 0px; }
+      &>.station{left: 70px; top: 0px; }
+      &>.path{
+        left: 140px; top: 16px;
+        width: 77px; height: 52px;
+        .p1{ left: 0px; top: 0px; }
+        .p2{ left: 20px; top: 0px; }
+        .p3{ left: 41px; top: 0px; }
+      }
+      .award{
+        $award-width: 55px; $award-height: 59px;
+        position: absolute;
+        top: 100px;
+        @include texture($gui-texture);
+        width: $award-width; height: $award-height;
+        &.transport{ left: 0px; background-position: -#{0 * $award-width} -661px; }
+        &.social{ left: 70px; background-position: -#{1 * $award-width} -661px; }
+        &.cultural{ left: 140px; background-position: -#{2 * $award-width} -661px; }
+      }
+    }
+
+    /*******************************************************/
+    // Selection highlight bar
+    .selection{
+      position: absolute;
+      left: -30px;
+      width: 506px; height: 67px;
+      @include gradient(black, #184070);
+      border-top: 1px solid #353535;
+      border-bottom: 1px solid #43698F;
+    }
+
+    /*******************************************************/
+    // Avatar for the selected user
+    .avatar{
+      $avatar-width: 235px;
+      position: absolute;
+      right: 0px; top: -26px;
+      width: $avatar-width; height: 456px;
+      &.player-1{ @include texture($avatars-hor1); }
+      &.player-2{ @include texture($avatars-hor2); }
+      &.player-3{ @include texture($avatars-hor3); }
+      &.player-4{ @include texture($avatars-hor4); }
+
+      &.none{ background-position: -#{0 * $avatar-width} 0px; }
+      &.starr{ background-position: -#{0 * $avatar-width} 0px; }
+      &.titanya{ background-position: -#{1 * $avatar-width} 0px; }
+      &.vassern{ background-position: -#{2 * $avatar-width} 0px; }
+      &.gaezar{ background-position: -#{3 * $avatar-width} 0px; }
+      &.sylva{ background-position: -#{4 * $avatar-width} 0px; }
+      &.silee{ background-position: -#{5 * $avatar-width} 0px; }
+      &.raider{ background-position: -#{6 * $avatar-width} 0px; }
+    }
+
+    /****************************************************/
+    //restylize the chat
+    .summary-chat{
+      $chat-width: 260px; $chat-height: 330px;
+      left: 5px; top: 60px;
+      .chat-color{
+        background-color: #000000;
+        .handle{
+          background-position: -432px -361px;
+          width: 75px; height: 15px;
+          cursor: auto;
+        }
+      }
+      .view{
+        width: $chat-width; height: $chat-height;
+        background-color: #292929;
+        border-right: 1px solid #5e5e5e;
+        @include round-box(5px);
+        .viewport{ height: $chat-height - 40px; }
+        .send{
+          $send-width: $chat-width - 10px - 4px;
+          padding: 0 3px;
+          width: $send-width;
+          color: white;
+          background-color: black;
+          border: 1px solid #464646;
+        }
+      }
+    }
+    /****************************************************/
+  }
+
+  /****************************************************/
+  // User Entry
+  .user-entry{
+    $fb-image-border: 4px;
+    $circle-size: $fb-img-size - ($fb-image-border * 2);
+    position: relative;
+    width: $user-entry-width; height: $fb-img-size;
+    float: left;
+    margin-bottom: 15px;
+    cursor: pointer;
+
+    .pos{
+      position: absolute;
+      left: -18px; top: 3px;
+      @extend .player-colors;
+      font-size: 24px;
+    }
+    .fb-image{
+      position: absolute;
+      left: 0px; top: 0px;
+      width: $circle-size; height: $circle-size;
+      @include round-box(25px);
+      border: $fb-image-border solid;
+      @extend .player-border-colors;
+      background-position: center;
+    }
+    .avatar{
+      $avatar-ico-size: 50px;
+      position: absolute;
+      left: 40px; top: 0px;
+      width: $circle-size; height: $circle-size;
+      @include round-box(25px);
+      border: $fb-image-border solid;
+      @extend .player-border-colors;
+
+      &.player-1{ @include texture($avatars-ico1); }
+      &.player-2{ @include texture($avatars-ico2); }
+      &.player-3{ @include texture($avatars-ico3); }
+      &.player-4{ @include texture($avatars-ico4); }
+
+      $vert-adj-x: 1px; $vert-adj-y: 5px;
+      &.none{ background-position: -#{0 * $avatar-ico-size + $vert-adj-x} -#{(0 * $avatar-ico-size) + $vert-adj-y}; }
+      &.starr{ background-position: -#{0 * $avatar-ico-size + $vert-adj-x} -#{(0 * $avatar-ico-size) + $vert-adj-y}; }
+      &.titanya{ background-position: -#{1 * $avatar-ico-size + $vert-adj-x} -#{(0 * $avatar-ico-size) + $vert-adj-y}; }
+      &.vassern{ background-position: -#{0 * $avatar-ico-size + $vert-adj-x} -#{(1 * $avatar-ico-size) + $vert-adj-y}; }
+      &.gaezar{ background-position: -#{1 * $avatar-ico-size + $vert-adj-x} -#{(1 * $avatar-ico-size) + $vert-adj-y}; }
+      &.sylva{ background-position: -#{0 * $avatar-ico-size + $vert-adj-x} -#{(2 * $avatar-ico-size) + $vert-adj-y}; }
+      &.silee{ background-position: -#{1 * $avatar-ico-size + $vert-adj-x} -#{(2 * $avatar-ico-size) + $vert-adj-y}; }
+      &.raider{ background-position: -#{0 * $avatar-ico-size + $vert-adj-x} -#{(3 * $avatar-ico-size) + $vert-adj-y}; }
+    }
+    .player{
+      position: absolute;
+      left: 100px; top: 6px;
+      @extend .player-colors;
+      font-size: 22px;
+    }
+    .info{
+      position: absolute;
+      left: 100px; top: 31px;
+      width: 90px;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .score{
+      position: absolute;
+      left: 200px; top: 2px;
+      @extend .player-colors;
+      font-size: 27px;
+    }
+    .points{
+      position: absolute;
+      left: 200px; top: 31px;
+      font-size: 12px;
+    }
+  }
+
+  .summary-cover{
+    display: none;
+    position: fixed;
+    @include opacity(0.5);
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: black;
+  }
+}

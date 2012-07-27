@@ -1,0 +1,30 @@
+@import "share";
+//////////////////////POP UP STYLE//////////////////////////////////////////////////////
+
+@mixin dark-pop-up($top: 100px, $width: 500px, $height: 430px){
+  position: relative;
+  margin: 0 auto;
+  top: $top;
+  width: $width; height: $height;
+  @include round-box(50px);
+  background-color: black;
+  @include box-shadow(0px, 0px, 25px, #b660ab);
+  font:{ family: sans-serif; weight: bold; style: italic; }
+}
+.pop-up-cover{
+  position: fixed;
+  @include opacity(0.5);
+  left: 0; top: 0;
+  height: 100%; width: 100%;
+  background-color: black;
+}
+.pop-up-window{
+  @include dark-pop-up;
+}
+
+.big-pop-up-window{
+  @include dark-pop-up(100px, 800px, 450px);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////

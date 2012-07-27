@@ -1,0 +1,15 @@
+/*
+Document   : _title
+Created on : 2-gen-2012, 16.38.52
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+$title-play: image-url('client/the_harvestar_play.png');
+$title-width: 327px;
+$title-height: 172px;
+
+.map > .title{
+  position: absolute;
+  @include texture($title-play);
+  width: $title-width; height: $title-height;
+}

@@ -1,0 +1,350 @@
+/*
+    Document   : main
+    Created on : 8-apr-2011, 17.33.38
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+    Description: css for the game list anf game join pages.
+*/
+
+@import "share";
+@import "dialog-utils";
+
+$gui-image: image-url("client/gui.png");
+$close-button-width: 75px;
+$close-button-height: 24px;
+$close-button-bg-pos-x: -432px;
+$close-button-bg-pos-y: -337px;
+$close-button-bg-pos-x-hover: $close-button-bg-pos-x - $close-button-width;
+$close-button-bg-pos-y-hover: $close-button-bg-pos-y;
+
+$back-button-width: 83px;
+$back-button-height: $close-button-height;
+$back-button-bg-pos-x: $close-button-bg-pos-x;
+$back-button-bg-pos-y: -385px;
+$back-button-bg-pos-x-hover: $back-button-bg-pos-x - $back-button-width;
+$back-button-bg-pos-y-hover: $back-button-bg-pos-y;
+
+$navigation-bar-image: image-url("client/login-dialog-icon.png");
+
+#content {
+  position: relative;
+  margin: auto;
+  width: 1159px; height: 100%;
+  background: image-url('client/coming-soon-avatars.jpg') repeat;
+}
+
+$radius: 10px;
+$sign-in-width: 480px;
+$form-input-width: 260px;
+$pink: #dc6dba;
+
+#user_email, #user_password, #user_password_confirmation, #user_nickname {
+  position: relative;
+  width: $form-input-width;
+  margin: 0 auto;
+  height: 40px;
+  font-size: 18px;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+  border: 1px inset black;
+  padding-left: $radius;
+  &:focus {
+    outline: 0;
+    border: 1px solid $pink;
+    -moz-box-shadow: 0px 0px 50px $pink;
+    -webkit-box-shadow: 0px 0px 50px $pink;
+    box-shadow: 0px 0px 50px $pink;
+  }
+}
+
+#password-form {
+  .password-recovery-text {
+    width: $form-input-width;
+    line-height: 18px;
+    margin: 0 auto;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+  #user_email { margin-top: 20px; }
+}
+
+.sign-up-title {
+  height: 25px;
+//color: $pink;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: bold;
+//  margin-left: 154px;
+}
+
+#terms-and-privacy {
+  font-size: 12px;
+  margin: 15px auto 0 auto;
+  width: $form-input-width;
+  display: block;
+
+}
+
+.sign-in-logo {
+   width: 200px;
+   height: 129px;
+   background-image: image-url("client/bw-logo.jpg");
+   background-repeat: no-repeat;;
+   margin: 0 auto;
+   margin-bottom: 20px;
+ }
+
+#sign-in-content {
+  position: relative;
+  .sign-up-password {
+    margin-left: 100px;
+    margin-top: 15px;
+  }
+  a { margin: 10px 11px 0 0px; }
+  .switch-sign-up, .switch-sign-in, .switch-password {
+    font-size: 16px;
+    font-weight: normal;
+    &:link { text-decoration: none }
+    &:visited { text-decoration: none }
+    &:active { text-decoration: none }
+    &:hover { text-decoration: underline }
+  }
+  .switch-password { font-size: 15px; }
+  .switch-sign-up {
+    color: $pink;
+    margin-right: 20px;
+    margin-left: 9%;
+    font-size: 17px;
+  }
+}
+
+.sign-in-button { margin: 30px auto 0 190px; }
+
+.text-in-box {
+  height: 350px;
+  padding: 5px 40px 40px 40px;
+
+  .content{
+    margin-top: 25px;
+    height: 300px;
+    width: 700px;
+    padding: 0 30px 0 0;
+    overflow: auto;
+  }
+  h2{
+    font-size: 15px;
+    font-weight: bold;
+  }
+  p{
+    font-size: 13px;
+    margin-bottom: 20px;
+    text-align: justify;
+    a{ color: #dbdcee; }
+  }
+
+}
+
+/////////////////////SASS FOR DEVISE AUTH IN A SINGLE PAGE////////////////////////////////
+/////////////////////MOVE IT ELSEWHERE////////////////////////////////////////////////////
+
+.devise-panel {
+  display: none;
+  position: relative;
+  top: 25px;
+  height: 350px;
+  width: 100%;
+
+  &.reg-no-errors{ top: 60px; }
+}
+
+.active { display: block !important; }
+.inactive { display: none; }
+
+#login-content { display: none; }
+
+////////////////////////////FB  LIKE /////////////////////////////////////////////////////////////
+
+.fb-like {
+  position: absolute;
+  left: 20px; top: 25px;
+}
+
+#algorithmica {
+  position: absolute;
+  right: 38px; bottom: 10px;
+  text-align: center;
+  height: 36px;
+  a{
+    color: white;
+    text-decoration: none;
+    font:{ family: $fonts; size: 16px; }
+    @include text-shadow(0px, 0px, 4px, white);
+  }
+}
+
+#browser {
+  display: none;
+  position: absolute;
+  width: 387px;
+  text-align: center;
+  left: 0px; bottom: 112px;
+  color: white;
+  @include text-shadow(0px, 0px, 4px, red);
+  font: { family: $fonts; size: 16px; }
+  &.unsupported { display: block; }
+}
+
+@mixin general-button($btn-width: 100px, $btn-height: 30px, $text-color: #DC6DBA, $text-hover: black, $round: 24px){
+  position: relative;
+  margin: 0 auto;
+  background-color: black;
+  width: $btn-width; height: $btn-height;
+  cursor: pointer;
+  @include round-box($round);
+  @include box-shadow(0px, 0px, 16px, #b660ab);
+  .text{
+    text-align: center;
+    position: relative;
+    background-position: 0 -647px;
+    color: $text-color;
+    font:{size: 16px; family: sans-serif; weight: bold; style: italic;}
+    text-transform: uppercase;
+    height: 100%;
+    line-height: $btn-height;
+    &:hover { color: $text-hover; }
+  }
+  &.enabled:hover{ background-color: white; }
+  &.disabled{
+    cursor: auto;
+    .text { color: gray; }
+  }
+}
+
+@mixin navigation-button($btn-width: 80px, $btn-height: 25px, $text-color: rgb(220, 43, 92), $text-hover: black, $round: 24px) {
+  @include general-button($btn-width, $btn-height, $text-color, $text-hover, $round);
+  background-color: rgb(36, 27, 32);
+  box-shadow: none;
+/*  @include box-shadow(0px, 0px, 16px, white); rgb(220, 43, 92)*/
+  &.enabled:hover {
+    background-color: rgb(49, 52, 45); /* rgb(80, 74, 60); */
+  }
+  .text {
+    text-transform: lowercase;
+    line-heigth: 17px;
+    &:hover { color: white; }
+  }
+}
+
+.btn-signin {
+  @include general-button();
+  margin-top: 25px;
+}
+
+.btn-signup {
+  @include general-button();
+  margin-top: 25px;
+}
+
+.btn-password {
+  @include general-button(100px, 30px, #DC6DBA, black);
+  margin-top: 25px;
+}
+
+#password-edit {
+  input{ margin-top: 10px; }
+}
+
+.btn-password-edit {
+  @include general-button(130px, 30px, #DC6DBA, black);
+  margin-top: 75px;
+}
+
+.pop-up-button-container{
+  position: relative; display: block; width: 80% ; margin: 0 auto;
+  height: 30px;
+  bottom: -35px;
+}
+
+
+.back-popup-button {
+  @include navigation-button();
+  float: left;
+//  @include general-button(100px, 30px, rgb(220, 43, 92), black);
+
+}
+
+.close-popup-button {
+  @include navigation-button();
+  float: right;
+//  @include general-button(80px, 25px, rgb(220, 43, 92), black);
+}
+
+#pop-up-button-container {
+  position: relative;
+  width: 100%;
+  margin: 0 10px;
+}
+
+.big-pop-up-window {
+  .pop-up-button-container { top: 13px; }
+}
+
+form>p.input-container {
+  width: $form-input-width;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 15px;
+
+  &.error { margin-top: 5px; }
+}
+
+div.field_with_errors {
+  width: $form-input-width;
+  position: relative;
+  margin: 0 auto;
+//  padding-bottom: 10px;
+  line-height: 10px;
+}
+
+span.error {
+  font-size: 12px;
+  color: $pink;
+}
+
+.field_with_errors input {
+  box-shadow: 0px 0px 50px $pink;
+  border: 2px solid rgb(220, 43, 92);
+}
+
+
+#play-now{
+  top: 400px; 
+  @include general-button(250px, 60px, #DC6DBA, black, 35px);
+  .text{ font-size: 28px;}
+ 
+}
+.sign-up-is-coming-text{
+  position: relative;
+  width: $form-input-width;
+  margin: 0 auto;
+  line-height: 30px;
+}
+
+a.beta-testers-link, #terms-and-privacy a {
+  color: $pink;
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+}
+
+.navigation-bar{ position: relative;}
+.close-back-popup-icon { 
+  position: relative;
+  width: 60px; height: 60px;
+  float: right;
+  top: -17px; left: 17px;
+  background: $navigation-bar-image no-repeat 0 0;
+  cursor: pointer;
+    &:hover{ background-position: -60px 0px; }
+ }
+
+.placeholder { color: #aaa; }

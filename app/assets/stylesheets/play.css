@@ -9,4 +9,11 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require theme/jquery-ui
+ *= require client/jquery.jscrollpane
+ *= require client/jquery.ui.selectmenu
+ *= require client/flags
+ *= require areaselect/imgareaselect-animated
+ *= require client/frontend/game
+ *= require client/frontend/coreui
  */

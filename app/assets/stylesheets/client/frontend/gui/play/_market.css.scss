@@ -1,0 +1,91 @@
+/*
+Document   : _market
+Created on : 23-gen-2012, 12.33.01
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+$market-bkg: image-url('client/market-bkg.png');
+$marketplace-width: 365px;
+
+$market-icon-width: 26px;
+$market-icon-height: 26px;
+
+$offer-entry-height: 40px;
+
+.marketplace{
+  position: absolute;
+  font:{family: $fonts; size: 16px; style: italic;}
+  @include texture($market-bkg, repeat-x);
+  background-color: #0b3443;
+  //background-position: left bottom;
+  //@include round-box(5px);
+
+  /* Content includes the 2 sections. */
+  .content{
+    position: relative;
+    width: $marketplace-width;
+    padding: 40px 0 5px 0;
+    /* there are 2 sections: "Your request" & "Other requests", each with its offer entries.
+       This is the section header style: */
+    .section{
+      position: relative;
+      margin: 5px 0 5px 42px;
+      padding-top: 5px;
+      .tip{ font:{size: 12px; weight: normal;} } // the tip under the section title
+      .selector{ position: relative; }
+      &.others{ border-top: 1px solid #365A65; }
+    }
+    /* Offer entries area. There are 2 areas, each under the respective section. */
+    .offers{
+      min-height: $offer-entry-height;
+      .no-trade{
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        line-height: $offer-entry-height;
+        color: #465e6e;
+      }
+    }
+  }
+
+  /*****************************************************************/
+  // Icon, Title & Popup
+  .icon{
+    position: absolute;
+    left: 8px; top: 8px;
+    width: $market-icon-width; height: $market-icon-height;
+    @include texture($gui-texture);
+    background-position: -160px -99px;
+  }
+  .title{
+    position: absolute;
+    left: 42px; top: 11px;
+  }
+  .popup{
+    position: absolute;
+    right: -15px; top: -130px;
+    width: 157px; height: 114px;
+    @include texture($gui-texture);
+    background-position: -503px -581px;
+    display: none;
+    cursor: pointer;
+  }
+  .backtogame{
+    position: absolute;
+    right: -52px; top: 38%;
+    width: 49px; height: 151px;
+    @include texture($gui-texture);
+    background-position: -454px -581px;
+    cursor: pointer;
+  }
+
+  /*****************************************************************/
+  // BUTTONS
+  .close{ // trade close
+    position: absolute;
+    right: 20px; top: 4px;
+    @include texture($gui-texture);
+    @include image-button($button-close-width, $button-close-height, 432px, 337px, 0,1,1,0);
+  }
+
+}

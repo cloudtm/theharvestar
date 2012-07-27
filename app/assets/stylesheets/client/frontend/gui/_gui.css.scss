@@ -1,0 +1,45 @@
+/*
+Document   : _game_menu
+Created on : 7-apr-2011, 0.30.22
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+Description: game gui css partial
+*/
+
+//.gui{ position: relative; }
+
+@import "components/all";
+@import "popup";
+@import "chat";
+@import "icons";
+
+// Desk gui items
+@import "desk/footer_overflow";
+@import "desk/systemenu";
+@import "desk/settings";
+@import "desk/presence_panel";
+@import "desk/presence_chats";
+
+// List gui items
+@import "list/list_control_panel";
+@import "list/game_list";
+
+// Hiscores gui items
+@import "hiscores/hiscores_control_panel";
+@import "hiscores/hiscores_list";
+
+// Account gui items
+@import "account/account_control_panel";
+@import "account/account_form";
+
+// Play gui items
+@import "play/trade_raiders";
+@import "play/market";
+@import "play/market_dialog";
+@import "play/market_entry";
+@import "play/build";
+@import "play/research";
+@import "play/resources";
+@import "play/players";
+@import "play/summary";
+@import "play/info";
+@import "play/play_control_panel";

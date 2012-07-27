@@ -1,0 +1,88 @@
+  /*
+    Document   : _game_gui_resources
+    Created on : 19-apr-2011, 9.52.16
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+$resource-button-width: 107px;
+$resource-button-height: 47px;
+$resource-width: 30px;
+$resource-height: 35px;
+
+$resource-margin: 11px;
+
+// Resources gui component
+#play-gui >{
+  .resources{
+    position: absolute;
+
+    .resource{
+      position: absolute;
+      @include texture($gui-resources);
+      @include image-button($resource-button-width, $resource-button-height, 682px, 0px, 0, 1, 1, 0);
+    }
+
+    .res-count{
+      position: absolute;
+      left: 37px; top: 11px;
+      width: $resource-width;
+      text-align: right;
+      font:{family: $fonts; size: 18px; style: italic; }
+    }
+
+    // Resource icon on the resource button
+    .res-icon {
+      position: absolute;
+      left: 8px; top: 5px;
+      @include texture($gui-resources);
+      width: $resource-width; height: $resource-height;
+    }
+    .energy{
+      .res-count{ color: $energy-color; }
+      .res-icon{ background-position: -#{$resource-width * 0 +896px} 0px; }
+    }
+    .titanium{
+      .res-count{ color: $titanium-color; }
+      .res-icon{ background-position: -#{$resource-width * 1 +896px} 0px; }
+    }
+    .water{
+      .res-count{ color: $water-color; }
+      .res-icon{ background-position: -#{$resource-width * 2 +896px} 0px; }
+    }
+    .grain{
+      .res-count{ color: $grain-color; }
+      .res-icon{ background-position: -#{$resource-width * 3 +896px} 0px; }
+    }
+    .silicon{
+      .res-count{ color: $silicon-color; }
+      .res-icon{ background-position: -#{$resource-width * 4 +896px} 0px; }
+    }
+    .recycle{
+      .res-count{ color: $recycle-color; }
+      .res-icon{ background-position: -#{$resource-width * 5 +896px} 0px; }
+    }
+    .res-count.zero { color: #383838; }
+
+    /* POPUP **********************************************************************************************************************/
+    .resource-popup{
+      $popup-height: 26px;
+
+      position: absolute;
+      @include popup(0px, $popup-height, 0px);
+      padding: 4px 15px;
+      @include round-box(36px);
+      line-height: $popup-height;
+      text-align: center;
+      font:{family: $fonts; size: 11px; font: italic;}
+      border: 2px solid #FF9400;
+    }
+  }
+}
+
+.raider-warning{
+  position: relative;
+  //left: -3px; top: -3px;
+  width: $resource-button-width; height: $resource-button-height;
+  @include round-box(26px);
+  background-color: red;
+  //border: 4px solid red;
+}

@@ -1,0 +1,262 @@
+$hiscores-entry-width: 746px;
+
+.account-form{
+  position: relative;
+  font:{ family: $fonts; weight: bold; style: italic; }
+  height: 470px;
+
+  .nav{
+    position: relative;
+    height: 94px;
+  }
+  .form{
+    $input-width: 270px; $input-height: 48px; $input-margin: 10px;
+    position: relative;
+    width: 590px; height: 345px;
+    input{
+      position: absolute;
+      width: $input-width; height: $input-height;
+      @include round-box(24px);
+      @include box-shadow(0px, 0px, 16px, #b660ab);
+      border: 0; outline: none;
+      margin: $input-margin;
+      line-height: $input-height;
+      font:{ family: $fonts; size: 18px;}
+      padding: 0 10px;
+      &.placeholder{ color: #A9A9A9; }
+      &.disabled{ background-color: #D6D6D6; }
+      &:focus{ background-color: #FCFFBA; @include box-shadow(0px, 0px, 16px, black); }
+    }
+    .detail-image{
+      $detail-img-size: 200px;
+      position: absolute;
+      left: 170px; top: 60px;
+      width: $detail-img-size; height: $detail-img-size;
+      @include round-box(10px);
+      @include box-shadow(0px, 0px, 16px, #b660ab);
+      cursor: pointer;
+    }
+    $grid-x: 400px; $grid-y: 50px;  // upper left grid start
+    $grid-dx: 320px; $grid-dy: 75px; // grid spacing
+    .nickname{ left: $grid-x + (0 * $grid-dx); top: $grid-y + (0 * $grid-dy); }
+    .email{ left: $grid-x + (1 * $grid-dx); top: $grid-y + (0 * $grid-dy); }
+    .first_name{ left: $grid-x + (0 * $grid-dx); top: $grid-y + (1 * $grid-dy); }
+    .last_name{ left: $grid-x + (1 * $grid-dx); top: $grid-y + (1 * $grid-dy); }
+    .language{ left: $grid-x + (0 * $grid-dx); top: $grid-y + (2 * $grid-dy); }
+    .country{ left: $grid-x + (1 * $grid-dx); top: $grid-y + (2 * $grid-dy); }
+    .birthday{ left: $grid-x + (0 * $grid-dx); top: $grid-y + (3 * $grid-dy); }
+    .gender{ left: $grid-x + (1 * $grid-dx); top: $grid-y + (3 * $grid-dy); }
+  }
+  /************************************************/
+  // Customizes the joined user name style
+  .joined-user{
+    .info{
+      position: absolute;
+      width: 290px;
+      left: 100px; top: 6px;
+      color: $player-color-1;
+      font:{ size: 36px; weight: bold; style: italic; }
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  /****************************************************/
+  // BUTTONS
+  $btn-width: 190px; $btn-height: 48px;
+  .btn-back, .btn-picture, .btn-save{
+    position: absolute;
+    bottom: 0px;
+    background-color: black;
+    width: $btn-width; height: $btn-height;
+    cursor: pointer;
+    @include round-box(24px);
+    @include box-shadow(0px, 0px, 16px, #b660ab);
+    .text{
+      position: absolute;
+      @include texture($gui-texture);
+    }
+    &:hover{ background-color: white; }
+  }
+  .btn-back{
+    $back-width: 143px; $back-height: 14px;
+    right: 176px;
+    .text{
+      left: ($btn-width - $back-width) / 2; top: ($btn-height - $back-height) / 2;
+      width: $back-width; height: $back-height;
+      background-position: -165px -707px;
+    }
+  }
+  .btn-save{
+    $save-width: 46px; $save-height: 14px;
+    left: ($list-width - $btn-width) / 2;
+    .text{
+      left: ($btn-width - $save-width) / 2; top: ($btn-height - $save-height) / 2;
+      width: $save-width; height: $save-height;
+      background-position: -386px -581px;
+    }
+  }
+  .btn-picture{
+    $picture-width: 77px; $picture-height: 14px;
+    left: 176px;
+    .text{
+      left: ($btn-width - $picture-width) / 2; top: ($btn-height - $picture-height) / 2;
+      width: $picture-width; height: $picture-height;
+      background-position: -309px -581px;
+    }
+  }
+
+}
+/******************************************************************************/
+// PICTURE CROPPER
+.picture-cropper{
+  $cropper-width: 800px; $cropper-height: 580px;
+  $cropper-ok-width: 83px; $cropper-ok-height: 24px;
+  $cropper-cancel-width: 83px; $cropper-cancel-height: 24px;
+
+  position: absolute;
+  width: $cropper-width; height: $cropper-height;
+  @include round-box(50px);
+  background-color: black;
+  @include box-shadow(0px, 0px, 25px, #b660ab);
+  font:{ family: $fonts; style: italic; }
+
+  .progress{
+    position: absolute;
+    right: 46px; top:100px;
+    width: 160px; height: 18px;
+    @include round-box(5px);
+    border: 1px solid #3d3d3d;
+    padding: 3px;
+    @include gradient(black, #3d3d3d);
+    .bar{
+      position: relative;
+      left: -1px; top: -1px;
+      height: 18px; width: 0%;
+      background-color: orange;
+      @include round-box(3px);
+      border: 1px solid #ffd410;
+      @include gradient(#F29F1D, #FDCD21);
+    }
+    .perc{
+      position: absolute;
+      left: 0px; top: 0px;
+      height: 23px; width: 100%;
+      color: white;
+      line-height: 23px;
+      font-size: 14px;
+      text-align: center;
+    }
+  }
+  .crop-area{
+    $area-w: 500px; $area-h: 500px;
+    position: absolute;
+    left: 40px; top: 40px;
+    width: $area-w; height: $area-h;
+    border: 1px solid white;
+    background-color: #1D1D1D;
+    .loader{
+      $loader-size: 100px;
+      position: absolute;
+      left: ($area-w - $loader-size) / 2; top: ($area-h - $loader-size) / 2;
+      background: url("/images/client/loading-black.gif");
+      width: 100px; height: 100px;
+    }
+  }
+  .frame200{
+    position: absolute;
+    right: 30px; top: 150px;
+
+    .preview200{
+      width: 200px; height: 200px;
+      overflow: hidden;
+      @include round-box(10px);
+      @include box-shadow(0px, 0px, 16px, #b660ab);
+
+      //border: 4px solid #616161;
+      background-color: #1D1D1D;
+    }
+  }
+  .frame50{
+    position: absolute;
+    right: 106px; top: 371px;
+
+    .preview50{
+      width: 50px; height: 50px;
+      @include round-box(25px);
+      box-sizing: border-box;
+      border: 4px solid;
+      @extend .player-border-colors;
+      overflow: hidden;
+      background-color: #1D1D1D;
+    }
+  }
+  /*******************************************************************/
+  // Buttons
+  .file, .save, .cancel{
+    position: absolute;
+    width: 160px; height: 40px;
+    @include round-box(20px);
+    @include box-shadow(0px, 0px, 6px, white);
+    background-color: #222;
+    line-height: 40px;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: center;
+
+  }
+  .file{
+    right: 50px; top: 40px;
+    color: white;
+    &:hover{ background-color: white; color: black; }
+  }
+  .save{
+    right: 50px; bottom: 100px;
+    color: white;
+    &.enabled:hover{ background-color: white; color: black; }
+    &.disabled{ @include box-shadow(0px, 0px, 0px, white); cursor: auto; color: #2f2f2f; }
+  }
+  .cancel{
+    right: 50px; bottom: 40px;
+    color: red;
+    &.enabled:hover{ background-color: white; }
+    &.disabled{ @include box-shadow(0px, 0px, 0px, white); cursor: auto; color: #2f2f2f; }
+  }
+
+}
+// Places the file upload button over the custom botton hiding it
+#game_account_preview{
+  position: absolute;
+  left: 0px; top: 0px;
+  width: 160px; height: 40px;
+  z-index: 2;
+  @include opacity(0);
+  cursor: pointer;
+}
+
+#account-gui{
+  .notification{
+    $note-width: 380px; $note-height: 27px;
+
+    display: none;
+    position: absolute;
+    left: ($list-width - $note-width) / 2; top: 30px;
+    width: $note-width; height: $note-height;
+    @include round-box(10px);
+    @include opacity(0.9);
+    line-height: $note-height;
+    font:{ family: $fonts; size: 14px;}
+    padding: 0 10px;
+    @include box-shadow(0px, 0px, 16px, #54EC7E);
+    border: 1px solid #226422;
+    background-color: #44F044;
+    color: #0D520D;
+    &.notsaved{
+      @include box-shadow(0px, 0px, 16px, #ECCE54);
+      border: 1px solid #644422;
+      background-color: #F1F126;
+      color: #492612;
+    }
+  }
+}

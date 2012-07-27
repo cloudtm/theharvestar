@@ -1,0 +1,184 @@
+/*
+Document   : _main_share
+Created on : 8-apr-2011, 18.11.02
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+Description: main css shared and common definitions
+*/
+
+/*///////////////////////////////////////////////////////////////*/
+/*                     SHARED DEFINITIONS                        */
+/*///////////////////////////////////////////////////////////////*/
+
+$gui-texture: image-url('client/gui.png');
+$gui-resources: image-url('client/resources.png');
+$structures: image-url('client/structures.gif');
+
+$avatars-hor1: image-url('client/avatars-hor1.png');
+$avatars-hor2: image-url('client/avatars-hor2.png');
+$avatars-hor3: image-url('client/avatars-hor3.png');
+$avatars-hor4: image-url('client/avatars-hor4.png');
+
+$avatars-ver1: image-url('client/avatars-ver1.jpg');
+$avatars-ver2: image-url('client/avatars-ver2.jpg');
+$avatars-ver3: image-url('client/avatars-ver3.jpg');
+$avatars-ver4: image-url('client/avatars-ver4.jpg');
+
+$avatars-ico1: image-url('client/avatars-ico1.jpg');
+$avatars-ico2: image-url('client/avatars-ico2.jpg');
+$avatars-ico3: image-url('client/avatars-ico3.jpg');
+$avatars-ico4: image-url('client/avatars-ico4.jpg');
+
+$fb-canvas-width: 760px;
+$fb-img-size: 50px;
+$game-window-height: 675px;
+
+$player-color-1: #1BB6D2;
+$player-color-2: #0BC581;
+$player-color-3: #E37F09;
+$player-color-4: #E5138E;
+
+$energy-color: #F1315C;
+$titanium-color: #D97CBC;
+$water-color: #9DDFD4;
+$grain-color: #FFD044;
+$silicon-color: #7D989E;
+$recycle-color: #00DE00;
+
+$fonts: HelveticaNeueBI, sans-serif;
+
+// GLOBAL MIXINS ===================================
+
+@mixin round-box($radius: 10px){
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin text-shadow($dX: 3px, $dY: 3px, $fuzz: 2px, $col: #333333){
+  text-shadow: $col $dX $dY $fuzz;
+}
+
+@mixin box-shadow($dX: 3px, $dY: 3px, $fuzz: 2px, $col: #333333){
+  box-shadow:  $dX $dY $fuzz $col;
+  -moz-box-shadow:  $dX $dY $fuzz $col;
+  -webkit-box-shadow: $dX $dY $fuzz $col;
+}
+
+// Mirrors an element around x and/or y. Syntax: @include flip([H|V|HV|VH])
+@mixin flip($direction: H) {
+  @if $direction == H {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+  } @else if $direction == V {
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: FlipV;
+  } @else if $direction == HV {
+    -moz-transform: scaleX(-1) scaleY(-1);
+    -o-transform: scaleX(-1) scaleY(-1);
+    -webkit-transform: scaleX(-1) scaleY(-1);
+    transform: scaleX(-1) scaleY(-1);
+    filter: FlipH FlipV;
+  } @else if $direction == VH {
+    -moz-transform: scaleX(-1) scaleY(-1);
+    -o-transform: scaleX(-1) scaleY(-1);
+    -webkit-transform: scaleX(-1) scaleY(-1);
+    transform: scaleX(-1) scaleY(-1);
+    filter: FlipH FlipV;
+  }
+}
+
+// Source: http://petermolnar.eu/linux-tech-coding/ie8-css-filter-matrix-cleartype-font-bug-fix/
+// $value: 0 .. 1
+// The vital point: add position:relative
+@mixin opacity($value: 1){
+  $msie-opacity: $value * 100;
+  //position: relative;
+  /* W3C CSS3 standard */
+  opacity: $value;
+  /* Firefox */
+  //-moz-opacity: $value;
+  /* webkit (Chrome, Safari, mobile browsers, etc) */
+  //-webkit-opacity: $value;
+  /* IE6 & 7 */
+  filter:alpha(opacity = $msie-opacity);
+  /* IE8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" + $msie-opacity +")";
+}
+
+@mixin texture($image: none, $repeat: no-repeat){
+  @if $image == none {
+    background-image: image-url('client/no-image.png');
+    background-repeat: repeat;
+  } @else {
+    background-image: $image;
+    background-repeat: $repeat;
+  }
+  //background-color: transparent;
+}
+
+@mixin playerColor($color: #000){
+  color: $color;
+}
+
+@mixin playerBkgColor($color: #000){
+  background-color: $color;
+}
+
+@mixin playerBorderColor($color: #000){
+  border-color: $color;
+}
+
+// Extend it to set color to players colors (user player-N class where N is the player number)
+.player-colors{
+  &.player-1{@include playerColor($player-color-1);}
+  &.player-2{@include playerColor($player-color-2);}
+  &.player-3{@include playerColor($player-color-3);}
+  &.player-4{@include playerColor($player-color-4);}
+}
+
+// Extend it to set background-color to players colors (user player-N class where N is the player number)
+.player-bkg-colors{
+  &.player-1{@include playerBkgColor($player-color-1);}
+  &.player-2{@include playerBkgColor($player-color-2);}
+  &.player-3{@include playerBkgColor($player-color-3);}
+  &.player-4{@include playerBkgColor($player-color-4);}
+}
+
+// Extend it to set border-color to players colors (user player-N class where N is the player number)
+.player-border-colors{
+  &.player-1{@include playerBorderColor($player-color-1);}
+  &.player-2{@include playerBorderColor($player-color-2);}
+  &.player-3{@include playerBorderColor($player-color-3);}
+  &.player-4{@include playerBorderColor($player-color-4);}
+}
+
+/* Ref: http://www.w3schools.com/cssref/css3_pr_box-sizing.asp
+* This forces the browser to render the box with the specified
+* width and height, and place the border and padding inside the box. */
+@mixin border-box{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+// $option can be [none | auto] where auto is the default.
+@mixin selectable($option: auto){
+  -webkit-user-select: $option;
+  -khtml-user-select: $option;
+  -moz-user-select: $option;
+  -o-user-select: $option;
+  user-select: $option;
+}
+
+// Vertical 2 colors gradient
+@mixin gradient($from, $to) {
+  background: -webkit-gradient(linear, left top, left bottom, from($from), to($to));
+  background: -moz-linear-gradient(top, $from, $to);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$from}', endColorstr='#{$to}');
+}

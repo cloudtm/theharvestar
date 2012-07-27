@@ -1,0 +1,163 @@
+/*
+Document   : tutorial.scss
+Created on : Oct 21, 2011, 5:39:13 PM
+Author     : fra
+Description:
+Purpose of the stylesheet follows.
+*/
+
+/*
+TODO customize this sample style
+Syntax recommendation http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html
+*/
+
+$slide-width: 950px;
+$button-width: 35px;
+$button-height: 30px;
+$button-y: 300px;
+$slide-height: 600px; /* is 590*/
+$slide-header-height: 100px;
+$slide-footer-height: 50px;
+$min-text-content-width: 340px;
+$title-font-size: 23px;
+$text-font-size: 15px;
+$text-line-height: 23px;
+$img-width: 380px;
+$container-left-margin: ($slide-width - $img-width -$min-text-content-width)/ 3;
+$text-left-margin: $container-left-margin;
+
+body{
+  position: relative;
+  background-color: black;
+  background: image-url('client/listbkg.jpg') repeat;
+  color: white;
+  margin:0; padding:0;  
+}
+
+body, p, ol, ul, td {
+  font:{
+    family: verdana, arial, helvetica, sans-serif;
+    size:   13px;
+    height: 18px;
+  }
+}
+
+.tutorial-container {
+  position: relative;
+  margin: 0 auto;
+  width: $slide-width + 2 * $button-width;
+  height: $slide-height;
+}
+
+.slides{
+  position: relative;
+  margin: 0 auto;
+  margin-top: 10px;
+  overflow: hidden;
+  width: $slide-width;
+  height: $slide-height;  
+}
+
+.items{
+  width: 20000em;
+  position: absolute;
+  
+  div.slide-container{
+    position: relative;    
+    float: left;
+    width: $slide-width;
+    height:$slide-height;
+    background-image: image-url('tutorial/tutorial_slide_bg.png');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    .play-now{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 215px;
+      height: 88px;
+      //border: 1px dotted white;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    
+    div.slide-content{
+      position: relative;
+      top: $slide-header-height;
+      left: $container-left-margin;
+      width: $slide-width - 2 * $container-left-margin;
+      padding-bottom: $slide-footer-height;
+      img{
+        width: $img-width;
+        padding-right: $text-left-margin;
+        float: left;
+      }
+      img.no-map{
+        padding-top: 20px !important;
+      }
+      h2.no-map{
+        padding-top: 20px !important;
+      }
+      h2{
+        position: relative;
+        font-size: $title-font-size;
+        padding-bottom: 5px;
+        text-shadow: 1px 1px 1px #999;
+      }
+      p{
+        position: relative;
+        font-size: $text-font-size;
+        line-height: $text-line-height;
+        font-weight: bold;
+      }
+      a{
+        position: relative;
+        font-style: italic ;
+        cursor: pointer;
+        text-decoration: none;
+        color: white;
+        left: 250px;
+        font-size: 14px;
+        text-shadow: 1px 1px 1px #999;
+        &:hover{       
+          text-decoration: underline;
+        }
+      }
+      /*.play-button{
+      position: absolute;
+      bottom: 50px;
+      right: 60px;
+      width: 159px;
+      height: 48px;
+      background-image: url('/images/tutorial/login_button.png');
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      }*/
+    }
+  }
+}
+
+.tutorial-button{
+  position: absolute;
+  top: $button-y;
+  width: $button-width;
+  height: $button-height;
+  background-repeat: no-repeat;
+  &:hover{
+    cursor: pointer;
+  }
+}
+.prev{
+  @extend .tutorial-button;
+  left: 0px;
+  background-image: image-url('tutorial/prev.png');
+}
+
+.next{
+  @extend .tutorial-button;
+  left: $slide-width + $button-width;
+  background-image: image-url('tutorial/next.png');
+}
+  
+

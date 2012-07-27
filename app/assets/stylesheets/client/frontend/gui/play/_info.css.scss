@@ -1,0 +1,67 @@
+/*
+Document   : _info_mechanics
+Created on : 31-mag-2011, 17.39.50
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+$popups: image-url('client/popups.png');
+
+.game-info{
+  $info-message-width: 760px;
+  // ====== Colors ======
+  $info-message-info: #F2F0AA;
+  $info-message-info-border: yellow;
+  $info-message-warning: #DEEFFF;
+  $info-message-warning-border: blue;
+  $info-message-error: #FFD7D7;
+  $info-message-error-border: red;
+
+  position: absolute;
+  left: 0px; top: 0px;
+  //cursor: pointer; non lo prende, forse per l'event forwarder
+
+  .popup-message{
+    $popup-width: 277px; $popup-height: 122px;
+
+    position: absolute;
+    left: 0px; top: 0px;
+    color: black;
+    font:{family: sans-serif;}
+
+    @include texture($popups);
+    width: $popup-width; height: $popup-height;
+
+    &.player-1 { background-position: -#{0 * $popup-width} -#{0 * $popup-height}; }
+    &.player-2 { background-position: -#{1 * $popup-width} -#{0 * $popup-height}; }
+    &.player-3 { background-position: -#{0 * $popup-width} -#{1 * $popup-height}; }
+    &.player-4 { background-position: -#{1 * $popup-width} -#{1 * $popup-height}; }
+
+    &.none{ left: 54px; top: 0px; }
+    &.starr{ left: 54px; top: 0px; }
+    &.titanya{ left: 68px; top: 4px; }
+    &.vassern{ left: 63px; top: 4px; }
+    &.gaezar{ left: 59px; top: 1px; }
+    &.sylva{ left: 54px; top: 9px; }
+    &.silee{ left: 11px; top: 0px; }
+    &.raider{ left: 35px; top: 0px; }
+
+    .icon{
+      position: absolute;
+      @include texture($popups);
+
+      &.info{ left: 22px; top: 24px; width: 43px; height: 41px; background-position: -48px -244px; }
+      &.tip{ left: 22px; top: 24px; width: 43px; height: 41px; background-position: -91px -244px; }
+      //&.event{ }
+      //&.result{ }
+      &.alert{ left: 20px; top: 22px; width: 48px; height: 41px; background-position: 0 -244px; }
+      //&.server{ }
+      &.market{ left: 22px; top: 24px; width: 48px; height: 41px; background-position: -134px -244px; }
+    }
+
+    .text{
+      position: absolute; left: 0px;
+      padding: 0px 35px 0px 80px;
+      font-size: 11px;
+    }
+  }
+}

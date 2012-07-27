@@ -1,0 +1,72 @@
+.settings-dialog{
+  $settings-dialog-width: 348px; $settings-dialog-height: 268px;
+  $settings-icon-width: 35px; $settings-icon-height: 36px;
+
+  @extend .dialog;
+  position: absolute;
+  font:{family: $fonts; size: 16px; style: italic;}
+
+  .content{
+    width: $settings-dialog-width; height: $settings-dialog-height;
+    .audio{
+      $setting-height: 23px;
+      position: absolute;
+      left: 20px; top: 90px;
+
+      .name{
+        position: absolute;
+        left: 0px; top: 0px;
+        height: $setting-height;
+      }
+      .speaker{
+        position: absolute;
+        left: 63px; top: 0px;
+        @include texture($gui-texture);
+        width: 29px; height: 23px;
+        background-position: -524px -361px;
+        &.mute{ background-position: -553px -361px; }
+      }
+      .slider{
+        position: absolute;
+        left: 104px; top: ($setting-height - 6px) / 2;
+        width: 145px; height: 6px;
+        .ui-slider-handle{ top: -5px; &.ui-state-focus{ outline: none; } } // adjust slider handle
+      }
+      .vol{
+        position: absolute;
+        right: 0px; top: 0px;
+        height: $setting-height;
+      }
+
+      .setting{
+        position: relative;
+        width: 308px; height: $setting-height;
+        line-height: $setting-height;
+        margin-bottom: 20px;
+      }
+      .fx{}
+      .music{}
+    }
+  }
+
+  .icon{
+    position: absolute;
+    left: 13px; top: 22px;
+    width: $settings-icon-width; height: $settings-icon-height;
+    @include texture($gui-texture);
+    background-position: -606px -695px;
+  }
+  .title{
+    position: absolute;
+    left: 60px; top: 29px;
+  }
+  // --- BUTTONS -------------------------------------------------------------
+  $settings-dialog-ok-width: 83px;
+  $settings-dialog-ok-height: 24px;
+  .ok{
+    position: absolute;
+    left: ($settings-dialog-width - $settings-dialog-ok-width) / 2; bottom: 10px;
+    @include texture($gui-texture);
+    @include image-button($settings-dialog-ok-width, $settings-dialog-ok-height, 391px, 126px, 0, 1, 1, 2);
+  }
+}

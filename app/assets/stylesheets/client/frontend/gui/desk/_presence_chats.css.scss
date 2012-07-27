@@ -1,0 +1,215 @@
+// presence panel is inserted into the footer overflow, a 0 height line bottom fixed starting from center
+.presence-chats{
+  $events-count-color: #FF7C52;
+  position: fixed;
+  bottom: 0px; right: 200px;
+  font:{ family: $fonts; style: italic; size: 12px; }
+
+  .slot{
+    position: absolute;
+    bottom: 0px;
+  }
+  .more{
+    $more-height: 15px; $more-padding: 5px; $more-border: 2px;
+    display: none;
+    white-space: nowrap;
+    height: $more-height;
+    padding: $more-padding;
+    background-color: #2B2B2B;
+    border: $more-border solid #020202;
+    .info{ }
+    .more-events{ color: $events-count-color; }
+    .chats{
+      position: absolute;
+      left: -$more-border; bottom: 0;
+      padding-bottom: $more-height + $more-border + (2 * $more-padding);
+    }
+    .presence-chat{ display: none; }
+    &:hover .presence-chat{
+      display: block;
+      position: relative;
+      .header{
+        margin-bottom: 2px;
+        &:hover{ background-color: #545454; }
+      }
+      .view{ display: none; }
+    }
+  }
+
+  /***************************************************************/
+  // Chat style
+  .presence-chat{
+    $chat-width: 200px; $chat-height: 150px;
+    $chat-send-height: 20px;    // Height of the send input box
+    $chat-viewport-margin: 5px;
+    $chat-viewport-height: $chat-height - $chat-send-height - ($chat-viewport-margin * 2);   // Height of the viewport where messages are displayed
+
+    position: absolute;
+
+    /***********************************************************************/
+    .header{
+      $header-height: 20px;
+      position: relative;
+      width: $chat-width; height: $header-height;
+      background-color: #3A3A3A;
+
+      .users{
+        color: #ECECEC;
+        position: absolute;
+        left: 5px; top: 0px;
+        width: $chat-width - 44px; height: $header-height;
+        line-height: $header-height;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        .event-count{ color: $events-count-color; }
+      }
+      .add{
+        position: absolute;
+        top: 4px; right: 20px;
+        @include texture($gui-texture);
+        background-position: -511px -361px;
+        width: 13px; height: 12px;
+        @include opacity(0.8);
+        &:hover{ @include opacity(1); }
+        cursor: pointer;
+      }
+      .close{
+        position: absolute;
+        top: 4px; right: 4px;
+        @include texture($gui-texture);
+        background-position: -614px -337px;
+        width: 12px; height: 12px;
+        @include opacity(0.8);
+        &:hover{ @include opacity(1); }
+        cursor: pointer;
+      }
+    }
+
+    /***********************************************************************/
+    .typing{
+      position: absolute;
+      left: 0px; top: 20px;
+      width: $chat-width - 8px;
+      background-color: #362312;
+      padding: 0 4px;
+      color: #ffe343;
+      @include opacity(0.8);
+    }
+
+    /***********************************************************************/
+    .view{
+      position: relative;
+      width: $chat-width; height: $chat-height;
+      background-color: black;
+      @include opacity(0.9);
+      overflow: hidden;
+
+      .viewport{
+        position: relative;
+        height: $chat-viewport-height;
+        overflow: auto;
+        margin: $chat-viewport-margin;
+
+        // Message ----------------------------------------
+        .message{
+          position: relative; //really important! otherwise all the message will be placed in 0 0
+          color: white;
+          @include selectable;
+          img{ width: 23px; margin-right: 3px; }
+          &.full-chat{ margin-top: 5px; }
+          .text { word-wrap: break-word; } // all messages to break-word => no horizontal scroll
+          .error{ color: red; margin: 5px 0; }
+          &.result-chat{
+            .command{ color: white; }
+            .result{ color: #FF8700; margin: 5px 0; }
+            .sys{
+              color: #ffe343; margin: 5px 0;
+              .name{ margin-left: 0; }
+            }
+          }
+        }
+        // ------------------------------------------------
+      }
+      .send{
+        position: absolute;
+        left: 4px; bottom: 2px;
+        padding: 0 3px;
+        width: $chat-width - 10px - 4px;
+        color: white;
+        border: none;
+        font-size: 14px;
+        background-color: #363636;
+      }
+    }
+
+    /***********************************************************************/
+    .user-adder{
+      $filter-height: 23px;
+
+      position: absolute;
+      left: 0px; top: 20px;
+      background-color: black;
+      width: $chat-width;
+
+      // Search input with close button
+      .filter{
+        height: $filter-height;
+        .search{
+          padding: 0 3px; margin: 2px;
+          width: 170px; height: $filter-height - 6px;
+          color: white;
+          border: none; outline: 1px solid #413F41;
+          font-size: 12px;
+          background-color: #2B2A2A;
+        }
+        .close{
+          position: absolute;
+          top: 4px; right: 4px;
+          @include texture($gui-texture);
+          background-position: -614px -337px;
+          width: 12px; height: 12px;
+          @include opacity(0.8);
+          &:hover{ @include opacity(1); }
+          cursor: pointer;
+        }
+      }
+
+      // Filtered results
+      .filtered{
+
+        .presence-user{
+          position: relative;
+          height: 26px;
+          img{ margin-left: 4px; width: 23px; }
+          &:hover{ background-color: #232323; }
+          .name{
+            position: absolute;
+            line-height: 23px;
+            left: 40px; width: $chat-width - 40px - 8px - 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+          }
+          .state{
+            position: absolute;
+            right: 4px; top: 7px;
+            width: 10px; height: 10px;
+            @include round-box(5px);
+
+            &.list{ background-color: green; }
+            &.join{ background-color: #D88A00; }
+            &.play{ background-color: #BE00BE; }
+          }
+        }
+
+      }
+    }
+
+
+
+  }
+
+}

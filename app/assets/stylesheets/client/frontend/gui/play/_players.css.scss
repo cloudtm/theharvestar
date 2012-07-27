@@ -1,0 +1,156 @@
+/*
+Document   : _game_gui_challanges
+Created on : 19-apr-2011, 9.54.07
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+// Avatar image size for all
+$player-avatar-width: 235px;
+$player-avatar-height: 456px;
+
+// Info boxes (my box size differs from the other players box)
+$player-me-info-width: 183px;
+$player-me-info-height: 44px;
+$player-other-info-width: 125px;
+$player-other-info-height: 38px;
+
+// Dot size and name length into the info box.
+$player-marker-width: 30px;
+$player-marker-height: 30px;
+$players-name-width: 100px;
+
+$player-info-margin: 15px;
+
+$award-big-width: 55px;
+$award-big-height: 59px;
+$award-small-width: 41px;
+$award-small-height: 44px;
+
+#play-gui >{
+  .players{
+    position: absolute;
+    // General player style
+    .player{
+      position: absolute;
+      width: $player-avatar-width; height: $player-avatar-height;
+      /*** AVATAR ************************************************/
+      .avatar{
+        position: absolute;
+        width: $player-avatar-width; height: $player-avatar-height;
+
+        &.player-1{ @include texture($avatars-hor1); }
+        &.player-2{ @include texture($avatars-hor2); }
+        &.player-3{ @include texture($avatars-hor3); }
+        &.player-4{ @include texture($avatars-hor4); }
+
+        &.none{ background-position: -#{0 * $player-avatar-width} 0px; }
+        &.starr{ background-position: -#{0 * $player-avatar-width} 0px; }
+        &.titanya{ background-position: -#{1 * $player-avatar-width} 0px; }
+        &.vassern{ background-position: -#{2 * $player-avatar-width} 0px; }
+        &.gaezar{ background-position: -#{3 * $player-avatar-width} 0px; }
+        &.sylva{ background-position: -#{4 * $player-avatar-width} 0px; }
+        &.silee{ background-position: -#{5 * $player-avatar-width} 0px; }
+        &.raider{ background-position: -#{6 * $player-avatar-width} 0px; }
+        //background-color: rgba(255, 235, 214, 0.2);
+      }
+      &.my .avatar{
+        @include flip;
+        &.none{ left: -40px; top: 0px; }
+        &.starr{ left: -40px; top: 0px; }
+        &.titanya{ left: -35px; top: 0px; }
+        &.vassern{ left: -40px; top: -10px; }
+        &.gaezar{ left: -40px; top: 0px; }
+        &.sylva{ left: -58px; top: 0px; }
+        &.silee{ left: -80px; top: 10px; }
+        &.raider{ left: -61px; top: 10px; }
+      }  // flips horizontaly my avatar
+      // My own info box customization *************************************
+      .info{
+        left: 0px; bottom: 5px;
+        width: $player-me-info-width; height: $player-me-info-height;
+        background-position: -214px -82px;
+        .marker{ top: ($player-me-info-height - $player-marker-height) / 2; }
+        .name{ bottom: 5px;}
+        .score{
+          position: absolute;
+          left: $player-marker-width + $player-info-margin; top: 6px;
+        }
+      }
+      /*** AWARDS ************************************************/
+      .award{
+        position: absolute;
+        @include texture($gui-texture);
+        .count{
+          position: absolute;
+          right: 0px; bottom: 0px;
+          width: 20px; height: 20px;
+          @include round-box(10px);
+          line-height: 20px;
+          text-align: center;
+          background-color: white;
+          font:{size: 14px; style: normal; }
+          color: black;
+          @include box-shadow(0px, 0px, 25px, white);
+        }
+      }
+      &.my .award{
+        width: $award-big-width; height: $award-big-height;
+        bottom: 42px;
+        &.transport{ left: -3px; background-position: 0px -661px; }
+        &.social{ left: 55px; background-position: -55px -661px; }
+        &.cultural{ left: 113px; background-position: -110px -661px; }
+      }
+      &.other .award{
+        width: $award-small-width; height: $award-small-height;
+        top: 94px;
+        &.transport{ left: 48px; background-position: -372px -603px; }
+        &.social{ left: 90px; background-position: -413px -603px; }
+      }
+    }
+    /*** INFOS (Color & name) **********************************/
+    .info{
+      position: absolute;
+      @include texture($gui-texture);
+      font:{ family: $fonts; style: italic; size: 12px; }
+      .marker{
+        @include texture($gui-texture);
+        position: absolute;
+        left: 6px;
+        width: $player-marker-width; height: $player-marker-height;
+        &.player-1 { background-position: -#{0 * $player-marker-width + 600px} -#{0 * $player-marker-height + 65px}; }
+        &.player-2 { background-position: -#{1 * $player-marker-width + 600px} -#{0 * $player-marker-height + 65px}; }
+        &.player-3 { background-position: -#{0 * $player-marker-width + 600px} -#{1 * $player-marker-height + 65px}; }
+        &.player-4 { background-position: -#{1 * $player-marker-width + 600px} -#{1 * $player-marker-height + 65px}; }
+      }
+      .name{
+        position: absolute;
+        left: $player-marker-width + $player-info-margin;
+        width: $player-other-info-width;
+        @extend .player-colors;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include text-shadow;
+      }
+    }
+    // Other players avatar container position *************************************
+    .others{
+      position: absolute;
+      left: 560px; top: 427px;
+      // Others info box customization *************************************
+      .info{
+        top: 167px; // left is js adjusted
+        width: $player-other-info-width; height: $player-other-info-height;
+        background-position: -475px -83px;
+        .marker{ top: ($player-other-info-height - $player-marker-height) / 2; }
+        .name{ top: 5px;}
+        .score{
+          position: absolute;
+          left: $player-marker-width + $player-info-margin; bottom: 4px;
+        }
+      }
+
+    }
+
+  }
+}

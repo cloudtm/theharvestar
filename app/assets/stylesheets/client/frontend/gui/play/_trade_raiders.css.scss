@@ -1,0 +1,145 @@
+/*
+Document   : _trade_raiders
+Created on : 9-gen-2012, 12.38.27
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+$raider-trade-width: 442px;
+$raider-trade-height: 461px;
+$raider-trade-bkg: image-url('client/raiders-trade-bkg.jpg');
+
+// Buttons variables
+$button-trade-width: 77px;
+$button-trade-height: 24px;
+$button-tradeclose-width: 151px;
+$button-tradeclose-height: 24px;
+$button-close-width: 75px;
+$button-close-height: 24px;
+$buttons-bottom: 30px;
+
+// Selectors variables
+$selector-width: 62px;
+$selector-height: 62px;
+$selector-margin: -9px;  // margin between resource selectors
+$selector-circle-width: 80px;
+$selector-circle-height: 80px;
+
+#play-gui >{
+  .raiders-dialog{
+    @extend .dialog;
+    position: absolute;
+
+    /* Contains dialog content. Is positioned below all the other elements. */
+    .content{
+      @include texture($raider-trade-bkg);
+      width: $raider-trade-width; height: $raider-trade-height;
+
+      .circle{
+        position: absolute; top: 0px;
+        width: $selector-circle-width; height: $selector-circle-height;
+        @include texture($gui-texture);
+        background-position: $selector-circle-width 0px;  // no image
+
+        // Position of every resource
+        $circle-width: $selector-circle-width + ($selector-margin * 2);
+        &.energy{ left: $circle-width * 0; }
+        &.titanium{ left: $circle-width * 1; }
+        &.water{ left: $circle-width * 2; }
+        &.grain{ left: $circle-width * 3; }
+        &.silicon{ left: $circle-width * 4; }
+
+        // General resource appearance
+        .resource{
+          position: absolute;
+          @include texture($gui-resources);
+          width: $selector-width; height: $selector-height;
+          left: ($selector-circle-width - $selector-width) / 2;
+          top: ($selector-circle-height - $selector-height) / 2;
+          cursor: pointer;
+          span{ //counter
+            $font-size: 20px;
+            position: absolute;
+            left: 0px; bottom: 0px;
+            width: $selector-width; height: $selector-height;
+            line-height: 75px;
+            text-align: center;
+            font:{family: $fonts; size: $font-size; weight: bold;}
+          }
+        }
+
+        &.highlight{ background-position: 0 -99px; }
+        &.selected{ background-position: -80px -99px; }
+      }
+
+      $full-selector-width: ($selector-circle-width + $selector-margin * 2) * 5;
+      .receive, .give{
+        position: absolute;
+        width: $full-selector-width; height: $selector-circle-height;
+        left: ($raider-trade-width - $full-selector-width) / 2;
+        .tip{ // text under resource selectors
+          position: absolute;
+          left: 0px; bottom: -11px;
+          width: $full-selector-width;
+          text-align: center;
+          font:{family: $fonts; size: 13px; style: italic;}
+          .factor{ color: red; font:{weight: bold; size: 16px;} }
+        }
+      }
+      .receive{
+        top: 167px;
+        .energy .resource{ background-position: -#{0 * $selector-width} 0px; }
+        .titanium .resource{ background-position: -#{1 * $selector-width} 0px; }
+        .water .resource{ background-position: -#{2 * $selector-width} 0px; }
+        .grain .resource{ background-position: -#{3 * $selector-width} 0px; }
+        .silicon .resource{ background-position: -#{4 * $selector-width} 0px; }
+      }
+      .give{
+        display: none;
+        top: 259px;
+        .energy .resource{ background-position: -#{5 * $selector-width} 0px; span {color: $energy-color;} }
+        .titanium .resource{ background-position: -#{6 * $selector-width} 0px; span {color: $titanium-color;} }
+        .water .resource{ background-position: -#{7 * $selector-width} 0px; span{color: $water-color;} }
+        .grain .resource{ background-position: -#{8 * $selector-width} 0px; span{color: $grain-color;} }
+        .silicon .resource{ background-position: -#{9 * $selector-width} 0px; span{color: $silicon-color;} }
+        .circle.disabled .resource{
+          background-position: -#{10 * $selector-width} 0px;
+          span{color: #383838;}
+        }
+      }
+    }
+    /* Icon is displayed in the upper left corner. */
+    .icon{
+      position: absolute;
+      left: 13px; top: 22px;
+      width: 36px; height: 36px;
+      @include texture($gui-texture);
+      background-position: -400px -68px;
+    }
+    /* The title stands on the right of the icon. */
+    .title{
+      position: absolute;
+      left: 54px; top: 21px;
+      font:{family: $fonts; size: 16px; style: italic;}
+    }
+    /*****************************************************************************/
+    // BUTTONS
+    .trade{
+      position: absolute;
+      left: 30px; bottom: $buttons-bottom;
+      @include texture($gui-texture);
+      @include image-button($button-trade-width, $button-trade-height, 160px, 126px, 0,1,1,2);
+    }
+    .trade-close{
+      position: absolute;
+      left: ($raider-trade-width - $button-tradeclose-width) / 2; bottom: $buttons-bottom;
+      @include texture($gui-texture);
+      @include image-button($button-tradeclose-width, $button-tradeclose-height, 160px, 151px, 0,1,1,2);
+    }
+    .close{
+      position: absolute;
+      right: 30px; bottom: $buttons-bottom;
+      @include texture($gui-texture);
+      @include image-button($button-close-width, $button-close-height, 432px, 337px, 0,1,1,0);
+    }
+  }
+}

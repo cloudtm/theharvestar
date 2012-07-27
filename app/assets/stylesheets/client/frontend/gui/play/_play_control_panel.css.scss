@@ -1,0 +1,19 @@
+/*
+    Document   : _giveup
+    Created on : 14-set-2011, 13.38.41
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+// Buttons size
+$control-button-width: 313px;
+$control-button-height: 35px;
+
+.play-control-panel{
+  position: absolute;
+  left: 467px; top: 740px;
+  .giveup{
+    position: absolute;
+    left: 0px; top: $control-button-height + 5px;
+    @include texture($gui-texture);
+    @include image-button($control-button-width, $control-button-height, 0px, 409px, 0, 1, 1, 0);
+  }
+}

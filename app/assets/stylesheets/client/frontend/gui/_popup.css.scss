@@ -1,0 +1,15 @@
+/*
+Document   : _popup
+Created on : 8-feb-2012, 19.33.01
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+@mixin popup($width: 150px, $height: 0px, $border: 3px, $color: white, $bkg-from: black, $bkg-to: #474747){
+  // Fixes the width only if it's greater than 0, otherwise width will be content sized:
+  @if $width > 0px { width: $width; }
+  // Fixes the height only if it's greater than 0, otherwise height will be content sized:
+  @if $height > 0px { height: $height; }
+  @include gradient($bkg-from, $bkg-to);
+  @include box-shadow(2px, 2px);
+  @if $border > 0px { border: $border solid $color; }
+}

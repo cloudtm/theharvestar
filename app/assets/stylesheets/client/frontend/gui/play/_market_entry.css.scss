@@ -1,0 +1,53 @@
+/*
+Document   : _market_entry
+Created on : 23-gen-2012, 12.33.01
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+.market-entry{
+  position: relative;
+  width: 100%; height: $offer-entry-height;
+  padding-top: 0px; padding-bottom: 0px;
+  .name{
+    @extend .player-colors;
+    position: relative;
+    width: 97px;
+    margin-left: 8px;
+    line-height: $offer-entry-height;
+    font:{ family: $fonts; size: 12px; weight: bold; }
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    float: left;
+  }
+  .selector{
+    position: relative;
+    left: -25px; top: 4px;
+    float: left;
+  }
+
+  /*****************************************************************/
+  // Highlights
+  .highlight{
+    position: absolute;
+    left: 0px; top: 0px;
+    width: 100%; height: 100%;
+    @include round-box($offer-entry-height / 2);
+  }
+  &.accepted .highlight{ background-color: #2B5631; opacity: 0.5; }
+  &.updated .highlight{ background-color: #5B5A5A; opacity: 0.5; }
+
+  /*****************************************************************/
+  // Buttons
+  .ok{
+    position: relative;
+    left: $marketplace-width - 32px - 8px; top: ($offer-entry-height - 32px) / 2;
+    @include texture($gui-texture);
+    @include image-button(32px, 32px, 621px, 153px, 0, -1, -1, -2);
+  }
+  /*
+  $waiting-img: url("/images/client/some_loading.gif");
+  &.wait_ed, &.wait_up{
+    .ok{ @include texture($waiting-img); background-position: 0 0; }
+  }
+  */
+}
+

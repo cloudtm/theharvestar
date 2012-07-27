@@ -1,0 +1,100 @@
+/*
+    Document   : _giveup
+    Created on : 14-set-2011, 13.38.41
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+$logo: image-url('client/the_harvestar_list.png');
+$logo-width: 544px;
+$logo-height: 297px;
+
+
+.list-control-panel{
+  position: relative;
+  height: 480px;
+  margin: 0;
+
+  //.algorithmica{
+  //  position: absolute;
+  //  left: 539px; top: 87px;
+  //  width: 103px; height: 32px;
+  //  @include texture($gui-texture);
+  //  background-position: -503px -695px;
+  //}
+
+  .harvestar{
+    position: absolute;
+    left: ($list-width - $logo-width) / 2 - 27px; top: 40px;
+    width: $logo-width; height: $logo-height;
+    @include texture($logo);
+  }
+
+  // Buttons
+  $btn-width: 190px; $btn-height: 48px;
+  .btn-demo{
+    $demo-width: 83px; $demo-height: 14px;
+    position: absolute;
+    right: 216px; bottom: 50px;
+    background-color: black;
+    width: $btn-width; height: $btn-height;
+    cursor: pointer;
+    @include round-box(24px);
+    @include box-shadow(0px, 0px, 16px, white);
+    .text{
+      position: absolute;
+      left: ($btn-width - $demo-width) / 2; top: ($btn-height - $demo-height) / 2;
+      @include texture($gui-texture);
+      width: $demo-width; height: $demo-height;
+      background-position: -252px -647px;
+    }
+    &.enabled:hover{ background-color: white; }
+    &.disabled{
+      cursor: auto;
+      .text{ background-position: -#{ $demo-width + 252px} -647px; }
+    }
+  }
+  .btn-hiscores{
+    $hiscores-width: 117px; $hiscores-height: 14px;
+    position: absolute;
+    left: ($list-width - $btn-width) / 2; bottom: 50px;
+    background-color: black;
+    width: $btn-width; height: $btn-height;
+    cursor: pointer;
+    @include round-box(24px);
+    @include box-shadow(0px, 0px, 16px, white);
+    .text{
+      position: absolute;
+      left: ($btn-width - $hiscores-width) / 2; top: ($btn-height - $hiscores-height) / 2;
+      @include texture($gui-texture);
+      width: $hiscores-width; height: $hiscores-height;
+      background-position: -165px -693px;
+    }
+    &.enabled:hover{ background-color: white; }
+    &.disabled{
+      cursor: auto;
+      .text{ background-position: -#{ $hiscores-width + 165px} -693px; }
+    }
+  }
+  .btn-create{
+    $create-width: 126px; $create-height: 14px;
+    position: absolute;
+    left: 216px; bottom: 50px;
+    background-color: black;
+    width: $btn-width; height: $btn-height;
+    cursor: pointer;
+    @include round-box(24px);
+    @include box-shadow(0px, 0px, 16px, white);
+    .text{
+      position: absolute;
+      left: ($btn-width - $create-width) / 2; top: ($btn-height - $create-height) / 2;
+      @include texture($gui-texture);
+      width: $create-width; height: $create-height;
+      background-position: 0 -647px;
+    }
+    &.enabled:hover{ background-color: white; }
+    &.disabled{
+      cursor: auto;
+    .text{ background-position: -#{ $create-width } -647px; }
+    }
+  }
+}
+

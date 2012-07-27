@@ -1,0 +1,13 @@
+/*
+Document   : map
+Created on : 16-feb-2012, 17.17.48
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+.map{ position: absolute; }
+
+@import "title";
+@import "actiongrid";
+@import "score";
+@import "terrains";
+@import "structures";
+@import "input";

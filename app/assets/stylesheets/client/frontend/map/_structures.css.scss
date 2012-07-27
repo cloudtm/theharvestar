@@ -1,0 +1,124 @@
+/*
+Document   : _buildings
+Created on : 7-apr-2011, 0.28.53
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+Description: buildings css partial
+*/
+
+//°°° settlement tile dimensions °°°
+$base-width: 51px;
+$base-height: 68px;
+
+//°°° road tile dimensions °°°
+$link-hor-width: 35px;
+$link-hor-height: 52px;
+$link-ver-width: $link-hor-width;
+$link-ver-height: $link-hor-height;
+$link-rot-width: 59px;
+$link-rot-height: 14px;
+
+$hover-cursor: image-url('client/build_now.png"), pointer;
+$build-cursor: $hover-cursor;
+
+@mixin infrastructure($type, $player: 0, $posX: 0px, $posY: 0px){
+  @if $posX != 0px {$posX: -$posX}
+  @if $posY != 0px {$posY: -$posY}
+  &.#{$type}_#{$player}{ background-position: #{$posX} #{$posY}; }
+}
+
+@mixin highlight-outpost($player: 0, $posX: 0px, $posY: 0px){
+  @if $posX != 0px {$posX: -$posX}
+  @if $posY != 0px {$posY: -$posY}
+  &.l0{
+    &.hover#{$player}{
+      display: block;
+      background-position: #{$posX} #{$posY};
+      cursor: $hover-cursor;
+    }
+  }
+}
+
+@mixin highlight-station($player: 0, $posX: 0px, $posY: 0px){
+  @if $posX != 0px {$posX: -$posX}
+  @if $posY != 0px {$posY: -$posY}
+  &.l1_#{$player}{
+    &.hover#{$player}{
+      display: block;
+      background-position: #{$posX} #{$posY};
+      cursor: $hover-cursor;
+    }
+  }
+}
+
+@mixin highlight-link($orientation, $player: 0, $posX: 0px, $posY: 0px){
+  @if $posX != 0px {$posX: -$posX}
+  @if $posY != 0px {$posY: -$posY}
+  &.l0{
+    &.hover#{$player}{
+      display: block;
+      &.#{$orientation}{ background-position: #{$posX} #{$posY}; }
+      cursor: $hover-cursor;
+    }
+  }
+}
+
+// ================ SETTLEMENTS ================== //
+.isometry{
+  position: absolute;
+
+  &>.base{
+    position: absolute;
+    @include texture($structures);
+    width: $base-width; height: $base-height;
+    &.l0{ display: none; }
+    @for $i from 0 through 3 {
+      @include infrastructure(l1, $i + 1, $i * $base-width, 0px);  /* outpost texture base coord: 0,0 */
+      @include infrastructure(l2, $i + 1, $i * $base-width, $base-height);  /* station texture base coord: 0,66 */
+    }
+    // highlights
+    @for $i from 0 through 3 {
+      @include highlight-outpost($i + 1, $i * $base-width, 0px); /* outpost highlights (outpost texture base coord: 0,0) */
+      @include highlight-station($i + 1, $i * $base-width, $base-height); /* station highlights (station texture base coord: 0,66) */
+    }
+  }
+
+}
+
+// =================== ROADS ===================== //
+.links{
+  position: absolute;
+
+  &>.link{
+    position: absolute;
+    @include texture($structures);
+    &.l0{ display: none; }
+    &.ver{
+      width: $link-ver-width; height: $link-ver-height;
+      @for $i from 0 through 3 {
+        @include infrastructure(l1, $i + 1, $i * $link-ver-width, $base-height * 2);  /* vertical road texture base coord: 0,132 */
+      }
+    }
+    &.hor{
+      width: $link-hor-width; height: $link-hor-height;
+      @for $i from 0 through 3 {
+        @include infrastructure(l1, $i + 1, $i * $link-hor-width, $base-height * 2 + $link-hor-height);  /* horizontal road texture base coord: 0,182 */
+      }
+    }
+    &.rot{
+      width: $link-rot-width; height: $link-rot-height;
+      @for $i from 0 through 3 {
+        @include infrastructure(l1, $i + 1, $link-hor-width * 4, $i * $link-rot-height + $base-height * 2);  /* tilted road texture base coord: 132,132 */
+      }
+    }
+    // highlights
+    @for $i from 0 through 3 {
+      @include highlight-link(ver, $i + 1, $i * $link-ver-width, $base-height * 2); /* vertical road highlights (texture base coord: 0,132) */
+      @include highlight-link(hor, $i + 1, $i * $link-hor-width, $base-height * 2 + $link-hor-height); /* horizontal road highlights (texture base coord: 0,182) */
+      @include highlight-link(rot, $i + 1, $link-hor-width * 4, $i * $link-rot-height + $base-height * 2);            /* tilted road highlights (texture base coord: 132,132) */
+    }
+  }
+
+}
+
+// Class used for building. Changes the cursor from arrow to a different image (whatever $build-cursor is)
+.build-cursor{ cursor: $build-cursor; }

@@ -1,0 +1,53 @@
+/*
+Document   : _market_dialog
+Created on : 23-gen-2012, 12.33.01
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+/*****************************************************************************/
+// Marketplace trade dialog
+.market-dialog{
+  @extend .dialog;
+  position: absolute;
+  $market-dialog-width: 348px;
+  $market-dialog-height: 268px;
+  .content{
+    width: $market-dialog-width; height: $market-dialog-height;
+    .tip{
+      position: absolute;
+      left: 54px; top: 40px;
+      font:{family: $fonts; size: 12px; }
+    }
+  }
+  .resource-selector{ position: absolute; }
+  .icon{
+    position: absolute;
+    left: 13px; top: 22px;
+    width: $market-icon-width; height: $market-icon-height;
+    @include texture($gui-texture);
+    background-position: -160px -99px;
+  }
+  .title{
+    position: absolute;
+    left: 54px; top: 21px;
+    color: #00EC00;
+    font:{family: $fonts; size: 16px; style: italic; weight: bold;}
+  }
+  // --- BUTTONS -------------------------------------------------------------
+  $market-dialog-ok-width: 83px;
+  $market-dialog-ok-height: 24px;
+  $market-dialog-cancel-width: 83px;
+  $market-dialog-cancel-height: 24px;
+  .ok{
+    position: absolute;
+    left: ($market-dialog-width - $market-dialog-ok-width) / 2 - 50px; bottom: 10px;
+    @include texture($gui-texture);
+    @include image-button($market-dialog-ok-width, $market-dialog-ok-height, 391px, 126px, 0, 1, 1, 2);
+  }
+  .cancel{
+    position: absolute;
+    left: ($market-dialog-width - $market-dialog-cancel-width) / 2 + 50px; bottom: 10px;
+    @include texture($gui-texture);
+    @include image-button($market-dialog-ok-width, $market-dialog-ok-height, 432px, 385px, 0, 1, 1, 0);
+  }
+}

@@ -1,0 +1,17 @@
+$icons-texture: url(/images/client/icons.png);
+
+.sprite{
+  @include texture($icons-texture);
+  &.account {width:21px; height:21px; background-position: -25px -2px}
+  &.logout {width:21px; height:21px; background-position: -25px -25px}
+  &.settings {width:22px; height:22px; background-position: -26px -48px}
+  &.sys-menu {width:30px; height:19px; background-position: -2px -72px}
+}
+
+.disabled{
+  .sprite{
+    &.account {width:21px; height:21px; background-position: -2px -2px}
+    &.logout {width:21px; height:21px; background-position: -2px -25px}
+    &.settings {width:22px; height:22px; background-position: -2px -48px}
+  }
+}

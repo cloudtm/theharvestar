@@ -1,0 +1,129 @@
+/*
+    Document   : game
+    Created on : 7-apr-2011, 0.25.04
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+    Description: css of the game play
+*/
+
+/**********************************************/
+@import "share";
+
+$bkg-list: image-url('client/coming-soon-bkg.jpg') repeat-x;
+$bkg-play: image-url('client/background.jpg') no-repeat center top;
+$bkg-map: image-url('client/map.png');
+
+$list-width: 1180px;
+/************************************************************************************/
+// Body and desks styles
+html{ height: 100%; }
+body {
+  position: relative;
+  @include selectable(none);
+  margin: 0;
+  color: white;
+  background-color: black;
+  height: 100%;
+
+  &.list, &.hiscores,&.account, &.join {
+    background: $bkg-list;
+    background-position: top;
+    background-color: black;
+  }
+  &.play, &.end {
+    background: $bkg-play;
+    background-color: black;
+  }
+}
+
+#viewport {
+  position: relative;
+  height: 100%;
+  & > .desk {
+    position: relative;
+    height: 100%;
+  }
+}
+
+#list, #hiscores, #account {
+  display: none;  // activated by game conroller
+  position: relative;
+  margin: 0 auto;
+
+  // CSS3 multiple background. Support: Mozilla Firefox (3.6+), Safari/Chrome (1.0/1.3+), Opera (10.5+), IE (9.0+)
+  background: image-url('client/list-top.jpg') top center no-repeat, image-url('client/list-repeat.jpg') top center repeat-y;
+  width: $list-width;
+  min-height: 100%;
+}
+
+#play {
+  display: none;  // activated by game conroller
+  position: relative;
+  margin: 0 auto;
+
+  @include texture($bkg-map);
+  width: $fb-canvas-width;
+  height: $game-window-height;
+}
+
+/************************************************************************************/
+// Custom GUI positioning
+
+// Centered desk gui. When an element is placed inside, its left:0 is in the center of the screen
+#desk-gui{
+  position: absolute;
+  left: 50%; top: 0px;
+}
+
+/************************************************************************************/
+// Other styles
+p { margin: 0 }
+#templates { display: none; }
+.modal{
+  position: fixed;
+  @include opacity(0.5);
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: black;
+}
+
+/************************************************************************************/
+// Resources loading styles
+#loadInfo {
+  padding-top: 200px;
+  margin: 0 auto;
+  position: relative;
+  background-color: black;
+  width: 300px;
+}
+
+#statusBar {
+  position: relative;
+  border: 2px solid #aaa;
+  width: 300px;
+  background: #ddd image-url('progress_grad.png') 50% repeat-x;
+}
+
+#status {
+  position: relative;
+  background: image-url('progress_fill.png') 0 50% no-repeat;
+  height: 12px;
+}
+
+#textStatus {
+  font-weight: bold;
+  .currentImg {
+    display: block;
+    font-size: .8em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+  }
+  .currentImg span { font-weight: normal; }
+}
+
+/************************************************************************************/
+// Imports
+//@import "map/map";
+//@import "gui/gui";
+

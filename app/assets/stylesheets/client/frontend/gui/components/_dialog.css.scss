@@ -1,0 +1,38 @@
+/*
+    Document   : _dialog
+    Created on : 13-lug-2011, 16.18.19
+    Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+$dialog-border-radius: 5px;
+$dialog-handle: image-url('client/dialog-handle.gif');
+$dialog-bkg: image-url('client/dialog-bkg.gif');
+
+.dialog{
+  @include round-box($dialog-border-radius);
+  @include box-shadow(1px, 1px, 9px, #111);
+  @include texture($dialog-bkg, repeat-x);
+  border: 1px solid #D800FF;
+  background-color: black;
+  background-position: right bottom;
+  min:{ width: 100px; height: 100px;}
+  overflow: hidden;
+
+  /* Contains dialog content. Is positioned below all the other elements. */
+  .content{
+    position: relative;
+  }
+  /* It's just a cosmetic enhancement on top of the dialog (the dotted bar). */
+  .bar{
+    position: absolute;
+    left: 0px; top: 1px;
+    @include texture($dialog-handle, repeat-x);
+    width: 100%; height: 7px;
+  }
+  /* It's an invisible handle that allow to drag the dialog. */
+  .handle{
+    position: absolute;
+    left: 0px; top: 0px;
+    width: 100%; height: 20px;
+    cursor: move;
+  }
+}

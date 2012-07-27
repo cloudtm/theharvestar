@@ -1,0 +1,91 @@
+// presence panel is inserted into the footer overflow, a 0 height line bottom fixed starting from center
+.presence-panel-view{
+  $panel-width: 170px; $panel-height: 23px;
+  position: fixed;
+  width: $panel-width; height: $panel-height;
+  right: 0px; bottom: 0px;
+  font:{ family: $fonts; style: italic; size: 12px; }
+
+  .content{
+    $header-height: $panel-height;
+    $footer-height: $panel-height;
+
+    position: absolute;
+    width: $panel-width;
+
+    .header, .users, .footer{
+      position: relative;
+      width: $panel-width;
+    }
+    /***************************************************/
+    .header{
+      @include texture($gui-texture);
+      background-position: 0 -603px;
+      height: $header-height - 1px;
+      cursor: pointer;
+      .count{
+        position: absolute;
+        right: 30px; top: 5px;
+        text-align: right;
+        width: 100px;
+      }
+      .icon{
+        position: absolute;
+        top: 2px; right: 2px;
+        @include texture($gui-texture);
+        background-position: -582px -366px;
+        width: 18px; height: 18px;
+      }
+    }
+
+    /***************************************************/
+    .users{
+      background-color: black;
+      @include opacity(0.8);
+      padding-top: 2px;
+
+      .presence-user{
+        position: relative;
+        height: 36px;
+        img{ margin: 4px; width: 28px; }
+        &:hover{ background-color: #232323; }
+        .name{
+          position: absolute;
+          line-height: 30px;
+          left: 40px; width: $panel-width - 40px - 8px - 15px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          cursor: pointer;
+        }
+        .state{
+          position: absolute;
+          right: 4px; top: 13px;
+          width: 10px; height: 10px;
+          @include round-box(5px);
+
+          &.list{ background-color: green; }
+          &.join{ background-color: #D88A00; }
+          &.play{ background-color: #BE00BE; }
+        }
+      }
+    }
+
+    /***************************************************/
+    .footer{
+      height: $footer-height;
+      background-color: black;
+      .search{
+        padding: 0 3px; margin: 2px;
+        width: $panel-width - 12px; height: $footer-height - 6px;
+        color: white;
+        outline: none;
+        //border: 1px solid #464646;
+        border: none;
+        font-size: 12px;
+        background-color: #2B2A2A;
+      }
+    }
+
+  }
+}

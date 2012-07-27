@@ -1,0 +1,18 @@
+/*
+Document   : input
+Created on : 5-dic-2011, 16.11.48
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+Description:
+Purpose of the stylesheet follows.
+*/
+
+$input-actiongrid: image-url('client/actiongrid.png");
+$actiongrid-width: 445px;
+$actiongrid-height: 484px;
+
+.actiongrid{
+  position: absolute;
+  @include texture($input-actiongrid);
+  width: $actiongrid-width; height: $actiongrid-height;
+  left: -($actiongrid-width / 2); top: -($actiongrid-height / 2);
+}

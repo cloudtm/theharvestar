@@ -1,0 +1,354 @@
+$game-entry-width: 746px;
+
+$game-entry-listed-height: 100px;
+$game-entry-select-height: 430px;
+$game-entry-joiend-height: 430px;
+
+$joined-user-width: 195px;
+
+.game-list{
+  position: relative;
+  font:{ family: $fonts; style: italic; }
+
+  .game-entry{
+    position: relative;
+    width: $game-entry-width;
+    margin: 20px auto;
+
+    @include round-box(50px);
+    background-color: black;
+    @include box-shadow(0px, 0px, 25px, #b660ab);
+
+    /***********************************************************/
+    // Common styles
+    .users{ position: absolute; }
+    .select .users, .joined .users{
+      width: $joined-user-width;
+      border-top: 1px solid #363636;
+      border-bottom: 1px solid #363636;
+      padding-top: 10px;
+      .joined-user{ margin-bottom: 10px; }  // adds some margin to the joined user to space them vertically
+    }
+    .my-player{
+      position: absolute;
+      font-size: 16px;
+      @extend .player-colors;
+    }
+    /***********************************************************/
+    // Game Entry Layers
+    .listed{
+      display: none;
+      position: relative;
+      height: $game-entry-listed-height;
+      .users{
+        left: 25px; top: 25px;
+        width: $game-entry-width - (2 * 25px);
+        .slot{ position: relative; float: left; }
+        .ready{ display: none; }  // hides ready buttons for joined user in this layer
+      }
+    }
+    .select{
+      display: none;
+      position: relative;
+      height: $game-entry-select-height;
+      .users{
+        left: 20px; top: 220px;
+        .ready{ display: none; }  // hides ready buttons for joined user in this layer
+      }
+      .my-player{ left: 21px; top: 60px; }
+      .tip{
+        position: absolute;
+        left: 21px; top: 80px;
+        font-size: 15px;
+      }
+      .avatar-name{
+        position: absolute;
+        left: 19px; top: 115px;
+        font-size: 25px;
+      }
+      .btn-unjoin{
+        left: 24px; top: 30px;
+        width: 182px;
+      }
+      .btn-select{
+        right: 62px; top: 188px;
+        width: 110px;
+      }
+    }
+    .joined{
+      display: none;
+      position: relative;
+      height: $game-entry-joiend-height;
+      .users{ left: 281px; top: 148px; }
+      .my-player{ left: 281px; top: 14px; }
+      .tip{
+        position: absolute;
+        left: 281px; top: 29px;
+        font-size: 28px;
+      }
+      .selected-avatar{
+        $avatar-width: 235px;
+        position: absolute;
+        right: 0px; top: -26px;
+        width: $avatar-width; height: 456px;
+
+        &.player-1{ @include texture($avatars-hor1); }
+        &.player-2{ @include texture($avatars-hor2); }
+        &.player-3{ @include texture($avatars-hor3); }
+        &.player-4{ @include texture($avatars-hor4); }
+
+        &.starr{ background-position: -#{0 * $avatar-width} 0px; }
+        &.titanya{ background-position: -#{1 * $avatar-width} 0px; }
+        &.vassern{ background-position: -#{2 * $avatar-width} 0px; }
+        &.gaezar{ background-position: -#{3 * $avatar-width} 0px; }
+        &.sylva{ background-position: -#{4 * $avatar-width} 0px; }
+        &.silee{ background-position: -#{5 * $avatar-width} 0px; }
+        &.raider{ background-position: -#{6 * $avatar-width} 0px; }
+      }
+      .btn-unjoin{
+        left: 281px; top: 95px;
+        width: 220px;
+      }
+      .btn-back{
+        left: 281px; top: 70px;
+        width: 220px;
+      }
+      //restylize the chat
+      .joined-chat{
+        $chat-width: 260px; $chat-height: 330px;
+        left: 5px; top: 60px;
+        .chat-color{
+          background-color: #000000;
+          .handle{
+            background-position: -432px -361px;
+            width: 75px; height: 15px;
+            cursor: auto;
+          }
+        }
+        .view{
+          width: $chat-width; height: $chat-height;
+          background-color: #1A1A1A;
+          .viewport{
+            height: $chat-height - 40px;
+          }
+          .send{
+            padding: 0 3px;
+            width: $chat-width - 10px - 4px;
+            color: white;
+            background-color: black;
+            border: 1px solid #464646;
+          }
+        }
+      }
+    }
+
+    // joined users appended directly in the game entry are hidden
+    & > .joined-user{ display: none; }
+
+    /***********************************************************/
+    // Buttons
+    .btn-join{
+      $text-width: 67px;
+      position: relative;
+      @extend .player-bkg-colors;
+      @include round-box(25px);
+      margin: 0 10px;
+      height: 50px;
+      cursor: pointer;
+      color: #000000;
+      font-size: 20px;
+      span{
+        position: absolute;
+        top: 10px; left: 14px;
+        @include texture($gui-texture);
+        width: $text-width; height: 32px;
+      }
+      &.player-1 span{ background-position: -#{0 * $text-width + 165px} -661px; }
+      &.player-2 span{ background-position: -#{1 * $text-width + 165px} -661px; }
+      &.player-3 span{ background-position: -#{2 * $text-width + 165px} -661px; }
+      &.player-4 span{ background-position: -#{3 * $text-width + 165px} -661px; }
+    }
+    .btn-unjoin, .btn-select, .btn-back{
+      position: absolute;
+      height: 22px;
+      padding-left: 13px;
+      @include round-box(11px);
+      line-height: 24px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .btn-unjoin{
+      background-color: #FF0000;
+      &:hover{ background-color: #ff5300; }
+    }
+    .btn-select{
+      color: #00b000;
+      background-color: black;
+      text-align: center;
+      padding: 0px;
+      @include box-shadow(0px, 0px, 8px, white);
+      &:hover{ background-color: white; }
+    }
+    .btn-back{
+      background-color: #393939;
+      &:hover{ background-color: #696969; }
+    }
+
+  }
+}
+
+/***********************************************************/
+// Avatar selector box
+.avatar-selector{
+  $horizontal-selector-width: 235px;
+  $vertical-selector-width: 243px + 9px; //10px of the scroll bar
+  $selector-width: $horizontal-selector-width + $vertical-selector-width;
+
+  $vertical-stripe-width: 243px;
+  $vertical-stripe-height: 487px;
+
+  position: absolute;
+  right: 0px; top: 0px;
+  width: $selector-width; height: $game-entry-select-height;
+  background-color: #ffffff;
+  @include round-box(50px);
+
+  .vertical-selector{
+    position: absolute;
+    left: 0px; top: 0px;
+    width: $vertical-selector-width; height: $game-entry-select-height;
+    background-color: black;
+    overflow: auto;
+    .stripe{
+      position: relative;
+      width: $vertical-stripe-width; height: $vertical-stripe-height;
+      cursor: pointer;
+      .box{
+        $box-size: 121px;
+        $box-border-size: 10px;
+        $inner-size: $box-size - (2 * $box-border-size);
+        position: absolute;
+        left: 0px; top: 0px;
+        width: $inner-size; height: $inner-size;
+        border: 10px solid #ea632f;
+      }
+    }
+    &.player-1 .stripe{ @include texture($avatars-ver1); }
+    &.player-2 .stripe{ @include texture($avatars-ver2); }
+    &.player-3 .stripe{ @include texture($avatars-ver3); }
+    &.player-4 .stripe{ @include texture($avatars-ver4); }
+    .jspDrag{ // adjust the jsp scroll bar style
+      background-color: white;
+      border: 1pt solid black;
+    }
+  }
+
+  .horizontal-selector{
+    position: absolute;
+    right: 0px; top: -26px;
+    width: $horizontal-selector-width; height: 456px;
+    &.player-1{ @include texture($avatars-hor1); }
+    &.player-2{ @include texture($avatars-hor2); }
+    &.player-3{ @include texture($avatars-hor3); }
+    &.player-4{ @include texture($avatars-hor4); }
+    background-position: 0px 0px;
+
+    .arrow{
+      position: absolute;
+      @include texture($gui-texture);
+      width: 16px; height: 29px;
+      cursor: pointer;
+      &.left{
+        left: 8px; top: 210px;
+        background-position: -582px -337px;
+      }
+      &.right{
+        right: 8px; top: 210px;
+        background-position: -598px -337px;
+      }
+    }
+  }
+}
+
+/***********************************************************/
+// Joined user block
+.joined-user{
+  $fb-image-border: 4px;
+  $circle-size: $fb-img-size - ($fb-image-border * 2);
+  position: relative;
+  width: $joined-user-width; height: $fb-img-size;
+  float: left;
+  .fb-image{
+    position: absolute;
+    left: 0px; top: 0px;
+    width: $circle-size; height: $circle-size;
+    @include round-box(25px);
+    border: $fb-image-border solid;
+    @extend .player-border-colors;
+    background-position: center;
+  }
+  .avatar{
+    $avatar-ico-size: 50px;
+    position: absolute;
+    left: 40px; top: 0px;
+    width: $circle-size; height: $circle-size;
+    @include round-box(25px);
+    border: $fb-image-border solid;
+    @extend .player-border-colors;
+    &.none{ // dimmed border-colors in case of no selection
+      &.player-1{border-color: #2f3f41;}
+      &.player-2{border-color: #1a3e35;}
+      &.player-3{border-color: #473520;}
+      &.player-4{border-color: #3e1a32;}
+    }
+
+    &.player-1{ @include texture($avatars-ico1); }
+    &.player-2{ @include texture($avatars-ico2); }
+    &.player-3{ @include texture($avatars-ico3); }
+    &.player-4{ @include texture($avatars-ico4); }
+
+    $vert-adj-x: 1px; $vert-adj-y: 5px;
+    &.none{ background-position: 0 50px; }
+    &.starr{ background-position: -#{0 * $avatar-ico-size + $vert-adj-x} -#{(0 * $avatar-ico-size) + $vert-adj-y}; }
+    &.titanya{ background-position: -#{1 * $avatar-ico-size + $vert-adj-x} -#{(0 * $avatar-ico-size) + $vert-adj-y}; }
+    &.vassern{ background-position: -#{0 * $avatar-ico-size + $vert-adj-x} -#{(1 * $avatar-ico-size) + $vert-adj-y}; }
+    &.gaezar{ background-position: -#{1 * $avatar-ico-size + $vert-adj-x} -#{(1 * $avatar-ico-size) + $vert-adj-y}; }
+    &.sylva{ background-position: -#{0 * $avatar-ico-size + $vert-adj-x} -#{(2 * $avatar-ico-size) + $vert-adj-y}; }
+    &.silee{ background-position: -#{1 * $avatar-ico-size + $vert-adj-x} -#{(2 * $avatar-ico-size) + $vert-adj-y}; }
+    &.raider{ background-position: -#{0 * $avatar-ico-size + $vert-adj-x} -#{(3 * $avatar-ico-size) + $vert-adj-y}; }
+  }
+  .player{
+    position: absolute;
+    left: 100px; top: 6px;
+    @extend .player-colors;
+    font-size: 22px;
+  }
+  .info{
+    position: absolute;
+    width: 90px;
+    left: 100px; top: 31px;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ready{
+    $ready-size: 50px;
+    position: absolute;
+    right: -$ready-size - 5px; top: 0px;
+    width: $ready-size; height: $ready-size;
+    @include round-box($ready-size / 2);
+    text-align: center;
+    line-height: $ready-size;
+    color: black;
+    font-size: 10px;
+  }
+  &.me .ready{
+    cursor: pointer;
+    background-color: #88edd4;
+    &.go{ background-color: #88eda9; }
+    &:hover{ background-color: #ffffff; }
+    &.wait{ cursor: auto; background-color: #c4c4c4; }
+  }
+  &.other .ready.go{ background-color: #c4c4c4; }
+}

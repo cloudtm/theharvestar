@@ -1,0 +1,119 @@
+/*
+Document   : _build
+Created on : 2-gen-2012, 19.33.01
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+// Buttons dimensions
+$build-station-button-width: 207px;
+$build-station-button-height: 71px;
+$build-outpost-button-width: 207px;
+$build-outpost-button-height: 45px;
+$build-link-button-width: 207px;
+$build-link-button-height: 40px;
+
+.build-buttons{
+  position: absolute;
+
+  .build-button{
+    position: absolute;
+    @include texture($gui-texture);
+    .count{}
+    .bonus{
+      $radius: 26px;
+      display: none;  // hidden by default
+      position: absolute;
+      left: 7px; bottom: 7px;
+      width: $radius - 1; height: $radius;
+      @include round-box($radius / 2);
+      line-height: $radius;
+      text-align: center;
+      background-color: #FF9400;
+      font:{size: 13px; style: normal; weight: bold;}
+      color: black;
+      @include box-shadow(0px, 0px, 2px, #FF9400);
+    }
+    &.disabled .bonus{
+      background-color: #864C00;
+      @include box-shadow(0px, 0px, 8px, #864C00);
+    }
+    &.enabled:hover .bonus, &.active .bonus{
+      background-color: white;
+      @include box-shadow(0px, 0px, 8px, white);
+      //background-color: #FCEA4C;
+      //@include box-shadow(0px, 0px, 8px, #FCEA4C);
+    }
+    &.station{
+      @include image-button($build-station-button-width, $build-station-button-height, 0px, 181px, 0, 1, 1, 2);
+      &.active{ background-position: -#{1 * $build-station-button-width} -181px; }
+    }
+    &.outpost{
+      @include image-button($build-outpost-button-width, $build-outpost-button-height, 0px, 252px, 0, 1, 1, 2);
+      &.active{ background-position: -#{1 * $build-outpost-button-width} -252px; }
+    }
+    &.link{
+      @include image-button($build-link-button-width, $build-link-button-height, 0px, 297px, 0, 1, 1, 2);
+      &.active{ background-position: -#{1 * $build-link-button-width} -297px; }
+    }
+  }
+
+  .build-popup{
+    $resource-width: 32px; $resource-height: 32px;
+    $icon-width: 18px; $icon-height: 18px;
+
+    position: absolute;
+    @include popup(0px, $resource-height, 0px);
+    padding: 4px 5px;
+    @include round-box(36px);
+    border: 2px solid #FF9400;
+
+    .resource{
+      position: relative;
+      @include texture($gui-texture);
+      width: $resource-width; height: $resource-height;
+      margin: 0 3px;
+      float: left;
+      // Resource counter style
+      .count{
+        position: absolute;
+        left: 0px; top: 4px;
+        width: $resource-width; height: $resource-height;
+        line-height: $resource-height;
+        text-align: center;
+        font:{family: $fonts; size: 16px; weight: bold;}
+      }
+      .icon{
+        position: absolute;
+        left: ($resource-width - $icon-width) / 2; top: -3px;
+        @include texture($gui-resources);
+        width: $icon-width; height: $icon-height;
+        }
+      // Resource images
+      &.energy{
+        background-position: -626px -#{0 * $resource-height + 287px};
+        span{ color: $energy-color; }
+        .icon{ background-position: -#{0 * $icon-width + 896px} -35px }
+      }
+      &.titanium{
+        background-position: -626px -#{1 * $resource-height + 287px};
+        span{ color: $titanium-color; }
+        .icon{ background-position: -#{1 * $icon-width + 896px} -35px }
+      }
+      &.water{
+        background-position: -626px -#{2 * $resource-height + 287px};
+        span{ color: $water-color; }
+        .icon{ background-position: -#{2 * $icon-width + 896px} -35px }
+      }
+      &.grain{
+        background-position: -626px -#{3 * $resource-height + 287px};
+        span{ color: $grain-color; }
+        .icon{ background-position: -#{3 * $icon-width + 896px} -35px }
+      }
+      &.silicon{
+        background-position: -626px -#{4 * $resource-height + 287px};
+        span{ color: $silicon-color; }
+        .icon{ background-position: -#{4 * $icon-width + 896px} -35px }
+      }
+    }
+  }
+}

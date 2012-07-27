@@ -1,0 +1,268 @@
+/*
+Document   : _research
+Created on : 4-gen-2012, 12.33.01
+Author     : Marco Zaratti <zaratti@algorithmica.it>
+*/
+
+// Buttons dimensions
+$research-boycot-button-width: 113px;
+$research-boycot-button-height: 36px;
+$research-button-width: 113px;
+$research-button-height: 36px;
+
+.research-buttons{
+  position: absolute;
+
+  .research-button{
+    position: absolute;
+    @include texture($gui-texture);
+    .count{ // number of available boycots
+      $radius: 26px;
+      display: none;  // hidden by default
+      position: absolute;
+      left: 5px; bottom: 5px;
+      width: $radius - 1; height: $radius;
+      @include round-box($radius / 2);
+      line-height: $radius;
+      text-align: center;
+      background-color: white;
+      font:{size: 13px; style: normal; weight: bold;}
+      color: black;
+      @include box-shadow(0px, 0px, 2px, white);
+    }
+    &.disabled .count{ background-color: #9A9A9A; }
+    &.boycot{
+      @include image-button($research-boycot-button-width, $research-boycot-button-height, 0px, 337px, 0, 1, 1, 2);
+      &.active{ background-position: -#{1 * $research-boycot-button-width} -337px; }
+    }
+    &.research{
+      @include image-button($research-button-width, $research-button-height, 0px, 373px, 0, 1, 1, 2);
+      &.active{ background-position: -#{1 * $research-button-width} -373px; }
+    }
+  }
+
+  /* POPUPS **********************************************************************************************************************/
+  .boycot-popup{
+    $popup-height: 26px;
+
+    position: absolute;
+    @include popup(0px, $popup-height, 0px);
+    padding: 4px 5px;
+    @include round-box(36px);
+    line-height: $popup-height;
+    text-align: center;
+    font:{family: $fonts; size: 14px;}
+    border: 2px solid #FF9400;
+  }
+
+  .research-popup{
+    $resource-width: 32px; $resource-height: 32px;
+    $icon-width: 18px; $icon-height: 18px;
+
+    position: absolute;
+    @include popup(0px, $resource-height, 0px);
+    padding: 4px 5px;
+    @include round-box(36px);
+    border: 2px solid #FF9400;
+
+    .resource{
+      position: relative;
+      @include texture($gui-texture);
+      width: $resource-width; height: $resource-height;
+      margin: 0 3px;
+      float: left;
+      // Resource counter style
+      .count{
+        position: absolute;
+        left: 0px; top: 4px;
+        width: $resource-width; height: $resource-height;
+        line-height: $resource-height;
+        text-align: center;
+        font:{family: $fonts; size: 16px; weight: bold;}
+      }
+      .icon{
+        position: absolute;
+        left: ($resource-width - $icon-width) / 2; top: -3px;
+        @include texture($gui-resources);
+        width: $icon-width; height: $icon-height;
+        }
+      // Resource images
+      &.energy{
+        background-position: -626px -#{0 * $resource-height + 287px};
+        span{ color: $energy-color; }
+        .icon{ background-position: -#{0 * $icon-width + 896px} -35px }
+      }
+      &.titanium{
+        background-position: -626px -#{1 * $resource-height + 287px};
+        span{ color: $titanium-color; }
+        .icon{ background-position: -#{1 * $icon-width + 896px} -35px }
+      }
+      &.water{
+        background-position: -626px -#{2 * $resource-height + 287px};
+        span{ color: $water-color; }
+        .icon{ background-position: -#{2 * $icon-width + 896px} -35px }
+      }
+      &.grain{
+        background-position: -626px -#{3 * $resource-height + 287px};
+        span{ color: $grain-color; }
+        .icon{ background-position: -#{3 * $icon-width + 896px} -35px }
+      }
+      &.silicon{
+        background-position: -626px -#{4 * $resource-height + 287px};
+        span{ color: $silicon-color; }
+        .icon{ background-position: -#{4 * $icon-width + 896px} -35px }
+      }
+    }
+  }
+}
+/* DIALOGS **********************************************************************************************************************/
+// Research result
+$research-dialog-width: 348px;
+$research-dialog-height: 222px;
+$research-dialog-ok-width: 83px;
+$research-dialog-ok-height: 24px;
+$research-dialog-content-top: 137px;
+.research-dialog{
+  @extend .dialog;
+  position: absolute;
+
+  .content{
+    display: none;
+    position: relative;
+    padding-top: $research-dialog-content-top;
+    width: $research-dialog-width; height: $research-dialog-height - $research-dialog-content-top;
+    text-align: center;
+    font:{ family: $fonts; size: 16px; style: italic; }
+    span{
+      font:{ size: 18px; weight: bold; }
+      .count{ color: #4EE4A6; font-size: 20px; }
+    }
+  }
+  .type{
+    $dot-width: 46px; $dot-height: 46px;
+    position: absolute;
+    left: ($research-dialog-width - $dot-width) / 2; top: 79px;
+    width: $dot-width; height: $dot-height;
+    background-color: white;
+    @include round-box(50%);
+    span{
+      position: absolute;
+      @include texture($gui-texture);
+      &.transport{
+        $width: 35px; $height: 52px;
+        width: $width; height: $height;
+        left: ($dot-width - $width) /2; top: ($dot-height - $height) /2;
+        background-position: -436px -68px;
+      }
+      &.social{
+        $width: 31px; $height: 30px;
+        width: $width; height: $height;
+        left: ($dot-width - $width - 1) /2; top: ($dot-height - $height) /2;
+        background-position: -600px 0px;
+      }
+      &.recycle{
+        $width: 28px; $height: 28px;
+        width: $width; height: $height;
+        left: ($dot-width - $width) /2; top: ($dot-height - $height) /2;
+        background-position: -631px 0px;
+      }
+      &.cultural{
+        $width: 26px; $height: 35px;
+        width: $width; height: $height;
+        left: ($dot-width - $width) /2; top: ($dot-height - $height) /2;
+        background-position: -600px -30px;
+      }
+    }
+  }
+  .icon{
+    position: absolute;
+    left: 13px; top: 22px;
+    width: 31px; height: 32px;
+    @include texture($gui-texture);
+    background-position: -626px -30px;
+  }
+  .title{
+    position: absolute;
+    left: 54px; top: 21px;
+    font:{ family: $fonts; size: 16px; style: italic; }
+  }
+  // --- BUTTONS -------------------------------------------------------------
+  .ok{
+    position: absolute;
+    left: ($research-dialog-width - $research-dialog-ok-width) / 2; bottom: 10px;
+    @include texture($gui-texture);
+    @include image-button($research-dialog-ok-width, $research-dialog-ok-height, 391px, 126px, 0, 1, 1, 0);
+  }
+}
+
+/*****************************************************************************/
+// Recycle exchange
+.recycle-dialog{
+  @extend .dialog;
+  position: absolute;
+
+  $recycle-dialog-width: 348px;
+  $recycle-dialog-height: 356px;
+  $research-dialog-cancel-width: 83px;
+  $research-dialog-cancel-height: 24px;
+  .content{
+    width: $recycle-dialog-width; height: $recycle-dialog-height;
+    .tip{
+      position: absolute;
+      left: 54px; top: 40px;
+      font:{ family: $fonts; size: 12px; }
+    }
+    .recycled{
+      $circle-size: 86px;
+      position: absolute;
+      left: 54px; top: 90px;
+      width: $circle-size; height: $circle-size;
+      @include round-box(50%);
+      border: 5px solid #00EC00;
+      span{
+        position: absolute;
+        left: 0px; top: 0px;
+        width: $circle-size; height: $circle-size;
+        line-height: $circle-size;
+        text-align: center;
+        color: #00EC00;
+        font:{ family: $fonts; size: 46px; weight: bold; }
+      }
+    }
+  }
+  .resource-selector{ position: absolute; }
+  .icon{
+    position: absolute;
+    left: 13px; top: 22px;
+    width: 28px; height: 28px;
+    @include texture($gui-texture);
+    background-position: -631px 0px;
+  }
+  .title{
+    position: absolute;
+    left: 54px; top: 21px;
+    color: #00EC00;
+    font:{ family: $fonts; size: 16px; style: italic; }
+  }
+  // --- BUTTONS -------------------------------------------------------------
+  .reset{
+    position: absolute;
+    left: 161px; top: 123px;
+    color: #00EC00;
+    font:{family: $fonts; size: 18px; style: italic;}
+    cursor: pointer;
+    &:hover{ color: white; }
+  }
+  .ok{
+    position: absolute;
+    left: ($research-dialog-width - $research-dialog-ok-width) / 2 - 50px; bottom: 10px;
+    @include texture($gui-texture);
+    @include image-button($research-dialog-ok-width, $research-dialog-ok-height, 391px, 126px, 0, 1, 1, 2);
+  }
+  .cancel{
+    position: absolute;
+    left: ($research-dialog-width - $research-dialog-cancel-width) / 2 + 50px; bottom: 10px;
+    @include texture($gui-texture);
+    @include image-button($research-dialog-ok-width, $research-dialog-ok-height, 432px, 385px, 0, 1, 1, 0);
+  }
+}
