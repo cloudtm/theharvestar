@@ -59,6 +59,9 @@ module Theharvestar
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    # Include more assets compilation (default only application js and css get compiled)
+    config.assets.precompile += %w(play.js play.css)
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
   end
