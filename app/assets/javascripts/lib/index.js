@@ -11,8 +11,8 @@
 
 //= require ./rails
 //= require ./modernizr
-//  require ./soundmanager2-nodebug-jsmin
-//= require ./soundmanager2-jsmin
+//= require ./soundmanager2-nodebug-jsmin
+//  require ./soundmanager2-jsmin
 //= require ./Math.uuid
 //= require ./socky
 
