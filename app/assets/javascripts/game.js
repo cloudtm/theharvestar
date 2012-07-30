@@ -17,7 +17,7 @@
 //= require_self
 
 function initialize(sensingPercept){
-    /* SoundManager initialization. Must be here, that is before either
+  /* SoundManager initialization. Must be here, that is before either
    * onDOMContentLoaded() or window.onload() fire. */
   soundManager.url = '/swfs/';
   soundManager.flashVersion = 9; // optional: shiny features (default = 8)
