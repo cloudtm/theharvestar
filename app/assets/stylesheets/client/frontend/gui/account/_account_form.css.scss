@@ -160,7 +160,7 @@ $hiscores-entry-width: 746px;
       $loader-size: 100px;
       position: absolute;
       left: ($area-w - $loader-size) / 2; top: ($area-h - $loader-size) / 2;
-      background: url("/images/client/loading-black.gif");
+      background: image-url('client/loading-black.gif');
       width: 100px; height: 100px;
     }
   }

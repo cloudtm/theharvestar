@@ -17,7 +17,7 @@ $link-ver-height: $link-hor-height;
 $link-rot-width: 59px;
 $link-rot-height: 14px;
 
-$hover-cursor: image-url('client/build_now.png"), pointer;
+$hover-cursor: image-url('client/build_now.png'), pointer;
 $build-cursor: $hover-cursor;
 
 @mixin infrastructure($type, $player: 0, $posX: 0px, $posY: 0px){

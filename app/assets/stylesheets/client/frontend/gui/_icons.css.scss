@@ -1,4 +1,4 @@
-$icons-texture: url(/images/client/icons.png);
+$icons-texture: image-url('client/icons.png');
 
 .sprite{
   @include texture($icons-texture);
