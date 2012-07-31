@@ -40,8 +40,11 @@ gem "aws-ses", "~> 0.4.4", :require => 'aws/ses'
 gem 'will_paginate'
 gem 'paperclip', "~> 2.3"
 
-gem 'activerecord-jdbcsqlite3-adapter'
-gem "jdbc-sqlite3"
+#gem 'activerecord-jdbcsqlite3-adapter'
+#gem "jdbc-sqlite3"
+gem "jdbc-mysql"
+gem 'activerecord-jdbcmysql-adapter'
+gem "activerecord-jdbc-adapter"
 
 # Gems for all environments except torquebox
 group :development, :test do
@@ -62,7 +65,7 @@ gem "ZenTest"
 # Jruby + Torquebox specific gems
 group :torquebox, :production do
   #gem "activerecord-jdbcmysql-adapter", :require => "jdbc_adapter"
-  gem "activerecord-jdbc-adapter"
+  #gem "activerecord-jdbc-adapter"
   #gem 'activerecord-jdbcmysql-adapter'
   #gem "jdbc-mysql"
   gem 'jruby-openssl', :platform => :jruby
