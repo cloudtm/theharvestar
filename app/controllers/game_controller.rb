@@ -29,7 +29,6 @@ class GameController < ApplicationController
  
  rescue Madmass::Errors::StateMismatchError
     # redirect_to :action => current_user.state
- 
  end
 
 end
