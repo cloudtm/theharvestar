@@ -3,7 +3,7 @@ Theharvestar::Application.routes.draw do
 
   devise_for :users, :skip => [:sessions]
     as :user do
-      get '/' => 'devise/sessions#new', :as => :new_user_session
+      get 'signup' => 'devise/sessions#new', :as => :new_user_session
       post 'signin' => 'devise/sessions#create', :as => :user_session
       get 'signout' => 'devise/sessions#destroy', :as => :destroy_user_session
   end
@@ -14,8 +14,8 @@ Theharvestar::Application.routes.draw do
 
   post "pusher/auth"
 
-  root :to => "devise/sessions#new"
-  #root :to => "game#index"
+  #root :to => "devise/sessions#new"
+  root :to => "game#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
