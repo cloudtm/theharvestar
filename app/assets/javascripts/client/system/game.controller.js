@@ -236,7 +236,7 @@ Game.GameController = new Class.Singleton({
       $send($msg.update.joinGame, game);
     });
 
-    //$send($msg.audio.music, $music.list);
+    $send($msg.audio.music, $music.list);
     $send($msg.info.listStart);
   },
 
