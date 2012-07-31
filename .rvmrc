@@ -1,5 +1,0 @@
-rvm use jruby@torquebox
-export TORQUEBOX_HOME=/Users/marco/.rvm/gems/jruby-1.6.7.2@torquebox/gems/torquebox-server-2.0.3-java
-export JBOSS_HOME=/Users/marco/.rvm/gems/jruby-1.6.7.2@torquebox/gems/torquebox-server-2.0.3-java/jboss
-export JRUBY_HOME=/Users/marco/.rvm/rubies/jruby-1.6.7.2
-

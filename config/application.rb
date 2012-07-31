@@ -60,6 +60,7 @@ module Theharvestar
 
     # Enable the asset pipeline
     config.assets.enabled = true
+    config.assets.paths << Rails.root.join('app', 'assets', 'flash')
 
     # Include more assets compilation (default only application js and css get compiled)
     config.assets.precompile += %w(game.js game.css)

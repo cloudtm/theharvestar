@@ -8,47 +8,47 @@ Game.Sounds = {}
 // Fx are one shot audio samples
 Game.Sounds.Fx = {
   gui:{
-    buttonClick: {url: "/audio/fx/gui/click.mp3", volume: 70, autoLoad: true},
-    link: {url: "/audio/fx/link.mp3", volume: 60, autoLoad: true},
-    outpost: {url: "/audio/fx/outpost.mp3", volume: 90, autoLoad: true},
-    station: {url: "/audio/fx/station.mp3", volume: 35, autoLoad: true},
-    select : {url: "/audio/fx/gui/select.mp3", volume: 35, autoLoad: true},
-    recycle : {url: "/audio/fx/gui/recycle.mp3", volume: 60, autoLoad: true}
+    buttonClick: {url: "/assets/fx/gui/click.mp3", volume: 70, autoLoad: true},
+    link: {url: "/assets/fx/link.mp3", volume: 60, autoLoad: true},
+    outpost: {url: "/assets/fx/outpost.mp3", volume: 90, autoLoad: true},
+    station: {url: "/assets/fx/station.mp3", volume: 35, autoLoad: true},
+    select : {url: "/assets/fx/gui/select.mp3", volume: 35, autoLoad: true},
+    recycle : {url: "/assets/fx/gui/recycle.mp3", volume: 60, autoLoad: true}
   },
   map:{
-    field: {url: "/audio/fx/map/frutta.mp3", volume: 50, autoLoad: true},
-    lake: {url: "/audio/fx/map/goccia.mp3", volume: 100, autoLoad: true},
-    cyclon: {url: "/audio/fx/map/lava.mp3", volume: 100, autoLoad: true},
-    volcano: {url: "/audio/fx/map/silicio.mp3", volume: 50, autoLoad: true},
-    mountain: {url: "/audio/fx/map/titanio.mp3", volume: 70, autoLoad: true},
-    raidersMove: {url: "/audio/fx/map/pirates.mp3", volume: 100, autoLoad: true}
+    field: {url: "/assets/fx/map/frutta.mp3", volume: 50, autoLoad: true},
+    lake: {url: "/assets/fx/map/goccia.mp3", volume: 100, autoLoad: true},
+    cyclon: {url: "/assets/fx/map/lava.mp3", volume: 100, autoLoad: true},
+    volcano: {url: "/assets/fx/map/silicio.mp3", volume: 50, autoLoad: true},
+    mountain: {url: "/assets/fx/map/titanio.mp3", volume: 70, autoLoad: true},
+    raidersMove: {url: "/assets/fx/map/pirates.mp3", volume: 100, autoLoad: true}
   },
   chat:{
-    newMessage: {url: "/audio/fx/gui/chat_beep.mp3", volume: 60, autoLoad: true}
+    newMessage: {url: "/assets/fx/gui/chat_beep.mp3", volume: 60, autoLoad: true}
   },
   info:{
-    newOffer: {url: "/audio/fx/trade_offer.mp3", volume: 60, autoLoad: true},
-    robber:{url: "/audio/fx/robber.mp3", volume: 100, autoLoad: true},
-    scoreUp:{url: "/audio/fx/point_gain.mp3", volume: 50, autoLoad: true},
-    scoreDown:{url: "/audio/fx/point_lose.mp3", volume: 100, autoLoad: true},
-    win:{url: "/audio/fx/win.mp3", volume: 80, autoLoad: true}
+    newOffer: {url: "/assets/fx/trade_offer.mp3", volume: 60, autoLoad: true},
+    robber:{url: "/assets/fx/robber.mp3", volume: 100, autoLoad: true},
+    scoreUp:{url: "/assets/fx/point_gain.mp3", volume: 50, autoLoad: true},
+    scoreDown:{url: "/assets/fx/point_lose.mp3", volume: 100, autoLoad: true},
+    win:{url: "/assets/fx/win.mp3", volume: 80, autoLoad: true}
   },
   popup:{
-    alert: {url: "/audio/fx/error.mp3", volume: 100, autoLoad: true},
-    info: {url: "/audio/fx/error.mp3", volume: 100, autoLoad: true},
-    tip: {url: "/audio/fx/beep3.mp3 ", volume: 100, autoLoad: true},
-    market: {url: "/audio/fx/coins.mp3", volume: 100, autoLoad: true},
+    alert: {url: "/assets/fx/error.mp3", volume: 100, autoLoad: true},
+    info: {url: "/assets/fx/error.mp3", volume: 100, autoLoad: true},
+    tip: {url: "/assets/fx/beep3.mp3 ", volume: 100, autoLoad: true},
+    market: {url: "/assets/fx/coins.mp3", volume: 100, autoLoad: true},
   },
   income:{
-    low: {url: "/audio/fx/coin.mp3", volume: 100, autoLoad: true},
-    high: {url: "/audio/fx/coins.mp3", volume: 100, autoLoad: true}
+    low: {url: "/assets/fx/coin.mp3", volume: 100, autoLoad: true},
+    high: {url: "/assets/fx/coins.mp3", volume: 100, autoLoad: true}
   }
 };
 // Music should define one or more playlists. To be defined...
 Game.Sounds.Music = {
-  play: {url: "/audio/music/ambience1b.mp3", volume: 100, autoLoad: true, autoPlay: true, stream: true},
-  list: {url: "/audio/music/titleA_4.mp3", volume: 100, autoLoad: true, autoPlay: true, stream: true},
-  hiscores: {url: "/audio/music/titleA_2b_orch.mp3", volume: 100, autoLoad: true, autoPlay: true, stream: true}
+  play: {url: "/assets/music/ambience1b.mp3", volume: 100, autoLoad: true, autoPlay: true, stream: true},
+  hiscores: {url: "/assets/music/titleA_2b_orch.mp3", volume: 100, autoLoad: true, autoPlay: true, stream: true},
+  list: {url: "/assets/music/titleA_4.mp3", volume: 100, autoLoad: true, autoPlay: true, stream: true}
 }
 
 $fx = Game.Sounds.Fx;

@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <meta property="og:title" content="The Harvestar"/>
+  <meta property="og:type" content="game"/>
+  <meta property="og:url" content="http://www.theharvestar.com/"/>
+  <meta property="og:image" content="http://theharvestar.com/assets/client/fb_share.png"/>
+  <meta property="og:description" content="The next generation HTML5 realtime strategy game."/>
+
   <title>Theharvestar</title>
-  <%= stylesheet_link_tag "game", :media => "all" %>
-  <%= javascript_include_tag "game", "http://js.pusher.com/1.12/pusher.min.js" %>
+  <%= stylesheet_link_tag 'game', :media => 'all' %>
+  <%= javascript_include_tag 'game',
+      'http://js.pusher.com/1.12/pusher.min.js',
+      'http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'
+  %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -34,18 +44,6 @@ containing many containers to be shown at different game states.  -->
 <%= render 'templates' %>
 
 <script type="text/javascript">
-  Game.config = {
-    env:'<%= Rails.env %>',
-    wssServer: <%= Socky.random_host.to_json.html_safe %>,
-    pusherKey:'<%= Pusher.key.html_safe %>',
-    debugging:(function() {
-      <% if Rails.env.development? and params[:debug] != 'false' %>
-      return {debug:true, log:true};
-      <% else %>
-      return {debug:false, log:false};
-      <% end %>
-    })()
-  };
   initialize(<%= @sensing.to_json.html_safe %>);
 </script>
 

@@ -6,13 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 
-//= require ./jquery_plugins
-//= require ./mootools
-
 //= require ./rails
+//= require ./jquery_ui
 //= require ./modernizr
-//= require ./soundmanager2-nodebug-jsmin
-//  require ./soundmanager2-jsmin
+//= require ./mootools
+//= require ./soundmanager2/soundmanager2-nodebug
+//= require ./jquery_plugins
 //= require ./Math.uuid
 //= require ./socky
-

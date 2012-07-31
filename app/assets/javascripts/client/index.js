@@ -100,3 +100,6 @@
 //= require ./game.config
 //= require ./game.helpers
 //= require ./game.main
+
+/************** Now initialization code *******************/
+//= require ./initialization

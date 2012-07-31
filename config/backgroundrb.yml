@@ -1,0 +1,13 @@
+--- 
+:backgroundrb: 
+  :ip: 0.0.0.0
+  :port: 11006
+  :environment: development
+# You specify your worker schedules here
+:schedules:
+  :production_worker:
+    :produce:
+      :trigger_args:
+        :start: <%= Time.now + 5.seconds %>
+        :end: <%= Time.now + 1000.minutes %>
+        :repeat_interval: <%= 5.seconds %>
