@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120725093336) do
+ActiveRecord::Schema.define(:version => 20120731152225) do
 
   create_table "agents", :force => true do |t|
     t.string   "status"
@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(:version => 20120725093336) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                  :default => "",              :null => false
+    t.string   "encrypted_password",     :default => "",              :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -29,9 +29,28 @@ ActiveRecord::Schema.define(:version => 20120725093336) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
     t.integer  "agent_id"
+    t.string   "last_name"
+    t.string   "first_name"
+    t.string   "nickname"
+    t.string   "gender"
+    t.integer  "score",                  :default => 0
+    t.string   "state",                  :default => "list"
+    t.string   "picture_file_name"
+    t.string   "picture_content_type"
+    t.integer  "picture_file_size"
+    t.datetime "picture_updated_at"
+    t.string   "language"
+    t.date     "birthday"
+    t.string   "country"
+    t.text     "settings"
+    t.string   "role",                   :default => "simple player"
+    t.string   "preview_file_name"
+    t.string   "preview_content_type"
+    t.integer  "preview_file_size"
+    t.datetime "preview_updated_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
