@@ -117,7 +117,7 @@ Game.SoundSystem = new Class.Singleton({
     /* Preloads all the fx sounds */
     soundManager.onready(function(){
       this.effects.each(function(effect){
-        effect.sound = soundManager.createSound(effect);
+        soundManager.createSound($H(effect));
         $log("Added sound: " + effect.url);
       });
     }, this);
@@ -148,7 +148,7 @@ Game.SoundSystem = new Class.Singleton({
     
     if(this.currentMusic){
       // If we want to play the same music currently playing, ignore the request:
-      if(music.id == this.currentMusic.source.id && this.currentMusic.playState == 1){ return; }
+      if(music.id == this.currentMusic.id && this.currentMusic.playState == 1){ return; }
       this.currentMusic.stop();
     }
     
@@ -157,7 +157,7 @@ Game.SoundSystem = new Class.Singleton({
       if(sound){
         $log("Playing music: " + JSON.stringify(music));
         this.currentMusic = sound;
-        this.currentMusic.source = music;
+        this.currentMusic.opt = music;
         if(this.musicMix > 0){ loopMusic(); }
         this.currentMusic.setVolume(music.volume * this.musicMix);
       }
@@ -167,9 +167,9 @@ Game.SoundSystem = new Class.Singleton({
         music.onfinish = loopMusic;
         $log("Loading and playing music: " + JSON.stringify(music));
         if(this.musicMix <= 0){ music.autoPlay = false; }
-        this.currentMusic = soundManager.createSound(music);
-        this.currentMusic.source = music;
+        this.currentMusic = soundManager.createSound($H(music));
         this.currentMusic.setVolume(music.volume * this.musicMix);
+        this.currentMusic.opt = music;
       }, this);
     }
     return true;
@@ -192,8 +192,9 @@ Game.SoundSystem = new Class.Singleton({
       this.fxMix = this.fxVolume / 100;
       // Adjust volume of playing effects
       this.effects.each(function(effect){
-        if(effect.sound.playState == 1){
-          effect.sound.setVolume(effect.volume * this.fxMix);
+        var fx = soundManager.getSoundById(effect.id);
+        if(fx.playState == 1){
+          fx.setVolume(effect.volume * this.fxMix);
         }
       }, this);
     }
@@ -203,7 +204,7 @@ Game.SoundSystem = new Class.Singleton({
       this.musicMix = this.musicVolume / 100;
       if(this.currentMusic){
         this.musicMix <= 0 ? this.currentMusic.pause() : (this.currentMusic.playState ? this.currentMusic.resume() : this.currentMusic.play());
-        this.currentMusic.setVolume(this.currentMusic.source.volume * this.musicMix);
+        this.currentMusic.setVolume(this.currentMusic.opt.volume * this.musicMix);
       }
     }
     return true;
