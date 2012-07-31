@@ -1,0 +1,37 @@
+
+<%  if @user_enabled_for_beta %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :multipart => true) do |f| %>
+  <p class="<%= class_for(resource, :email) %>">
+    <%= error_message(resource, 'email') %>
+    <%= f.email_field :email, :placeholder => t(:email) %>
+  </p>
+  <p class="<%= class_for(resource, :nickname) %>">
+    <%= error_message(resource, 'nickname') %>
+    <%= f.text_field :nickname, :placeholder => t(:nickname) %>
+  </p>
+  <p class="<%= class_for(resource, :password) %>">
+    <%= error_message(resource, "password") %>
+    <%= f.password_field :password, :placeholder => t(:password) %>
+  </p>
+  <p class="<%= class_for(resource, :password_confirmation) %>">
+    <%= error_message(resource, 'password_confirmation') %>
+    <%= f.password_field :password_confirmation, :placeholder => t(:password_confirmation)  %>
+  </p>
+  <span id="terms-and-privacy">
+    <input type=checkbox name="terms" id="terms-checkbox"/><span> I agree with <a href="javascript:void(0);" id="agree-terms">Terms</a></span>
+    <input type=checkbox name="privacy" id="privacy-checkbox"/><span>I agree with <a href="javascript:void(0);" id="agree-privacy">Privacy</a></span>
+  </span>
+  <div id="signup-submit" class="disabled btn-signup">
+    <div class="text"><%= t(:sign_up) %></div>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+  $(document).ready(signupActions);
+</script>
+
+
+<% else %>
+ <%= render :partial => 'devise/registrations/new_registration_is_coming_soon' %>
+<% end %>

@@ -1,0 +1,41 @@
+<div class="footer">
+  <div class="algorithmica">
+    <%= link_to(
+          image_tag('client/algorithmica.png', :alt => 'Algorithmica'),
+          'http://www.algorithmica.it',
+          :target => '_blank',
+          :border => 0
+        ) %>
+  </div>
+
+
+  <div class="info">
+
+    <div id="terms" class="info_item">
+      <%= link_to "terms", "javascript:void(0);" %>
+    </div>
+    <div id="privacy" class="info_item">
+      <%= link_to "privacy", "javascript:void(0);" %>
+    </div>
+    <div id="about" class="info_item">
+      <%= link_to "about", "javascript:void(0);" %>
+    </div>
+
+    <div class="info_item"><a href="http://algorithmica.it/customer_requests">work with us</a></div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(
+    function() {
+      $('#terms, #privacy, #about').find('a').each(
+        function() {
+          $(this).click(function() {
+            //console.log($(this).parent().parent().attr("id") + '-content');
+            showPopUp($(this).parent().attr("id") + '-content');
+          });
+        })
+    });
+
+</script>

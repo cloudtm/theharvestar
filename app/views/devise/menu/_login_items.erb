@@ -1,0 +1,14 @@
+<% if user_signed_in? %>
+
+  <li>
+    <% if current_user.facebookid %>
+      <%= link_to image_tag(current_user.picture.url(:small)), current_user.link, {:target => '_blank'} %>
+      <b><%= link_to h(current_user.nickname), current_user.link, {:target => '_blank'} %></b>
+    <% else %>
+      <%= image_tag current_user.picture.url(:small) %>
+      <b><%=  h current_user.nickname %></b>
+    <% end %>
+    <!-- (locale <%= current_user.locale %> ) -->
+  </li>
+
+<% end %>

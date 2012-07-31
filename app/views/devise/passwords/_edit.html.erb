@@ -1,0 +1,26 @@
+<div class="sign-in-logo"></div>
+
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+  <%#= devise_error_messages! %>
+  <%= f.hidden_field :reset_password_token %>
+
+  <p class="<%= class_for(resource, :password) %>" >
+    <%= error_message(resource, :password) %>
+    <%= f.password_field :password, :placeholder => t(:password) %>
+  </p>
+
+  <p class="<%= class_for(resource, :password_confirmation) %>" >
+    <%= error_message(resource, :password_confirmation) %>
+    <%= f.password_field :password_confirmation, :placeholder => t(:password_confirmation) %>
+  </p>
+
+  <div id="password-edit-submit" class="enabled btn-password-edit">
+    <div class="text">change</div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $('#password-edit-submit').click(function() {
+      $(this).parent('form').submit();
+    });
+</script>

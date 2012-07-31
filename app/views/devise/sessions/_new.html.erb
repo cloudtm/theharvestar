@@ -1,0 +1,161 @@
+<div class="fb-like"
+     data-href="http://www.facebook.com/theharvestar"
+     data-send="false"
+     data-layout="button_count"
+     data-width="120"
+     data-show-faces="false">
+</div>
+
+<div id="sm2-container" class="flashobject">
+  <!-- sm2 flash goes here -->
+</div>
+
+<div class="ui360">
+  <a href="/assets/music/titleA_4.mp3"></a>
+</div>
+
+<div id="play-now" class="enabled btn-play">
+   <div class="text">play now!</div>
+</div>
+
+<%= render 'share/footer' %>
+
+<%
+   # show the right content in the popup depending on current controller and action
+   @content_to_show = if(controller_name == 'registrations' and action_name == "create")
+     "registration-form"
+   elsif(controller_name == "sessions" and action_name == "new")
+     # check the resource (the user model instance) because is the same route of homepage
+     if not flash[:alert].blank?
+       "session-form"
+     elsif not flash[:notice].blank? and not flash[:notice]== t(:"devise.sessions.signed_out")
+       "password-form"
+     else
+       ""
+     end
+   elsif(controller_name == "passwords" and action_name == "create")
+     "password-form"
+   elsif(controller_name == "passwords" and (action_name == "edit" or action_name == 'update'))
+     "password-edit"
+   end
+%>
+
+<div id="login-content">
+  <div class="pop-up-cover"></div>
+
+  <div class="pop-up-window">
+    <span class="navigation-bar">
+       <div id="close-icon" class="close-back-popup-icon active"></div>
+    </span>
+    <%= render :partial => 'devise/sessions/auth_content' %>
+    <!--span class="pop-up-button-container">
+     <div class="back-popup-button enabled">
+      <div class="text">back</div>
+     </div>
+     <div class="close-popup-button enabled">
+       <div class="text">close</div>
+     </div>
+    </span-->
+  </div>
+  
+  <div class="big-pop-up-window">
+    <span class="navigation-bar">
+      <div id="back-icon"  class="close-back-popup-icon inactive"></div>
+      <div  id="big-close-icon" class="close-back-popup-icon active"></div>
+    </span>
+    <%= render :partial => 'share/privacy' %>
+    <%= render :partial => 'share/terms' %>
+    <%= render :partial => 'share/about' %>
+    
+    <!--span class="pop-up-button-container">
+     <div class="back-popup-button enabled">
+       <div class="text">back</div>
+     </div>
+     <div class="close-popup-button enabled">
+       <div class="text">close</div>
+     </div>
+    </span-->
+    
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#play-now').click(function() {
+      showPopUp('session-form');
+      $("#user_email").focus();
+    });
+    //OLD//
+    $('.close-popup-button').click(function() {
+      $('#login-content').removeClass('active');
+    });
+    //NEW//
+    $('#close-icon, #big-close-icon').click(function() {
+      $('#login-content').removeClass('active');
+    });
+
+    $('#back-icon').click(function() {
+      showPopUp('registration-form');
+      $(this).removeClass('active');
+      $(this).addClass('inactive');
+      $('#big-close-icon').addClass('active');
+      $('#big-close-icon').removeClass('inactive');
+    });
+
+    showPopUp('<%= @content_to_show %>');
+  });
+
+  // Adds placeholders support for IE
+  if(!$.support.placeholder) {
+    $('[placeholder]').focus(function() {
+      var input = $(this);
+      if (input.val() == input.attr('placeholder')) {
+        input.val('');
+        input.removeClass('placeholder');
+      }
+    }).blur(function() {
+      var input = $(this);
+      if (input.val() == '' || input.val() == input.attr('placeholder')) {
+        input.addClass('placeholder');
+        input.val(input.attr('placeholder'));
+      }
+    }).blur().parents('form').submit(function() {
+      $(this).find('[placeholder]').each(function() {
+        var input = $(this);
+        if (input.val() == input.attr('placeholder')) {
+          input.val('');
+        }
+      })
+    });
+ 	}
+
+  // Starts music
+  var musicParams = {
+    id:"comingsoon",
+    url:"/audio/music/titleA_4.mp3",
+    volume:100,
+    autoLoad:true,
+    stream:true,
+    autoPlay:true,
+    onfinish:loopMusic
+  };
+
+  /*
+   soundManager.onready(function(){
+   music = soundManager.createSound(musicParams);
+   music.setVolume(musicParams.volume);
+   });
+   */
+
+  function loopMusic() {
+    music.play({
+      onfinish:loopMusic
+    });
+  }
+</script>
+
+
+
+

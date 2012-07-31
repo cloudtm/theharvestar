@@ -1,13 +1,21 @@
 Theharvestar::Application.routes.draw do
   match 'game', :to => 'game#execute', :via => [:post]
 
-  devise_for :users
+  devise_for :users, :skip => [:sessions]
+    as :user do
+      get '/' => 'devise/sessions#new', :as => :new_user_session
+      post 'signin' => 'devise/sessions#create', :as => :user_session
+      get 'signout' => 'devise/sessions#destroy', :as => :destroy_user_session
+  end
 
   mount Madmass::Engine => '/madmass', :as => 'madmass_engine'
 
+  match "game" => "game#index"  # TODO delete me!
+
   post "pusher/auth"
 
-  root :to => 'game#index'
+  root :to => "devise/sessions#new"
+  #root :to => "game#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

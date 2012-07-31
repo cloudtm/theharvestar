@@ -1,0 +1,18 @@
+## Facebook id and key
+---
+development:
+  app_id: 204017036276488
+  secret_key: bb64faede7d3585a81f6e37de5da952a
+  callback_url: http://oludap.com
+test:
+  app_id: 204017036276488
+  secret_key: bb64faede7d3585a81f6e37de5da952a
+  callback_url: http://oludap.com
+production:
+  app_id: 204017036276488
+  secret_key: bb64faede7d3585a81f6e37de5da952a
+  callback_url: http://oludap.com
+torquebox:
+  app_id: 204017036276488
+  secret_key: bb64faede7d3585a81f6e37de5da952a
+  callback_url: http://oludap.com

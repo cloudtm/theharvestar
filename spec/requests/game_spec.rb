@@ -4,6 +4,7 @@ describe "Game" do
   before do
     #authenticate user
     user = User.create!(:email => "email@email.com",
+                        :nickname => "testuser",
                         :password => "password",
                         :password_confirmation => "password")
     post_via_redirect user_session_path, 'user[email]' => user.email, 'user[password]' => user.password

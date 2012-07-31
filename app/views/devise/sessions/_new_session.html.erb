@@ -1,0 +1,52 @@
+<div id="sign-in-content">
+  <div class="sign-in-logo"></div>
+  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+    <p class="<%= class_for(resource, :email) %>">
+      <%= login_error_message %>
+      <%= f.email_field :email, :placeholder => "Email Address" %>
+    </p>
+
+    <p class="<%= class_for(resource, :password) %>">
+      <%= f.password_field :password, :placeholder => "Password" %>
+    </p>
+
+    <div class="sign-up-password">
+      <a href="javascript:void(0);" class="switch-sign-up devise-link" ><%= t(:sign_up) %></a>
+      <a href="javascript:void(0);" class="switch-password devise-link"><%= t(:forgot_your_password)+t(:question_mark) %></a>
+    </div>
+    
+    <div id="signin-submit" class="enabled btn-signin">
+      <div class="text"><%= t(:sign_in) %></div>
+    </div>
+  <% end %>
+  
+
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+   $("#user_email").keypress(function(event) {
+      if ( event.which == 13 ){
+        //console.info("enter pressed");
+        event.preventDefault();
+        $("#user_password").focus();
+      }
+     });
+    $("#user_password").keypress(function(event) {
+      if ( event.which == 13 ){
+        //console.info("enter pressed");
+        event.preventDefault();
+        $('#user_new').submit();
+      }
+     }); 
+
+     $('#signin-submit').click(function() {
+      $(this).parent('form').submit();
+    });
+ });
+
+
+
+    
+</script>

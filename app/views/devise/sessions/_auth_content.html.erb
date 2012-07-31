@@ -1,0 +1,34 @@
+<% reg_form_classes = @content_to_show == "registration-form" ? 'devise-panel' : 'devise-panel reg-no-errors'  %>
+<div id="session-form" class="devise-panel">
+  <%= render :partial => "devise/sessions/new_session" %>
+</div>
+<div id="registration-form" class="<%= reg_form_classes %>" >
+  <%= render :partial => "devise/registrations/new_registration" %>
+</div>
+<div id="password-form" class="devise-panel">
+  <%= render :partial => "devise/passwords/new_password" %>
+</div>
+<div id="password-edit" class="devise-panel">
+  <%= render :partial => "devise/passwords/edit" %>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.switch-sign-up').each(function() {
+      $(this).click(function(){
+        showPopUp('registration-form');
+      });
+    });
+    $('.switch-password').each(function() {
+      $(this).click(function(){
+        showPopUp('password-form');
+      });
+    });
+    $('.switch-sign-in').each(function() {
+      $(this).click(function(){
+        showPopUp('session-form');
+        $("#user_email").focus();
+      });
+    });
+  });
+</script>
