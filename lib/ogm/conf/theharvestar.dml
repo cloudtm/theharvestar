@@ -1,0 +1,35 @@
+package it.algo.theharvestar.domain;
+
+
+// valueType java.math.BigDecimal as Decimal {
+//     externalizeWith {
+//         String toString();
+//     }
+// }
+
+
+class Game {
+  String state;
+  String name;
+  String format;
+  Integer version;
+  Integer socialCount;
+  Integer transportCount;
+}
+
+class Agent {
+  String status;
+  String user;
+}
+
+// This is the root domain object
+class Root {
+    boolean loaded;         // auxiliary slot for the bootstrap sequence
+    Integer numGameIds;    // for the generation of geo object ids
+}
+
+relation RootHasGames {
+    Root playsRole root;
+    Game playsRole games { multiplicity *; }
+}
+

@@ -1,4 +1,4 @@
 theharvestar
 ============
 
-Private git repo of the harvestar game 
+Private git repo of the harvestar game

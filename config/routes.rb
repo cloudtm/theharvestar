@@ -11,6 +11,7 @@ Theharvestar::Application.routes.draw do
   mount Madmass::Engine => '/madmass', :as => 'madmass_engine'
 
   match "game" => "game#index"  # TODO delete me!
+  match "game/execute" => "game#execute" # TODO delete me!
 
   post "pusher/auth"
 

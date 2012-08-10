@@ -259,3 +259,18 @@ vendor
   External libraries that the application depends on. Also includes the plugins
   subdirectory. If the app has frozen rails, those gems also go here, under
   vendor/rails/. This directory is in the load path.
+
+
+
+
+
+
+
+cp -r ~/torquebox-current/jboss/modules/org/hibernate/* /Users/genzo/.rvm/gems/jruby-1.6.7.2\@torquebox/gems/torquebox-server-2.0.3-java/jboss/modules/org/hibernate
+cp -r ~/torquebox-current/jboss/modules/org/infinispan/* /Users/genzo/.rvm/gems/jruby-1.6.7.2\@torquebox/gems/torquebox-server-2.0.3-java/jboss/modules/org/
+cp -r ~/torquebox-current/jboss/modules/org/infinispan/* /Users/genzo/.rvm/gems/jruby-1.6.7.2\@torquebox/gems/torquebox-server-2.0.3-java/jboss/modules/org/infinispan/
+cp -r ~/torquebox-current/jboss/modules/org/jgroups/* /Users/genzo/.rvm/gems/jruby-1.6.7.2\@torquebox/gems/torquebox-server-2.0.3-java/jboss/modules/org/jgroups/
+cp -r ~/torquebox-current/jboss/modules/com/clearspring /Users/genzo/.rvm/gems/jruby-1.6.7.2\@torquebox/gems/torquebox-server-2.0.3-java/jboss/modules/com/
+cp -r ~/torquebox-current/jboss/modules/org/torquebox/cache/main/hibernate-*.jar /Users/genzo/.rvm/gems/jruby-1.6.7.2\@torquebox/gems/torquebox-server-2.0.3-java/jboss/modules/org/torquebox/cache/main/
+cp -r ~/torquebox-current/jboss/modules/org/torquebox/cache/main/infinispan-query /Users/genzo/.rvm/gems/jruby-1.6.7.2\@torquebox/gems/torquebox-server-2.0.3-java/jboss/modules/org/torquebox/cache/main/
+cp -r ~/torquebox-current/jboss/modules/org/torquebox/cache/main/infinispan-query-5.2.0-SNAPSHOT.jar /Users/genzo/.rvm/gems/jruby-1.6.7.2\@torquebox/gems/torquebox-server-2.0.3-java/jboss/modules/org/torquebox/cache/main/

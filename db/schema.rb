@@ -10,12 +10,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120731152225) do
+ActiveRecord::Schema.define(:version => 20120802140430) do
 
   create_table "agents", :force => true do |t|
     t.string   "status"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "games", :force => true do |t|
+    t.string   "name"
+    t.string   "format"
+    t.string   "state"
+    t.integer  "social_leader_id"
+    t.integer  "transport_leader_id"
+    t.integer  "winner_id"
+    t.integer  "version",             :default => 0
+    t.integer  "social_count",        :default => 0
+    t.integer  "transport_count",     :default => 0
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   create_table "users", :force => true do |t|

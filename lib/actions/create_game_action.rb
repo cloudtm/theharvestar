@@ -5,9 +5,9 @@
 
   module Actions
     class CreateGameAction < Madmass::Action::Action
-       #action_params :message
-       #action_states :none
-       #next_state :none
+       action_params :name, :format #, :terrains
+       action_states :list
+       next_state :join
 
      # [OPTIONAL]  Add your initialization code here.
      # def initialize params
@@ -19,7 +19,7 @@
       # [MANDATORY] Override this method in your action to define
       # the action effects.
       def execute
-         # do nothing
+         DataModel::Game.factory @parameters
       end
 
       # [MANDATORY] Override this method in your action to define
@@ -28,7 +28,7 @@
         #Example
          p = Madmass::Perception::Percept.new(self)
          #p.add_headers({:topics => 'all'}) #who must receive the percept
-         p.data =  {:game => 1}
+         p.data =  { :game => DataModel::Game.current.to_hash }
          Madmass.current_perception << p
       end
 

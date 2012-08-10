@@ -58,6 +58,7 @@ group :development, :test do
   # Async jobs: https://github.com/collectiveidea/delayed_job
   gem 'delayed_job', "=2.1.4"
   gem "rspec-rails"
+  gem "torquespec"
 end
 gem "capybara", :group => "test"
 gem "ZenTest"

@@ -1,0 +1,5 @@
+--- 
+application: 
+  root: /Users/genzo/dev/algorithmica/projects/theharvestar/spec/requests/../../app
+ruby: 
+  version: "1.8"
