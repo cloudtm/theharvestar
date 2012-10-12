@@ -17,19 +17,53 @@ class Game {
   Integer transportCount;
 }
 
-class Agent {
-  String status;
-  String user;
+
+class Terrain {
+  Integer x;
+  Integer y;
+  Integer productionProbability;
+  String terrainType;
+}
+
+class Player {
+  String state;
+  Integer userId;
+  Integer slot;
+  boolean ready;
+  String avatar;
+  Integer silicon;
+  Integer energy;
+  Integer water;
+  Integer titanium;
+  Integer grain;
+  Integer score;
+  Integer magicResource;
 }
 
 // This is the root domain object
 class Root {
-    boolean loaded;         // auxiliary slot for the bootstrap sequence
-    Integer numGameIds;    // for the generation of geo object ids
+  boolean loaded;         // auxiliary slot for the bootstrap sequence
+  Integer numGameIds;    // for the generation of games ids
+  Integer numPlayerIds;    // for the generation of players ids   
 }
 
 relation RootHasGames {
-    Root playsRole root;
-    Game playsRole games { multiplicity *; }
+  Root playsRole root;
+  Game playsRole games { multiplicity *; }
 }
 
+relation RootHasPlayers {
+  Root playsRole root;
+  Player playsRole players { multiplicity *; }
+}
+
+
+relation GameHasTerrains {
+  Game playsRole game;
+  Terrain playsRole terrains { multiplicity *; }
+}
+
+relation GameHasPlayers {
+  Game playsRole game;
+  Player playsRole players { multiplicity *; }
+}

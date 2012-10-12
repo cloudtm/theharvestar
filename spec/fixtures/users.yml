@@ -1,0 +1,5 @@
+user1:
+  email: email@email.com
+  nickname: nick
+  password: password
+  password_confirmation: password

@@ -29,21 +29,24 @@
 
 # Load the Hibernate OGM Framework.
 OGM_PATH = File.join(Rails.root, 'lib', 'ogm') unless defined?(OGM_PATH)
-OGM_JARS_PATH = File.join(OGM_PATH, 'jars') unless defined?(OGM_JARS_PATH)
+#OGM_JARS_PATH = File.join(OGM_PATH, 'jars') unless defined?(OGM_JARS_PATH)
 OGM_CONF_PATH = File.join(OGM_PATH, 'conf') unless defined?(OGM_CONF_PATH)
 
 # Require all Fenix and dependencies jars
-Dir[File.join(OGM_JARS_PATH, '*.jar')].each{|jar|
-  require jar
-}
+#Dir[File.join(OGM_JARS_PATH, '*.jar')].each{|jar|
+#  require jar
+#}
 
 # Add jars path to the class path
-$CLASSPATH << OGM_JARS_PATH
+#$CLASSPATH << OGM_JARS_PATH
 $CLASSPATH << OGM_CONF_PATH
 
+# FIXME: put RelationSet outside ispn or ogm
+CloudTm::RelationSet = Java::OrgCloudtmFrameworkOgm::RelationSet
 
 module Ogm
   Config                  = Java::PtIstFenixframework::Config
+  #HibOgmTxManager         = Java::OrgCloudtmFrameworkOgm::HibOgmTxManager
   #RelationList            = Java::PtIstFenixframeworkPstm::RelationList
   #FenixTransactionManager = Java::OrgCloudtmFrameworkFenix::FFTxManager
   

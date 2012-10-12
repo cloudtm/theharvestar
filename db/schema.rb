@@ -10,13 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120802140430) do
-
-  create_table "agents", :force => true do |t|
-    t.string   "status"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+ActiveRecord::Schema.define(:version => 20120827130407) do
 
   create_table "games", :force => true do |t|
     t.string   "name"
@@ -32,6 +26,34 @@ ActiveRecord::Schema.define(:version => 20120802140430) do
     t.datetime "updated_at",                         :null => false
   end
 
+  create_table "players", :force => true do |t|
+    t.string   "state"
+    t.string   "avatar"
+    t.integer  "slot",           :default => 1
+    t.integer  "silicon",        :default => 0
+    t.integer  "energy",         :default => 0
+    t.integer  "water",          :default => 0
+    t.integer  "titanium",       :default => 0
+    t.integer  "grain",          :default => 0
+    t.integer  "score",          :default => 0
+    t.integer  "magic_resource", :default => 0
+    t.boolean  "ready",          :default => false
+    t.integer  "user_id"
+    t.integer  "game_id"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
+  create_table "terrains", :force => true do |t|
+    t.string   "terrain_type"
+    t.integer  "x"
+    t.integer  "y"
+    t.integer  "production_probability"
+    t.integer  "game_id"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",              :null => false
     t.string   "encrypted_password",     :default => "",              :null => false
@@ -43,9 +65,10 @@ ActiveRecord::Schema.define(:version => 20120802140430) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "authentication_token"
     t.datetime "created_at",                                          :null => false
     t.datetime "updated_at",                                          :null => false
-    t.integer  "agent_id"
+    t.string   "agent_id"
     t.string   "last_name"
     t.string   "first_name"
     t.string   "nickname"
@@ -67,6 +90,8 @@ ActiveRecord::Schema.define(:version => 20120802140430) do
     t.datetime "preview_updated_at"
   end
 
+  add_index "users", ["agent_id"], :name => "index_users_on_agent_id"
+  add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 

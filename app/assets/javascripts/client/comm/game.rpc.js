@@ -47,10 +47,10 @@ Game.Rpc = new Class.Singleton({
 
   buildInfrastructure: function(params){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': params.cmd,
-        'game[target]': params.target
+        'agent[cmd]': params.cmd,
+        'agent[target]': params.target
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'build', params: params});
@@ -59,11 +59,11 @@ Game.Rpc = new Class.Singleton({
 
   doFixedTrade: function(trade){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'trade_bank',
-        'game[receive]': trade.r,
-        'game[give]': trade.g
+        'agent[cmd]': 'trade_bank',
+        'agent[receive]': trade.r,
+        'agent[give]': trade.g
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'doFixedTrade', params: trade});
@@ -74,11 +74,11 @@ Game.Rpc = new Class.Singleton({
 
   openTrade: function(offer){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'place_trade_request',
-        'game[receive]': offer.r,
-        'game[give]': offer.g
+        'agent[cmd]': 'place_trade_request',
+        'agent[receive]': offer.r,
+        'agent[give]': offer.g
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'openTrade', params: offer});
@@ -88,9 +88,9 @@ Game.Rpc = new Class.Singleton({
 
   closeTrade: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'close_trade_request'
+        'agent[cmd]': 'close_trade_request'
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'closeTrade'});
@@ -100,10 +100,10 @@ Game.Rpc = new Class.Singleton({
 
   acceptOffer: function(offerId){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'accept_offer',
-        'game[offer]': offerId
+        'agent[cmd]': 'accept_offer',
+        'agent[offer]': offerId
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'acceptOffer', params: offerId});
@@ -114,13 +114,13 @@ Game.Rpc = new Class.Singleton({
 
   counterOffer: function(offer){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'counter_offer',
-        'game[offer]': offer.id,
-        'game[receive]': offer.receive,
-        'game[give]': offer.give,
-        'game[message]': offer.message
+        'agent[cmd]': 'counter_offer',
+        'agent[offer]': offer.id,
+        'agent[receive]': offer.receive,
+        'agent[give]': offer.give,
+        'agent[message]': offer.message
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'counterOffer', params: offer});
@@ -131,10 +131,10 @@ Game.Rpc = new Class.Singleton({
 
   sendChatMessage: function(message){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'playing_chat',
-        'game[message]': message
+        'agent[cmd]': 'playing_chat',
+        'agent[message]': message
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'chat', params: message});
@@ -143,9 +143,9 @@ Game.Rpc = new Class.Singleton({
 
   fundResearch: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data:{
-       'game[cmd]': 'buy_progress'
+       'agent[cmd]': 'buy_progress'
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'fundResearch'});
@@ -156,9 +156,9 @@ Game.Rpc = new Class.Singleton({
 
   chaseAwayCriminality: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data:{
-        'game[cmd]': 'use_social_progress'
+        'agent[cmd]': 'use_social_progress'
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'chaseAwayCriminality'});
@@ -172,11 +172,11 @@ Game.Rpc = new Class.Singleton({
     if(!(command && command.code)) return;
 
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'secret',
-        'game[command]': command.code,
-        'game[args]': command.args
+        'agent[cmd]': 'secret',
+        'agent[command]': command.code,
+        'agent[args]': command.args
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'secretCmd', params: command});
@@ -185,9 +185,9 @@ Game.Rpc = new Class.Singleton({
 
   giveupGame: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'giveup'
+        'agent[cmd]': 'giveup'
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'giveupGame'});
@@ -196,11 +196,11 @@ Game.Rpc = new Class.Singleton({
 
   createGame: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'create_game',
-        'game[format]': 'base',
-        'game[name]': 'game_' + CONFIG.userId
+        'agent[cmd]': 'create_game',
+        'agent[format]': 'base',
+        'agent[name]': 'game_' + CONFIG.userId
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'createGame'});
@@ -209,9 +209,9 @@ Game.Rpc = new Class.Singleton({
 
   leaveGame: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'leave_game'
+        'agent[cmd]': 'leave_game'
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'leaveGame'});
@@ -220,11 +220,11 @@ Game.Rpc = new Class.Singleton({
 
   joinGame: function(game){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'join_game',
-        'game[game_id]': game.id,
-        'game[slot]': game.slot
+        'agent[cmd]': 'join_game',
+        'agent[game_id]': game.id,
+        'agent[slot]': game.slot
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'joinGame', params: game});
@@ -233,9 +233,9 @@ Game.Rpc = new Class.Singleton({
 
   ready: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'ready'
+        'agent[cmd]': 'ready'
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'ready'});
@@ -244,9 +244,9 @@ Game.Rpc = new Class.Singleton({
 
   unjoinGame: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'unjoin_game'
+        'agent[cmd]': 'unjoin_game'
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'unjoinGame'});
@@ -255,11 +255,11 @@ Game.Rpc = new Class.Singleton({
 
   demoGame: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'demo',
-        'game[format]': 'base',
-        'game[name]': 'training_' + CONFIG.userId
+        'agent[cmd]': 'demo',
+        'agent[format]': 'base',
+        'agent[name]': 'training_' + CONFIG.userId
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'demoGame'});
@@ -268,10 +268,10 @@ Game.Rpc = new Class.Singleton({
 
   selectAvatar: function(avatar){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'select_avatar',
-        'game[avatar]': avatar
+        'agent[cmd]': 'select_avatar',
+        'agent[avatar]': avatar
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'selectAvatar', params: avatar});
@@ -280,13 +280,13 @@ Game.Rpc = new Class.Singleton({
 
   hiscores: function(params){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'hiscores',
-        'game[mypos]': params.mypos || false,
-        'game[size]': params.size,
-        'game[page]': params.page || 1,
-        'game[search]': params.search
+        'agent[cmd]': 'hiscores',
+        'agent[mypos]': params.mypos || false,
+        'agent[size]': params.size,
+        'agent[page]': params.page || 1,
+        'agent[search]': params.search
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'hof', params: params});
@@ -297,8 +297,8 @@ Game.Rpc = new Class.Singleton({
     var request = {
       action: 'account',
       data: {
-        'game[cmd]': 'account',
-        'game[account]': account
+        'agent[cmd]': 'account',
+        'agent[account]': account
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'account', params: account});
@@ -307,9 +307,9 @@ Game.Rpc = new Class.Singleton({
 
   list: function(){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'list'
+        'agent[cmd]': 'list'
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'list'});
@@ -318,10 +318,10 @@ Game.Rpc = new Class.Singleton({
 
   saveSettings: function(settingsJson){
     var request = {
-      action: 'mechanics',
+      action: 'execute',
       data: {
-        'game[cmd]': 'save_settings',
-        'game[settings]' : settingsJson
+        'agent[cmd]': 'save_settings',
+        'agent[settings]' : settingsJson
       }
     };
     this.toHistory(request, {type: 'rpc', name: 'list', params: settingsJson});
@@ -333,11 +333,11 @@ Game.Rpc = new Class.Singleton({
    * success or error messages. Example:
    *
    * AJAX.call({
-   *   action: 'mechanics',
+   *   action: 'execute',
    *   data: {
-   *     'game[cmd]': 'trade_bank',
-   *     'game[receive]': trade.r,
-   *     'game[give]': trade.g
+   *     'agent[cmd]': 'trade_bank',
+   *     'agent[receive]': trade.r,
+   *     'agent[give]': trade.g
    *   },
    *   success: this.notify($msg.success.doFixedTrade),
    *   error: this.notify($msg.error.doFixedTrade)

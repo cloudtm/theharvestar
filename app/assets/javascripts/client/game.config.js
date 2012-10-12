@@ -113,7 +113,7 @@ Game.Config = new Class.Singleton({
     this.server = {
       host: domain[0],
       port: domain[1],
-      controller: 'games',
+      controller: 'game',
       watchedStatuses: [401, 500]   // these statuses are notified with a $msg.sys.netStatus message
     };
 

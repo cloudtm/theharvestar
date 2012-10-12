@@ -1,4 +1,4 @@
-  class GameLocales
+class GameLocales
   include Singleton
 
   # we will search for yaml locales only in this dir ignoring all the I18n load paths.

@@ -36,11 +36,6 @@ module CloudTm
 
     module ClassMethods
 
-      def my_manager
-        puts "TxSystem: #{CloudTm::TxSystem}"
-        CloudTm::TxSystem.getManager
-      end
-
       def where(options = {})
         instances = []
         all.each do |instance|
@@ -50,7 +45,7 @@ module CloudTm
       end
 
       #def all
-      #  root = my_manager.getRoot
+      #  root = manager.getRoot
       #  return root.getAgents
       #end
 
@@ -59,11 +54,24 @@ module CloudTm
         attrs.each do |attr, value|
           instance.send("#{attr}=", value)
         end
-        my_manager.save instance
+        manager.save instance
         block.call(instance) if block_given?
         instance
       end
 
+      private
+
+      def manager
+        CloudTm::TxSystem.getManager
+      end
+    end
+
+    def id
+      oid
+    end
+
+    def id=(_id)
+      oid = _id
     end
 
     def update_attributes attrs = {}
@@ -72,11 +80,36 @@ module CloudTm
       end
     end
 
+    def update_attribute attr, value
+      send("#{attr}=", value)
+    end
+
     def has_properties?(options)
       options.each do |prop, value|
         return false if send(prop) != value
       end
       true
+    end
+
+    def inspect
+      attributes_to_hash.inspect
+    end
+
+    def save
+      #manager.save self
+    end
+
+    def to_hash(selection = nil)
+      if(selection)
+        selection = [selection] if(!selection.is_a? Array)
+        #selection.map!{|attr| attr.to_s}
+        selected_attrs = attributes_to_hash.reject{|attr, val| !selection.include?(attr)}
+      else
+        selected_attrs = attributes_to_hash
+      end
+      properties = HashWithIndifferentAccess.new(selected_attrs)
+      properties.update(yield self) if block_given?
+      return properties
     end
 
     private

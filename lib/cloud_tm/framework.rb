@@ -31,7 +31,7 @@ require 'java'
 
 #require File.join(Rails.root, 'lib', 'fenix', 'loader')
 #require File.join(Rails.root, 'lib', 'ispn', 'loader')
-require File.join(Rails.root, 'lib', 'ogm', 'loader')
+#require File.join(Rails.root, 'lib', 'ogm', 'loader')
 
 # Load the Cloud-TM Framework.
 CLOUDTM_PATH = File.join(Rails.root, 'lib', 'cloud_tm') unless defined?(CLOUDTM_PATH)
@@ -47,23 +47,26 @@ $CLASSPATH << CLOUDTM_JARS_PATH
 
 module CloudTm
 
-  Init     = Java::OrgCloudtmFramework::Init
-  TxSystem = Java::OrgCloudtmFramework::TxSystem
-  Config   = Java::OrgCloudtmFramework::CloudtmConfig
+  Init        = Java::OrgCloudtmFramework::Init
+  TxSystem    = Java::OrgCloudtmFramework::TxSystem
+  Config      = Java::OrgCloudtmFramework::CloudtmConfig
+  RelationSet = Java::OrgCloudtmFrameworkIspn::RelationSet
 
   class Framework
     class << self
 
       def init(options)
         case options[:framework]
-        #when CloudTm::Config::Framework::FENIX
-        #  Fenix::Loader.init(options)
-        when CloudTm::Config::Framework::OGM
-          Ogm::Loader.init(options)
-        when CloudTm::Config::Framework::ISPN
-          Ispn::Loader.init(options)
-        else
-          raise "Cannot find CloudTM framework: #{options[:framework]}"
+          #when CloudTm::Config::Framework::FENIX
+          #  Fenix::Loader.init(options)
+          when CloudTm::Config::Framework::OGM
+            require File.join(Rails.root, 'lib', 'ogm', 'loader')
+            Ogm::Loader.init(options)
+          when CloudTm::Config::Framework::ISPN
+            require File.join(Rails.root, 'lib', 'ispn', 'loader')
+            Ispn::Loader.init(options)
+          else
+            raise "Cannot find CloudTM framework: #{options[:framework]}"
         end
 
       end
@@ -75,8 +78,9 @@ end
 
 # TODO: make this step dynamic
 # Load domain models
-DataModel::Agent       = Java::ItAlgoTheharvestarDomain::Agent
-DataModel::Game        = Java::ItAlgoTheharvestarDomain::Game
+Cloudtm::Player      = Java::ItAlgoTheharvestarDomain::Player
+Cloudtm::Game        = Java::ItAlgoTheharvestarDomain::Game
+Cloudtm::Terrain     = Java::ItAlgoTheharvestarDomain::Terrain
 DomainRoot           = Java::ItAlgoTheharvestarDomain::Root
 
 Dir[File.join(CLOUDTM_PATH, '*.rb')].each{|ruby|
@@ -84,8 +88,8 @@ Dir[File.join(CLOUDTM_PATH, '*.rb')].each{|ruby|
   require ruby
 }
 
-#Dir[File.join(CLOUDTM_MODELS_PATH, '*.rb')].each{|model|
-#  puts "require: #{model}"
-#  require model
-#}
+Dir[File.join(CLOUDTM_MODELS_PATH, '*.rb')].each{|model|
+  puts "require: #{model}"
+  require model
+}
 puts "framework loaded"

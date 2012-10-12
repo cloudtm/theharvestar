@@ -134,7 +134,10 @@ Madmass.Socky = new Class.Singleton({
   onMessage: function(msg){
     $log('Socky: received message.');
     try{
-      eval(msg);
+      var percepts = JSON.parse(msg);
+      percepts.each(function(percept) {
+        CLIENT.event(percept.data.event, percept.data);
+      });
     }catch(e){
       $log("Invalid message: " + msg);
     }

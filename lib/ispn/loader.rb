@@ -69,8 +69,9 @@ module Ispn
   end
 end
 
-Dir[File.join(ISPN_PATH, '*.rb')].each{|ruby|
-  next if ruby.match(/loader\.rb/)
-  require ruby
-}
+#Dir[File.join(ISPN_PATH, '*.rb')].each{|ruby|
+#  next if ruby.match(/loader\.rb/)
+#  require ruby
+#}
+require File.join(ISPN_PATH, 'config.rb')
 

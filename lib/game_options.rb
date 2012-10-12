@@ -8,7 +8,7 @@ class GameOptions
     # Returns the options for the given type.
     def options type
       #HashWithIndifferentAccess.new @options[type]
-      @options[type]
+      @options[type.to_sym]
     end
 
     # Returns the resource list of a given game_format (e.g. resource list of :base game)

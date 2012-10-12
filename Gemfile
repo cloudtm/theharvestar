@@ -5,8 +5,8 @@ source "http://gems.github.com"
 
 gem 'rails', '3.2.6'
 gem 'jquery-rails'
-gem "madmass", :git => "git://github.com/algorithmica/madmass.git"
-
+#gem "madmass", :git => "git://github.com/algorithmica/madmass.git"
+gem 'madmass', :path => '/Users/genzo/algo_projects/madmass'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -35,7 +35,7 @@ gem 'nifty-generators'
 gem "devise"
 #gem 'omniauth'
 #gem 'rdoc', ">= 3.5.3" # RDoc Documentation gem
-gem 'alter-ego', ">= 1.0.1" # State machine pattern
+gem 'state_machine' # State machine pattern
 gem "aws-ses", "~> 0.4.4", :require => 'aws/ses'
 gem 'will_paginate'
 gem 'paperclip', "~> 2.3"
@@ -58,21 +58,20 @@ group :development, :test do
   # Async jobs: https://github.com/collectiveidea/delayed_job
   gem 'delayed_job', "=2.1.4"
   gem "rspec-rails"
-  gem "torquespec"
+  gem 'torquespec', ">= 0.3.5"
+  gem 'capybara'
+#  gem 'akephalos'
+  gem 'torquebox-server', "~> 2.0.3"
 end
-gem "capybara", :group => "test"
-gem "ZenTest"
+
+group :test do
+  gem 'ZenTest'
+end
 
 # Jruby + Torquebox specific gems
 group :torquebox, :production do
-  #gem "activerecord-jdbcmysql-adapter", :require => "jdbc_adapter"
-  #gem "activerecord-jdbc-adapter"
-  #gem 'activerecord-jdbcmysql-adapter'
-  #gem "jdbc-mysql"
   gem 'jruby-openssl', :platform => :jruby
-  gem "torquebox-rake-support"
-  gem 'torquebox'
-  gem 'newrelic_rpm'
+#  gem 'newrelic_rpm'
   gem 'json-jruby'
 end
 

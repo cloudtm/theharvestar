@@ -1,12 +1,15 @@
 class User < ActiveRecord::Base
 
-  belongs_to :agent
+  # associate the user with the Madmass Agent (the actions executor)
+  include Madmass::Agent::Association
+  associate_with_agent(DataModel::Player)
+
   #has_many :user_stats TODO add UserStats
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :token_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
@@ -124,21 +127,36 @@ class User < ActiveRecord::Base
     # Joins to the game identified by game_id the current user
     # by creating for the user a new player and by joining him to the game.
     # The method returns the channel for the game and the list of current players
-    def join(game_id, slot = 1) #game_id must be a valid game id. We do not check it here
-                                # create the player associated to this user in this game
-                                # user = User.current
-                                # player =
+    # game_id must be a valid game id. We do not check it here create the player
+    # associated to this user in this game
+    def join(game_id, slot = 1)
+      DataModel::Game.current = DataModel::Game.where(:id => game_id).first
       unless User.current.player
-        new_player = Player.new(:game_id => game_id, :slot => slot, :user => User.current)
-        new_player.save!
+        # we cannot use the game_id column because this code use both Relational and Cloudtm models
+        new_player = DataModel::Player.create(:game => DataModel::Game.current, :slot => slot, :user => User.current)
+        #new_player.save
+        # check if need to raise unless not saved
+        #new_player.save!
         User.current.player = new_player
+      else
+        user_player = User.current.player
+        #user_player.game = DataModel::Game.current
+        # with the dml the association needs the add method
+        user_player.game = DataModel::Game.current
+        user_player.slot = slot.to_i
+        user_player.save
       end
       # User.current.create_player(:game_id => game_id, :slot => slot) unless User.current.player
       # set the current player in order to provide simplified access to all the application
-      Player.current = User.current.player
-      # set the current game in order to provide simplified access to all the application
-      Game.current = Game.find_by_id(game_id)
-      Game.current.next_state!
+      DataModel::Player.current = User.current.player
+      logger.debug "@@@@@@@@@@@@ CURRENT PLAYER IS? #{DataModel::Player.current.inspect}"
+      logger.debug "@@@@@@@@@@@@ CURRENT PLAYER HAS GAME? #{DataModel::Player.current.game.inspect}"
+      # set the current game to provide simplified access to all the application
+      DataModel::Game.current = DataModel::Game.where(:id => game_id).first
+      DataModel::Game.current.fire_join
+
+      # FIXME: move the user state in the Player with state_machine + action states
+      User.current.update_attribute(:state, 'join')
     end
 
     # The current user leaves the game
@@ -166,8 +184,13 @@ class User < ActiveRecord::Base
 
     #The player has already joined the target game?
     def joined?
-      player = Player.where(:user_id => User.current.id).first
-      return Game.current.players.include?(player) # game current is set by the join game action
+      player = User.current.player
+      Rails.logger.debug "@@@@@@@@@@ PLAYER: #{player.inspect}"
+      DataModel::Game.current.players.each_with_index do |_pl, index|
+        Rails.logger.debug "@@@@@@@@@@ PLAYERS #{index}: #{_pl.inspect}"
+      end
+      Rails.logger.debug "@@@@@@@@ INCLUDE: #{DataModel::Game.current.players.include?(player)}"
+      return DataModel::Game.current.players.include?(player) # game current is set by the join game action
     end
 
     #The player is playing a game?
@@ -182,14 +205,14 @@ class User < ActiveRecord::Base
     def current=(user)
       Thread.current[:user] = user
       unless user and user.player
-        Player.current = nil
-        Game.current = nil
+        DataModel::Player.current = nil
+        DataModel::Game.current = nil
         return
       end
-      # set the current player
-      Player.current = Player.find(user.player.id)
-      # set the current game
-      Game.current = Game.find(Player.current.game.id)
+      ## set the current player
+      #DataModel::Player.current = DataModel::Player.find(user.player.id)
+      ## set the current game
+      #DataModel::Game.current = DataModel::Game.find(Player.current.game.id)
     end
 
     #The user in the current request cycle

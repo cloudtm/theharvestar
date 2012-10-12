@@ -16,7 +16,8 @@
     </div>
     
     <div id="signin-submit" class="enabled btn-signin">
-      <div class="text"><%= t(:sign_in) %></div>
+      <!-- <div class="text"><%= t(:sign_in) %></div> -->
+      <%= f.submit t(:sign_in), :id => 'signin-submit' %>
     </div>
   <% end %>
   

@@ -27,22 +27,25 @@ module Actions
       perc = Madmass::Perception::Percept.new(self)
 
       perc.add_headers({:topics => []}) #who must receive the percept
-
+      user = User.current.to_hash([:id, :nickname, :state, :score])
+      user[:player] = DataModel::Player.current.to_hash([:id, :avatar, :slot, :ready])
+      game_percept = DataModel::Game.current ? DataModel::Game.current.to_percept : {}
       perc.data = {
-        :sensing => {
+        :sensing => game_percept.merge(
           :game_options => GameOptions.options(:base),
           :game_locales => GameLocales.get(['action', 'account', 'gui']),
-          :settings => %q( {"audio":{"volume":{"fx":100,"music":0}},"hiscores":{"size":10},"gui":{"presence":{"open":true,"entries":20}}} ),
-          :playing_users =>[],
-          :user_id => 1,
+          #:settings => %q( {"audio":{"volume":{"fx":100,"music":0}},"hiscores":{"size":10},"gui":{"presence":{"open":true,"entries":20}}} ),
+          :playing_users => User.where(:state => [:play, :end]).map(&:id),
+          :user_id => User.current.id,
+          :user_state => 'list', #User.current.state,
+          :users => [user],
           :channel => 'list',
-          :games_list => [],
-          :user_state => "list"
-        }
+          :games_list => DataModel::Game.games_list(:states => ['joining', 'armed'], :text => @parameters[:text]),
+          :settings => User.current.settings
+        )
       }
 
       Madmass.current_perception << perc
-
     end
 
     # [OPTIONAL] - The default implementation returns always true

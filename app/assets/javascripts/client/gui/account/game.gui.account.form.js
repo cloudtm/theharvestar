@@ -349,7 +349,7 @@ Game.Gui.Cropper = new Class({
   _attachUploader: function(){
     var self = this;
     this.fileLoad.fileupload({
-      url: '/games/account',
+      url: '/game/account',
       progressall: progress,
       submit: check,
       start: start,

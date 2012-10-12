@@ -8,18 +8,18 @@ module Relational
 
 
     # can mass assign some attributes
-    attr_accessible :name, :format
+    attr_accessible :name, :format, :state
     self.locking_column = :version
 
-    #include GameStates
+    include GameStates
 
     #Available game formats, being :base the simplest one.
     GAME_FORMATS = [:base] unless defined? GAME_FORMATS
 
     include Relational::Versionable
 
-    #has_many :players, :dependent => :destroy
-    #has_many :terrains, :dependent => :destroy
+    has_many :players, :dependent => :destroy
+    has_many :terrains, :dependent => :destroy
     #has_many :settlements, :dependent => :destroy #FIXME Remove? check in test suite before remove
     #has_many :roads, :dependent => :destroy #FIXME Remove? check in test suite before remove
     #has_one  :calamity, :dependent => :destroy
@@ -46,6 +46,11 @@ module Relational
     # Returns the class name associated to the format.
     def format_class
       format.to_s.camelize
+    end
+
+    # Determines whether the game is full to prevent other players to join
+    def full? game_id
+      return (players.size >= GameOptions.options(format)[:max_player_limit])
     end
 
     class << self
@@ -89,20 +94,15 @@ module Relational
       def factory params
         #create map
         params[:format] = :base unless params[:format]
-        #map_terrains = params[:terrains] || Map::MapFactory.make(:type => params[:format])
-        game = self.create_from_hash(:name => params[:name], :format => params[:format])
-        #map_terrains.each{|terrain| terrain[:game_id] = game.id} #adds game id to generated terrains, so they will be creted already associated
-                                                                 #Terrain.create_from_hash(map_terrains) # TODO Replace with ActiveRecord import extension
-                                                                 #Calamity.create(:game_id => game.id)
+        map_terrains = params[:terrains] || Map::MapFactory.make(:type => params[:format])
+        game = self.create_from_hash(:name => params[:name], :format => params[:format], :state => initial_state)
+        #adds game id to generated terrains, so they will be created already associated
+        map_terrains.each{|terrain| terrain[:game_id] = game.id}
+        DataModel::Terrain.create_from_hash(map_terrains)
+        #Calamity.create(:game_id => game.id)
         self.current = game
-                                                                 #Calamity.move_to_base
+        #Calamity.move_to_base
         game.to_hash
-      end
-
-      # Determines whether the game is full to prevent other players to join
-      def full? game_id
-        game = self.where(:id => game_id).first
-        return (game.players.size >= GameOptions.options(game.format)[:max_player_limit])
       end
 
       # Assigns the current game in the thread hash.
@@ -132,23 +132,23 @@ module Relational
       # options: {...}:
       #   :states => [array of states]
       #   :text => String (searched in game name and user name columns)
-      #def search(options)
-      #  if(options[:text])
-      #    search_params = ["%#{options[:text]}%"] * 6
-      #    players = Player.includes(:game, :user)
-      #    players = players.where('games.state IN (?)', options[:states]) if options[:states]
-      #    players = players.where('games.name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ? OR users.middle_name LIKE ? OR users.name LIKE ? OR users.nickname LIKE ?', *search_params)
-      #    return players.map{|player| player.game.to_hash {|g| {:player_count => g.players.size}} }
-      #  else
-      #    if(options[:states])
-      #      return all_by_states(options[:states])
-      #    else
-      #      return Game.all.map do |game|
-      #        game.to_hash {|g| {:player_count => g.players.size}}
-      #      end
-      #    end
-      #  end
-      #end
+      def search(options)
+        if(options[:text])
+          search_params = ["%#{options[:text]}%"] * 6
+          players = DataModel::Player.includes(:game, :user)
+          players = players.where('games.state IN (?)', options[:states]) if options[:states]
+          players = players.where('games.name LIKE ? OR users.first_name LIKE ? OR users.last_name LIKE ? OR users.middle_name LIKE ? OR users.name LIKE ? OR users.nickname LIKE ?', *search_params)
+          return players.map{|player| player.game.to_hash {|g| {:player_count => g.players.size}} }
+        else
+          if(options[:states])
+            return all_by_states(options[:states])
+          else
+            return all.map do |game|
+              game.to_hash {|g| {:player_count => g.players.size}}
+            end
+          end
+        end
+      end
 
       # Returns the list of active games.
       def all_by_states(states)
@@ -216,7 +216,24 @@ module Relational
       return valid_format
     end
 
+    def to_percept
+      to_hash([:id, :transport_count, :channel, :state, :social_leader_id, :transport_leader_id, :social_count, :version, :winner_id])
+    end
 
+    def games_list(options)
+      h_games = DataModel::Game.search(options)
+
+      #FIXME use add_all_users and make this return an array of percepts
+      h_games.each do |game|
+        game[:users] = DataModel::Game.find_by_id(game[:id]).players.map do |player|
+          player.user.to_hash([:id, :nickname, :state, :score]) do |user|
+            {:player => player.to_hash([:id, :avatar, :slot, :ready]) }
+          end if player.user
+        end
+
+      end
+      percept[:games_list] = h_games
+    end
 
   end
 end
