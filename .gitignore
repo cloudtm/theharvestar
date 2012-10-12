@@ -19,3 +19,5 @@ pickle-email-*.html
 .rvmrc
 Gemfile.lock
 config/database.yml
+/db/schema.rb
+.DS_Store
