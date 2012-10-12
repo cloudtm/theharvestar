@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(:version => 20120827130407) do
 
   create_table "players", :force => true do |t|
     t.string   "state"
-    t.string   "avatar"
+    t.string   "avatar",         :default => "none"
     t.integer  "slot",           :default => 1
     t.integer  "silicon",        :default => 0
     t.integer  "energy",         :default => 0
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(:version => 20120827130407) do
     t.boolean  "ready",          :default => false
     t.integer  "user_id"
     t.integer  "game_id"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   create_table "terrains", :force => true do |t|
