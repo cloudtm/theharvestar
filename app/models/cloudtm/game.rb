@@ -42,8 +42,7 @@ module Cloudtm
       # Return true if the game was found, false otherwise.
       def set_current options
         if options[:game_id]
-          games = self.where(:id => options[:game_id])
-          self.current = games.first
+          self.current = self.find_by_id(options[:game_id])
         else
           return false
         end
@@ -77,24 +76,17 @@ module Cloudtm
         Game.current ? Game.current.to_hash : {}
       end
 
-      def find(_id)
-        # Now ids are strings !! .to_i
-        all.each do |game|
-          return game if game.id == _id
-        end
-        return nil
-      end
 
       def create_with_root attrs = {}, &block
         create_without_root(attrs) do |instance|
-          instance.set_root manager.getRoot
+          app.add_games instance
         end
       end
 
       alias_method_chain :create, :root
 
       def all
-        manager.getRoot.getGames
+        app.getGames
       end
 
       def games_list(options)
@@ -118,7 +110,7 @@ module Cloudtm
 
     # Determines whether the game is full to prevent other players to join
     def full? game_id
-      game = DataModel::Game.where(:id => game_id).first
+      game = DataModel::Game.find_by_id game_id
       return (game.players.size >= GameOptions.options(game.format)[:max_player_limit])
     end
 

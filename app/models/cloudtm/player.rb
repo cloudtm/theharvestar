@@ -5,7 +5,7 @@ module Cloudtm
 
     def attributes_to_hash
       {
-        :id => oid,
+        :id => id,
         :state => state,
         :avatar => avatar || 'none',
         :slot => slot || 1,
@@ -27,7 +27,7 @@ module Cloudtm
 
     # Adapter to use the user association in the rails way
     def user
-      @user ||= User.where(:id => user_id).first
+      @user ||= User.find_by_id(user_id)
     end
 
     def user=(us)
@@ -48,13 +48,13 @@ module Cloudtm
       def ready(ready, demo = false)
         current.ready = ready
         # refresh the player in the memory in the current Game and User
-        User.current.player = current
-        DataModel::Game.current.players.each do |player|
-          if(current.id == player.id)
-            player = current
-            break
-          end
-        end
+        #User.current.player = current #FIXME, is it needed?
+        #DataModel::Game.current.players.each do |player|
+        #  if(current.id == player.id)
+        #    player = current
+        #    break
+        #  end
+        #end
         demo ? DataModel::Game.current.demo : DataModel::Game.current.ready
       end
 
@@ -64,14 +64,14 @@ module Cloudtm
 
       def create_with_root attrs = {}, &block
         create_without_root(attrs) do |instance|
-          instance.set_root manager.getRoot
+          app.add_players instance
         end
       end
 
       alias_method_chain :create, :root
 
       def all
-        manager.getRoot.getPlayers
+        app.getPlayers
       end
 
     end

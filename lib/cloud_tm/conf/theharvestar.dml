@@ -1,12 +1,7 @@
 package it.algo.theharvestar.domain;
 
 
-// valueType java.math.BigDecimal as Decimal {
-//     externalizeWith {
-//         String toString();
-//     }
-// }
-
+//CLASSES
 
 class Game {
   String state;
@@ -45,6 +40,13 @@ class Root {
   boolean loaded;         // auxiliary slot for the bootstrap sequence
   Integer numGameIds;    // for the generation of games ids
   Integer numPlayerIds;    // for the generation of players ids   
+}
+
+// RELATIONS
+
+relation DomainRootHasRoot {
+    .pt.ist.fenixframework.DomainRoot playsRole;
+    Root playsRole app;
 }
 
 relation RootHasGames {

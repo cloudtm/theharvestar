@@ -10,12 +10,14 @@
       <properties>
         <property
                 name="configurationFile"
-                value="jgroups/jgroups-udp-conf-theharvestar.xml"/>
+                value="jgroups/jgroups-udp-theharvestar.xml"/>
       </properties>
     </transport>
   </global>
+
   <default>
-    <!-- <locking
+
+  <!-- <locking
    isolationLevel="REPEATABLE_READ"
    concurrencyLevel="32"
    writeSkewCheck="true"
@@ -28,13 +30,14 @@
             writeSkewCheck="true"
             useLockStriping="false"
             lockAcquisitionTimeout="10000"/>
+
     <jmxStatistics
             enabled="true"/>
+
     <deadlockDetection
             enabled="true"/>
-    <!-- transactionManagerLookupClass="org.infinispan.transaction.lookup.JBossStandaloneJTAManagerLookup" 
-     org.hibernate.service.jta.platform.spi.JtaPlatform
-      -->
+
+    <!--transactionManagerLookupClass="org.infinispan.transaction.lookup.JBossStandaloneJTAManagerLookup"-->
     <transaction
             transactionManagerLookupClass="org.infinispan.transaction.lookup.JBossTransactionManagerLookup"
             useEagerLocking="false"
@@ -47,28 +50,29 @@
             eagerLockSingleNode="false"
             use1PcForAutoCommitTransactions="false"
             autoCommit="true"/>
-      <!-- <clustering mode="r"> -->
-      <clustering mode="local">
-          <!-- 
-           <sync
-           replTimeout="15000"/>
-           <stateTransfer
-           fetchInMemoryState="true"
-           chunkSize="100"
-           timeout="240000"/>
-           -->
+
+    <clustering mode="r">
+      <sync
+              replTimeout="15000"/>
+      <stateTransfer
+              fetchInMemoryState="true"
+              chunkSize="100"
+              timeout="240000"/>
     </clustering>
+
     <versioning
             enabled="true"
             versioningScheme="SIMPLE"/>
-      <!-- <customInterceptors>
-       <interceptor
-       after="org.infinispan.interceptors.InvocationContextInterceptor"
-       class="org.infinispan.distribution.wrappers.ReplCustomStatsInterceptor"/>
-       <interceptor
-       before="org.infinispan.interceptors.NotificationInterceptor"
-       class="org.infinispan.stats.topK.StreamLibInterceptor"/>
-       </customInterceptors> -->
+
+    <customInterceptors>
+      <interceptor
+              after="org.infinispan.interceptors.InvocationContextInterceptor"
+              class="org.infinispan.distribution.wrappers.ReplCustomStatsInterceptor"/>
+      <interceptor
+              before="org.infinispan.interceptors.NotificationInterceptor"
+              class="org.infinispan.stats.topK.StreamLibInterceptor"/>
+    </customInterceptors>
+
   </default>
 </infinispan>
 

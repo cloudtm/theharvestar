@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 
-  # associate the user with the Madmass Agent (the actions executor)
-  include Madmass::Agent::Association
+  # associate the user with the Madmass Agent (the actions executor) in this case the Player.
+  include GenericAssociation
   associate_with_agent(DataModel::Player)
 
   #has_many :user_stats TODO add UserStats
@@ -130,7 +130,7 @@ class User < ActiveRecord::Base
     # game_id must be a valid game id. We do not check it here create the player
     # associated to this user in this game
     def join(game_id, slot = 1)
-      DataModel::Game.current = DataModel::Game.where(:id => game_id).first
+      DataModel::Game.current = DataModel::Game.find_by_id game_id
       unless User.current.player
         # we cannot use the game_id column because this code use both Relational and Cloudtm models
         new_player = DataModel::Player.create(:game => DataModel::Game.current, :slot => slot, :user => User.current)
@@ -152,7 +152,7 @@ class User < ActiveRecord::Base
       logger.debug "@@@@@@@@@@@@ CURRENT PLAYER IS? #{DataModel::Player.current.inspect}"
       logger.debug "@@@@@@@@@@@@ CURRENT PLAYER HAS GAME? #{DataModel::Player.current.game.inspect}"
       # set the current game to provide simplified access to all the application
-      DataModel::Game.current = DataModel::Game.where(:id => game_id).first
+      DataModel::Game.current = DataModel::Game.find_by_id game_id
       DataModel::Game.current.fire_join
 
       # FIXME: move the user state in the Player with state_machine + action states

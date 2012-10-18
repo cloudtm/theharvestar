@@ -11,7 +11,7 @@ module Cloudtm
 
     def attributes_to_hash
       {
-        :id => oid,
+        :id => id,
         :x => x,
         :y => y,
         :production_probability => production_probability,

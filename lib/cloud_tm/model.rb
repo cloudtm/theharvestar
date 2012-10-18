@@ -1,22 +1,22 @@
 ###############################################################################
 ###############################################################################
 #
-# This file is part of GeoGraph.
+# This file is part of TheHarvestar.
 #
 # Copyright (c) 2012 Algorithmica Srl
 #
-# GeoGraph is free software: you can redistribute it and/or modify
+# TheHarvestar is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# GeoGraph is distributed in the hope that it will be useful,
+# TheHarvestar is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public License
-# along with GeoGraph.  If not, see <http://www.gnu.org/licenses/>.
+# along with TheHarvestar.  If not, see <http://www.gnu.org/licenses/>.
 #
 # Contact us via email at info@algorithmica.it or at
 #
@@ -36,6 +36,15 @@ module CloudTm
 
     module ClassMethods
 
+      def app
+        FenixFramework.getDomainRoot().getApp
+      end
+
+      def find_by_id(id)
+        return nil unless id
+        FenixFramework.getDomainObject(id)
+      end
+
       def where(options = {})
         instances = []
         all.each do |instance|
@@ -54,25 +63,18 @@ module CloudTm
         attrs.each do |attr, value|
           instance.send("#{attr}=", value)
         end
-        manager.save instance
         block.call(instance) if block_given?
         instance
       end
 
       private
 
-      def manager
-        CloudTm::TxSystem.getManager
-      end
     end
 
     def id
-      oid
+      getExternalId
     end
 
-    def id=(_id)
-      oid = _id
-    end
 
     def update_attributes attrs = {}
       attrs.each do |property, value|
@@ -96,14 +98,14 @@ module CloudTm
     end
 
     def save
-      #manager.save self
+      #does nothing, kept for compatibility with AR
     end
 
     def to_hash(selection = nil)
-      if(selection)
-        selection = [selection] if(!selection.is_a? Array)
+      if (selection)
+        selection = [selection] if (!selection.is_a? Array)
         #selection.map!{|attr| attr.to_s}
-        selected_attrs = attributes_to_hash.reject{|attr, val| !selection.include?(attr)}
+        selected_attrs = attributes_to_hash.reject { |attr, val| !selection.include?(attr) }
       else
         selected_attrs = attributes_to_hash
       end
@@ -114,8 +116,5 @@ module CloudTm
 
     private
 
-    def manager
-      CloudTm::TxSystem.getManager
-    end
   end
 end
