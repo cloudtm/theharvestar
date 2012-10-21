@@ -19,9 +19,13 @@ application:
 
   it "should create a new game" do
     create_game_response = invoke_remote_action(
-      'agent[cmd]' => 'create_game',
-      'agent[name]' => 'test-game',
-      'auth_token' => @auth_token
+      'auth_token' => @auth_token,
+      'actions' => [{ 
+        'agent' => { 
+          'cmd' => 'create_game',
+          'name' => 'test-game'
+        }
+      }]
     )
     json_data = JSON.parse(create_game_response.body).first
     json_data['status']['code'].should eq('ok')

@@ -33,7 +33,7 @@ require 'java'
 # Load the Cloud-TM Framework.
 CLOUDTM_PATH = File.join(Rails.root, 'lib', 'cloud_tm') unless defined?(CLOUDTM_PATH)
 CLOUDTM_JARS_PATH = File.join(CLOUDTM_PATH, 'jars') unless defined?(CLOUDTM_JARS_PATH)
-CLOUDTM_MODELS_PATH = File.join(CLOUDTM_PATH, 'models') unless defined?(CLOUDTM_MODELS_PATH)
+CLOUDTM_MODELS_PATH = File.join(Rails.root, 'app', 'models', 'cloudtm') unless defined?(CLOUDTM_MODELS_PATH)
 CLOUDTM_CONF_PATH = File.join(CLOUDTM_PATH, 'conf') unless defined?(CLOUDTM_CONF_PATH)
 
 # Require all Cloud-TM and dependencies jars
@@ -74,7 +74,9 @@ end
 Cloudtm::Player      = Java::ItAlgoTheharvestarDomain::Player
 Cloudtm::Game        = Java::ItAlgoTheharvestarDomain::Game
 Cloudtm::Terrain     = Java::ItAlgoTheharvestarDomain::Terrain
-Cloudtm::Root = Java::ItAlgoTheharvestarDomain::Root
+Cloudtm::Settlement  = Java::ItAlgoTheharvestarDomain::Settlement
+Cloudtm::Road        = Java::ItAlgoTheharvestarDomain::Road
+Cloudtm::Root        = Java::ItAlgoTheharvestarDomain::Root
 
 Dir[File.join(CLOUDTM_PATH, '*.rb')].each { |ruby|
   next if ruby.match(/framework\.rb/)

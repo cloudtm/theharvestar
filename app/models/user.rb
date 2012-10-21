@@ -134,23 +134,18 @@ class User < ActiveRecord::Base
       unless User.current.player
         # we cannot use the game_id column because this code use both Relational and Cloudtm models
         new_player = DataModel::Player.create(:game => DataModel::Game.current, :slot => slot, :user => User.current)
-        #new_player.save
-        # check if need to raise unless not saved
-        #new_player.save!
         User.current.player = new_player
       else
         user_player = User.current.player
-        #user_player.game = DataModel::Game.current
-        # with the dml the association needs the add method
         user_player.game = DataModel::Game.current
+        # FIXME: this don't works in the dml
+        #user_player.game_id = DataModel::Game.current.id
         user_player.slot = slot.to_i
         user_player.save
       end
       # User.current.create_player(:game_id => game_id, :slot => slot) unless User.current.player
       # set the current player in order to provide simplified access to all the application
       DataModel::Player.current = User.current.player
-      logger.debug "@@@@@@@@@@@@ CURRENT PLAYER IS? #{DataModel::Player.current.inspect}"
-      logger.debug "@@@@@@@@@@@@ CURRENT PLAYER HAS GAME? #{DataModel::Player.current.game.inspect}"
       # set the current game to provide simplified access to all the application
       DataModel::Game.current = DataModel::Game.find_by_id game_id
       DataModel::Game.current.fire_join
@@ -162,35 +157,37 @@ class User < ActiveRecord::Base
     # The current user leaves the game
     # Note: pay attention with Player.current = nil assignments. This method must be ROLLBACK resistant :)
     def leave
-      #We destroy the current player (not the user)
-      Player.current.destroy
-      unless Game.current
-        Player.current = nil
+      # We destroy the current player (not the user)
+      DataModel::Player.current.destroy
+      unless DataModel::Game.current
+        DataModel::Player.current = nil
         return
       end
-      #If there is no one left in the game, we destroy it
-      Game.current.players.reset
-      Game.current.next_state!
-      game_zombie = Game.current.clone # shallow clone, sufficient to grab the state_transition that can be triggered by next_state!
-      game_zombie[:id] = Game.current.id #removed by the active record clone (ar removes primary key from clone)
-      if Game.current.players.empty?
-        Game.current.destroy
-      else
+      # If there is no one left in the game, we destroy it
+      # TODO: check in AR, this may cause subtle errors, maybe the reset is required
+      #DataModel::Game.current.players.reset
+      DataModel::Game.current.leave
+      #game_zombie = DataModel::Game.current.clone # shallow clone, sufficient to grab the state_transition that can be triggered by next_state!
+      #game_zombie[:id] = DataModel::Game.current.id #removed by the active record clone (ar removes primary key from clone)
+      # TODO: check what game properties are needed from unjoin game action (pass them as to_hash argument)
+      game_zombie = DataModel::Game.current.to_hash([:id, :version])
+      if DataModel::Game.current.players.empty?
+        DataModel::Game.current.destroy
       end
-      Player.current = nil
-      Game.current = nil
+      DataModel::Player.current = nil
+      DataModel::Game.current = nil
+
+      # FIXME: move the user state in the Player with state_machine + action states
+      User.current.update_attribute(:state, 'list')
+
       return game_zombie
     end
 
     #The player has already joined the target game?
     def joined?
       player = User.current.player
-      Rails.logger.debug "@@@@@@@@@@ PLAYER: #{player.inspect}"
-      DataModel::Game.current.players.each_with_index do |_pl, index|
-        Rails.logger.debug "@@@@@@@@@@ PLAYERS #{index}: #{_pl.inspect}"
-      end
-      Rails.logger.debug "@@@@@@@@ INCLUDE: #{DataModel::Game.current.players.include?(player)}"
-      return DataModel::Game.current.players.include?(player) # game current is set by the join game action
+      Rails.logger.debug "@@@@@@@@ INCLUDE: #{DataModel::Game.current.player_in_game?(player)}"
+      return DataModel::Game.current.player_in_game?(player) # game current is set by the join game action
     end
 
     #The player is playing a game?

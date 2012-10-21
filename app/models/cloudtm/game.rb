@@ -25,6 +25,14 @@ module Cloudtm
       attributes_to_hash.to_json
     end
 
+    def player_in_game?(player)
+      players.map(&:id).include?(player.id)
+    end
+
+    def destroy
+      app.removeGames(self)
+    end
+
     class << self
 
       # Assigns the current game in the thread hash.

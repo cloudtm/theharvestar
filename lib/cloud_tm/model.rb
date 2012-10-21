@@ -41,6 +41,7 @@ module CloudTm
       end
 
       def find_by_id(id)
+        # CHECK: fenix raise exception when id not exists
         return nil unless id
         FenixFramework.getDomainObject(id)
       end
@@ -114,7 +115,10 @@ module CloudTm
       return properties
     end
 
-    private
+    def app
+      FenixFramework.getDomainRoot().getApp
+    end
+
 
   end
 end

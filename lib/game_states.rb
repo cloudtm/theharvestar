@@ -56,15 +56,13 @@ module GameStates
 
     # Returns true if all players joined to the game are ready to start.
     def all_players_ready?
-      true
-      #any_unready = players.detect {|player| !player.ready}
-      #return (any_unready ? false : true)
+      any_unready = players.detect {|player| !player.ready}
+      return (any_unready ? false : true)
     end
 
     # Returns the player id of the winner if any, otherwise returns false
     def winner_player
-      true
-      #return (not winner.nil?)
+      return (not winner.nil?)
     end
 
     # Resets the ready state for all players in the game

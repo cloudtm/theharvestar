@@ -19,10 +19,14 @@ application:
 
   it "should not join in a game" do
     join_game_response = invoke_remote_action(
-      'agent[cmd]' => 'join_game',
-      'agent[game_id]' => '0',
-      'agent[slot]' => 2,
-      'auth_token' => @auth_token
+      'auth_token' => @auth_token,
+      'actions' => [{ 
+        'agent' => {
+          'cmd' => 'join_game',
+          'game_id' => nil,
+          'slot' => 2
+        }
+      }]
     )
     json_data = JSON.parse(join_game_response.body).first
     json_data['status']['code'].should eq('precondition_failed')
@@ -32,18 +36,26 @@ application:
 
   it "should join in a game" do
     create_game_response = invoke_remote_action(
-      'agent[cmd]' => 'create_game',
-      'agent[name]' => 'test-game',
-      'auth_token' => @auth_token
+      'auth_token' => @auth_token,
+      'actions' => [{ 
+        'agent' => { 
+          'cmd' => 'create_game',
+          'name' => 'test-join-game'
+        }
+      }]
     )
     game_data = JSON.parse(create_game_response.body).first
 
     # slot already taken
     join_game_response = invoke_remote_action(
-      'agent[cmd]' => 'join_game',
-      'agent[game_id]' => game_data['data']['game']['id'],
-      'agent[slot]' => 1,
-      'auth_token' => @auth_token
+      'auth_token' => @auth_token,
+      'actions' => [{ 
+        'agent' => {
+          'cmd' => 'join_game',
+          'game_id' => game_data['data']['id'],
+          'slot' => 1
+        }
+      }]
     )
     json_data = JSON.parse(join_game_response.body).first
     json_data['status']['code'].should eq('precondition_failed')
@@ -55,10 +67,14 @@ application:
       auth_token = signin_with('email' => "test-user-#{index}@email.com", 'password' => 'password')
 
       join_game_response = invoke_remote_action(
-        'agent[cmd]' => 'join_game',
-        'agent[game_id]' => game_data['data']['game']['id'],
-        'agent[slot]' => index,
-        'auth_token' => auth_token
+        'auth_token' => auth_token,
+        'actions' => [{ 
+          'agent' => {
+            'cmd' => 'join_game',
+            'game_id' => game_data['data']['id'],
+            'slot' => index
+          }
+        }]
       )
       join_data = JSON.parse(join_game_response.body).first
       join_data['status']['code'].should eq('ok')
@@ -66,7 +82,7 @@ application:
       join_data['data']['users'].first['state'].should eq('join')
 
       if index >= GameOptions.options(:base)[:min_player_limit]
-        join_data['data']['game']['state'].should eq('armed')
+        join_data['data']['state'].should eq('armed')
       end
     end
 
@@ -74,10 +90,14 @@ application:
     extra_index = GameOptions.options(:base)[:max_player_limit] + 1
     auth_token = signin_with('email' => "test-user-#{extra_index}@email.com", 'password' => 'password')
     join_game_response = invoke_remote_action(
-      'agent[cmd]' => 'join_game',
-      'agent[game_id]' => game_data['data']['game']['id'],
-      'agent[slot]' => extra_index,
-      'auth_token' => auth_token
+      'auth_token' => auth_token,
+      'actions' => [{ 
+        'agent' => {
+          'cmd' => 'join_game',
+          'game_id' => game_data['data']['id'],
+          'slot' => extra_index
+        }
+      }]
     )
     join_datas = JSON.parse(join_game_response.body)
     join_data = join_datas.first

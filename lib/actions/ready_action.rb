@@ -15,16 +15,10 @@
 module Actions
   class ReadyAction < Madmass::Action::Action
     extend ActiveModel::Translation
+    include Actions::PerceptionHelper
 
     action_params
     action_states :join
-
-    # [OPTIONAL]  Add your initialization code here.
-    # def initialize params
-    #   super
-    #  # My initialization code
-    # end
-
 
     # [MANDATORY] Override this method in your action to define
     # the action effects.
@@ -44,13 +38,11 @@ module Actions
       p = Madmass::Perception::Percept.new(self)
       p.add_headers({:topics => DataModel::Game.current.channel}) #who must receive the percept
 
-      user = User.current.to_hash([:id, :nickname, :state, :score])
-      user[:player] = DataModel::Player.current.to_hash([:id, :avatar, :slot, :ready])
       p.data = DataModel::Game.current.to_percept.merge(
         # upadtes the state as it certainly changes on transitions
         :user_id => User.current.id,
         :user_state => User.current.state,
-        :users => [user],
+        :users => user_data,
         :event => 'user-ready'
       )
       Madmass.current_perception << p
@@ -62,12 +54,6 @@ module Actions
     def applicable?
       true
     end
-
-    # [OPTIONAL] Override this method to add parameters preprocessing code
-    # The parameters can be found in the @parameters hash
-    # def process_params
-    #   puts "Implement me!"
-    # end
 
   end
 

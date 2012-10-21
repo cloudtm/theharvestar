@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120827130407) do
+ActiveRecord::Schema.define(:version => 20121016075612) do
 
   create_table "games", :force => true do |t|
     t.string   "name"
@@ -43,6 +43,43 @@ ActiveRecord::Schema.define(:version => 20120827130407) do
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
   end
+
+  create_table "roads", :force => true do |t|
+    t.integer  "x"
+    t.integer  "y"
+    t.integer  "player_id"
+    t.integer  "game_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "roads", ["player_id"], :name => "index_roads_on_player_id"
+
+  create_table "roads_terrains", :id => false, :force => true do |t|
+    t.integer "road_id"
+    t.integer "terrain_id"
+  end
+
+  add_index "roads_terrains", ["road_id", "terrain_id"], :name => "roads_terrains_key", :unique => true
+
+  create_table "settlements", :force => true do |t|
+    t.integer  "level",      :default => 1
+    t.integer  "x"
+    t.integer  "y"
+    t.integer  "player_id"
+    t.integer  "game_id"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "settlements", ["player_id"], :name => "index_settlements_on_player_id"
+
+  create_table "settlements_terrains", :id => false, :force => true do |t|
+    t.integer "settlement_id"
+    t.integer "terrain_id"
+  end
+
+  add_index "settlements_terrains", ["settlement_id", "terrain_id"], :name => "settlements_terrains_key", :unique => true
 
   create_table "terrains", :force => true do |t|
     t.string   "terrain_type"

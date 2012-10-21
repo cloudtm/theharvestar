@@ -20,14 +20,14 @@ module Relational
 
     has_many :players, :dependent => :destroy
     has_many :terrains, :dependent => :destroy
-    #has_many :settlements, :dependent => :destroy #FIXME Remove? check in test suite before remove
-    #has_many :roads, :dependent => :destroy #FIXME Remove? check in test suite before remove
+    has_many :settlements, :dependent => :destroy #FIXME Remove? check in test suite before remove
+    has_many :roads, :dependent => :destroy #FIXME Remove? check in test suite before remove
     #has_one  :calamity, :dependent => :destroy
     # challenges section
-    #belongs_to :social_leader, :class_name => 'Player'
-    #belongs_to :transport_leader, :class_name => 'Player'
+    belongs_to :social_leader, :class_name => '::DataModel::Player'
+    belongs_to :transport_leader, :class_name => '::DataModel::Player'
     # winner
-    #belongs_to :winner, :class_name => 'Player'
+    belongs_to :winner, :class_name => '::DataModel::Player'
 
     validates :name, :presence => true
     validate :game_format
@@ -53,6 +53,14 @@ module Relational
       return (players.size >= GameOptions.options(format)[:max_player_limit])
     end
 
+    def to_percept
+      to_hash([:id, :transport_count, :channel, :state, :social_leader_id, :transport_leader_id, :social_count, :version, :winner_id])
+    end
+
+    def player_in_game?(player)
+      players.map(&:id).include?(player.id)
+    end
+
     class << self
 
       # Returns the avarage rank of game users (or provided users in the param)
@@ -76,17 +84,17 @@ module Relational
 
       # Returns the hash representation of the current game
       def to_hash
-        Game.current ? Game.current.to_hash : {}
+        DataModel::Game.current ? DataModel::Game.current.to_hash : {}
       end
 
       # Returns the format of the current game (e.g., :base)
       def format
-        Game.current ? Game.current.format : nil
+        DataModel::Game.current ? DataModel::Game.current.format : nil
       end
 
       # Returns the format of the current game (e.g., :base)
       def format_class
-        Game.current ? Game.current.format_class : nil
+        DataModel::Game.current ? DataModel::Game.current.format_class : nil
       end
 
       # Generates a new game instance, including the terrains
@@ -119,6 +127,7 @@ module Relational
       # and if found sets it to current game.
       # Return true if the game was found, false otherwise.
       def set_current options
+        logger.debug "GAMEID: #{options[:game_id]} - OPTIONS: #{options.inspect}"
         if options[:game_id]
           self.current = self.find_by_id(options[:game_id])
         else
@@ -216,11 +225,8 @@ module Relational
       return valid_format
     end
 
-    def to_percept
-      to_hash([:id, :transport_count, :channel, :state, :social_leader_id, :transport_leader_id, :social_count, :version, :winner_id])
-    end
-
     def games_list(options)
+      return []
       h_games = DataModel::Game.search(options)
 
       #FIXME use add_all_users and make this return an array of percepts

@@ -35,6 +35,17 @@ class Player {
   Integer magicResource;
 }
 
+class Settlement {
+  Integer level;
+  Integer x;
+  Integer y;
+}
+
+class Road {
+  Integer x;
+  Integer y;
+}
+
 // This is the root domain object
 class Root {
   boolean loaded;         // auxiliary slot for the bootstrap sequence
@@ -68,4 +79,34 @@ relation GameHasTerrains {
 relation GameHasPlayers {
   Game playsRole game;
   Player playsRole players { multiplicity *; }
+}
+
+relation TerrainHasSettlements {
+  Terrain playsRole terrains { multiplicity *; }
+  Settlement playsRole settlements { multiplicity *; }
+}
+
+relation TerrainHasRoads {
+  Terrain playsRole terrains { multiplicity *; }
+  Road playsRole roads { multiplicity *; }
+}
+
+relation GameHasSettlements {
+  Game playsRole game;
+  Settlement playsRole settlements { multiplicity *; }
+}
+
+relation GameHasRoads {
+  Game playsRole game;
+  Road playsRole roads { multiplicity *; }
+}
+
+relation PlayerHasSettlements {
+  Player playsRole player;
+  Settlement playsRole settlements { multiplicity *; }
+}
+
+relation PlayerHasRoads {
+  Player playsRole player;
+  Road playsRole roads { multiplicity *; }
 }

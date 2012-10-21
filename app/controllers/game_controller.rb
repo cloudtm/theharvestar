@@ -1,7 +1,4 @@
 class GameController < ApplicationController
-  # FIXME: temporary commented because the test environment don't work
-  # protect_from_forgery
-  # skip_before_filter :verify_authenticity_token
 
   respond_to :json, :html
 
@@ -24,8 +21,12 @@ class GameController < ApplicationController
         User.current = current_user
         # set the current player
         DataModel::Player.current = current_user.player
+        
+        # FIXME: this is not needed in a perfect world
+        DataModel::Player.current.user = current_user
+
         # set the current game if exists
-        game = current_user.player.game
+        game = DataModel::Player.current.game
         DataModel::Game.current = game if game
 
         # return the player to Madmass to set it as the agent (the action executor)
@@ -34,21 +35,39 @@ class GameController < ApplicationController
     end
   end
 
+  # The root action that renders the list or the game depending on the user state
   def index
-    status = Madmass.current_agent.execute(:cmd => 'list_sensing')
-    logger.debug "STATUS: #{status}"
+    status = Madmass.current_agent.execute(:cmd => "list_sensing")
+    #status = Madmass.current_agent.execute(:cmd => "#{current_user.state}_sensing")
     @sensing = Madmass.current_perception.first.data[:sensing]
-    logger.debug "PERCEPT: #{Madmass.current_perception.inspect}"
     respond_to do |format|
       format.html {render :index, :status => status}
     end
-
   end
 
+  # The root action that renders the game
+  #def play
+  #  return unless action_monitor do
+  #    @game_log.action({:cmd => :"#{current_user.state}_sensing"}) do |action_params|
+  #      @action = Mechanics::ActionFactory.make(action_params)
+  #      @percept = @action.do_it
+  #      {:action => @action, :percept => @percept}
+  #    end
+  #  end
+  #end
+
+  #def comingsoon
+  #  render :layout => 'comingsoon'
+  #end
+
   def execute
-    return unless params[:agent]
-    status = Madmass.current_agent.execute(params[:agent])
-    @perception = Madmass.current_perception
+    actions = ActiveSupport::JSON::decode(params[:actions])
+    return unless actions
+    actions.each do |action|
+      action = HashWithIndifferentAccess.new(action)
+      status = Madmass.current_agent.execute(action[:agent])
+      @perception = Madmass.current_perception
+    end
 
     respond_to do |format|
       format.html {render :execute, :status => status}
@@ -56,9 +75,31 @@ class GameController < ApplicationController
     end
 
   rescue Madmass::Errors::StateMismatchError
-    # redirect_to :action => current_user.state
+    respond_to do |format|
+      format.html {redirect_to :action => :index} #current_user.state}
+      format.json {render :json => 'state mismatch'.to_json, :status => 500}
+    end
+
   end
 
+  # TODO: convert in madmass actions
+  #def account
+  #  game = params[:game]
+  #  acc = game[:account]
+  #
+  #  if acc and acc[:cancel]
+  #    current_user.delete_preview
+  #    render :json => ['ok'], :status => :ok
+  #  elsif acc and acc[:preview]
+  #    current_user.update_attributes({:preview => acc[:preview]})
+  #    render :json => {:tocrop => current_user.preview.url(:crop), :ratio => current_user.preview_ratio}, :status => :ok
+  #  else
+  #    @action = Mechanics::ActionFactory.make(game.merge({:cmd => :account}))
+  #    @percept = @action.do_it
+  #    render :json => ['ok'], :status => :ok
+  #  end
+  #
+  #end
 
 end
 

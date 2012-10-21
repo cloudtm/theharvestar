@@ -64,6 +64,7 @@ TorqueSpec.local {
 def invoke_remote_action(params)
   http = Net::HTTP.new('localhost', '8080').start
   remote_request = Net::HTTP::Post.new('/game/execute.json', initheader = {'Content-Type' => 'application/x-www-form-urlencoded'})
+  params['actions'] = params['actions'].to_json
   remote_request.body = params.to_query
   http.request(remote_request)
 end

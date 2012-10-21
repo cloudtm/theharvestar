@@ -2,8 +2,10 @@ require 'spec_helper'
 require 'open-uri'
 require 'net/http'
 
+{"actions"=>"[{\"agent\":{\"cmd\":\"create_game\",\"format\":\"base\",\"name\":\"game_7\"}}]"}
+{"actions"=>"[{\"agent[cmd]\":\"create_game\",\"agent[name]\":\"test-ready-game\"}]", "auth_token"=>"T1p7AH8sXzEiKUyPkivN"}
 
-describe "ready actions in torquebox" do
+describe "play actions in torquebox" do
 
   @content_type = 'application/json'
   @auth_token = nil
@@ -17,14 +19,14 @@ application:
     @auth_token = signin_with("email" => "test-user-1@email.com", "password" => "password")
   end
 
-  it "game should not be ready" do
+  it "game should play" do
     # there is a minimum number of players that can start a game
     create_game_response = invoke_remote_action(
       'auth_token' => @auth_token,
       'actions' => [{ 
         'agent' => { 
           'cmd' => 'create_game',
-          'name' => 'test-ready-game'
+          'name' => 'test-play-game'
         }
       }]
     )
@@ -37,17 +39,14 @@ application:
         'agent' => { 'cmd' => 'ready' }
       }]
     )
-    ready_data = JSON.parse(ready_response.body).first
-    ready_data['data']['state'].should eq('joining')
-    ready_data['data']['users'].first['state'].should eq('join')
-
+ 
     # join other users to the game
     2.upto(GameOptions.options(:base)[:min_player_limit]) do |index|
       auth_token = signin_with('email' => "test-user-#{index}@email.com", 'password' => 'password')
 
       join_game_response = invoke_remote_action(
         'auth_token' => auth_token,
-        'actions' => [{
+        'actions' => [{ 
           'agent' => {
             'cmd' => 'join_game',
             'game_id' => game_data['data']['id'],
@@ -59,14 +58,27 @@ application:
         'auth_token' => auth_token,
         'actions' => [{ 
           'agent' => { 'cmd' => 'ready' }
-        }]
+          }]
       )
 
     end
 
     # the game should start playing
-    ready_data = JSON.parse(ready_response.body).first
-    ready_data['data']['state'].should eq('playing')
+    play_game_response = invoke_remote_action(
+      'auth_token' => @auth_token,
+      'actions' => [{ 
+        'agent' => { 'cmd' => 'play' }
+        }]
+    )
+    JSON.parse(play_game_response.body).each do |percept|
+      case percept['data']['event'] 
+      when 'game-started'
+        percept['data']['id'].should eq(game_data['data']['id'])  
+      when 'manage-state'
+        percept['data']['users'].first['state'].should eq('play')  
+      end  
+    end
+    
   end
 
 

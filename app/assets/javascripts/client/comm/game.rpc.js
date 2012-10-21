@@ -1,6 +1,6 @@
 /***************************************************************************
-                           Game Ajax RPC calls
-***************************************************************************/
+ Game Ajax RPC calls
+ ***************************************************************************/
 
 Game.Rpc = new Class.Singleton({
   Extends: Core.Base,
@@ -46,288 +46,313 @@ Game.Rpc = new Class.Singleton({
   },
 
   buildInfrastructure: function(params){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': params.cmd,
-        'agent[target]': params.target
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'build', params: params});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: params.cmd,
+          target: params.target
+        }
+      }],
+      {type: 'rpc', name: 'build', params: params}
+    );
   },
 
   doFixedTrade: function(trade){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'trade_bank',
-        'agent[receive]': trade.r,
-        'agent[give]': trade.g
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'doFixedTrade', params: trade});
-    request.success = this.notify($msg.success.doFixedTrade);
-    request.error = this.notify($msg.error.doFixedTrade);
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'trade_bank',
+          receive: trade.r,
+          give: trade.g
+        }
+      }],
+      this.notify($msg.success.doFixedTrade),
+      this.notify($msg.error.doFixedTrade),
+      {type: 'rpc', name: 'doFixedTrade', params: trade}
+    );
   },
 
   openTrade: function(offer){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'place_trade_request',
-        'agent[receive]': offer.r,
-        'agent[give]': offer.g
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'openTrade', params: offer});
-    request.error = this.notify($msg.error.openTrade);
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'place_trade_request',
+          receive: offer.r,
+          give: offer.g
+        }
+      }],
+      null,
+      this.notify($msg.error.openTrade),
+      {type: 'rpc', name: 'openTrade', params: offer}
+    );
   },
 
   closeTrade: function(){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'close_trade_request'
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'closeTrade'});
-    request.error = this.notify($msg.error.closeTrade);
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'close_trade_request'
+        }
+      }],
+      null,
+      this.notify($msg.error.closeTrade),
+      {type: 'rpc', name: 'closeTrade'}
+    );
   },
 
   acceptOffer: function(offerId){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'accept_offer',
-        'agent[offer]': offerId
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'acceptOffer', params: offerId});
-    request.success = this.notify($msg.success.acceptOffer, {id: offerId});
-    request.error = this.notify($msg.error.acceptOffer, {id: offerId});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'accept_offer',
+          offer: offerId
+        }
+      }],
+      this.notify($msg.success.acceptOffer, {id: offerId}),
+      this.notify($msg.error.acceptOffer, {id: offerId}),
+      {type: 'rpc', name: 'acceptOffer', params: offerId}
+    );
   },
 
   counterOffer: function(offer){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'counter_offer',
-        'agent[offer]': offer.id,
-        'agent[receive]': offer.receive,
-        'agent[give]': offer.give,
-        'agent[message]': offer.message
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'counterOffer', params: offer});
-    request.success = this.notify($msg.success.counterOffer, {id: offer.id});
-    request.error = this.notify($msg.error.counterOffer, {id: offer.id});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'counter_offer',
+          offer: offer.id,
+          receive: offer.receive,
+          give: offer.give,
+          message: offer.message
+        }
+      }],
+      this.notify($msg.success.counterOffer, {id: offer.id}),
+      this.notify($msg.error.counterOffer, {id: offer.id}),
+      {type: 'rpc', name: 'counterOffer', params: offer}
+    );
   },
 
   sendChatMessage: function(message){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'playing_chat',
-        'agent[message]': message
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'chat', params: message});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'playing_chat',
+          message: message
+        }
+      }],
+      {type: 'rpc', name: 'chat', params: message}
+    );
   },
 
   fundResearch: function(){
-    var request = {
-      action: 'execute',
-      data:{
-       'agent[cmd]': 'buy_progress'
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'fundResearch'});
-    request.success = this.notify($msg.success.fundResearch);
-    request.error = this.notify($msg.error.fundResearch);
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'buy_progress'
+        }
+      }],
+      this.notify($msg.success.fundResearch),
+      this.notify($msg.error.fundResearch),
+      {type: 'rpc', name: 'fundResearch'}
+    );
   },
 
   chaseAwayCriminality: function(){
-    var request = {
-      action: 'execute',
-      data:{
-        'agent[cmd]': 'use_social_progress'
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'chaseAwayCriminality'});
-    request.success = this.notify($msg.success.boycot);
-    request.error = this.notify($msg.error.boycot);
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'use_social_progress'
+        }
+      }],
+      this.notify($msg.success.boycot),
+      this.notify($msg.error.boycot),
+      {type: 'rpc', name: 'chaseAwayCriminality'}
+    );
   },
 
   /* -command: {code: 'fill', ... other params ...} */
   adminCmd: function(command){
     if(!(command && command.code)) return;
 
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'secret',
-        'agent[command]': command.code,
-        'agent[args]': command.args
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'secretCmd', params: command});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'secret',
+          command: command.code,
+          args: command.args
+        }
+      }],
+      {type: 'rpc', name: 'secretCmd', params: command}
+    );
   },
 
   giveupGame: function(){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'giveup'
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'giveupGame'});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'giveup'
+        }
+      }],
+      {type: 'rpc', name: 'giveupGame'}
+    );
   },
 
   createGame: function(){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'create_game',
-        'agent[format]': 'base',
-        'agent[name]': 'game_' + CONFIG.userId
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'createGame'});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'create_game',
+          format: 'base',
+          name: 'game_' + CONFIG.userId
+        }
+      }],
+      {type: 'rpc', name: 'createGame'}
+    );
   },
 
   leaveGame: function(){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'leave_game'
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'leaveGame'});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'leave_game'
+        }
+      }],
+      {type: 'rpc', name: 'leaveGame'});
   },
 
   joinGame: function(game){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'join_game',
-        'agent[game_id]': game.id,
-        'agent[slot]': game.slot
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'joinGame', params: game});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'join_game',
+          game_id: game.id,
+          slot: game.slot
+        }
+      }],
+      {type: 'rpc', name: 'joinGame', params: game}
+    );
   },
 
   ready: function(){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'ready'
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'ready'});
-    AJAX.call(request);
+    this.sendCommands([
+      { agent: { cmd: 'ready' } },
+      { agent: { cmd: 'play' } }
+    ],
+      {type: 'rpc', name: 'ready'}
+    );
   },
 
   unjoinGame: function(){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'unjoin_game'
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'unjoinGame'});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'unjoin_game'
+        }
+      }],
+      {type: 'rpc', name: 'unjoinGame'}
+    );
   },
 
   demoGame: function(){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'demo',
-        'agent[format]': 'base',
-        'agent[name]': 'training_' + CONFIG.userId
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'demoGame'});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'demo',
+          format: 'base',
+          name: 'training_' + CONFIG.userId
+        }
+      }],
+      {type: 'rpc', name: 'demoGame'}
+    );
   },
 
   selectAvatar: function(avatar){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'select_avatar',
-        'agent[avatar]': avatar
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'selectAvatar', params: avatar});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'select_avatar',
+          avatar: avatar
+        }
+      }],
+      {type: 'rpc', name: 'selectAvatar', params: avatar}
+    );
   },
 
   hiscores: function(params){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'hiscores',
-        'agent[mypos]': params.mypos || false,
-        'agent[size]': params.size,
-        'agent[page]': params.page || 1,
-        'agent[search]': params.search
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'hof', params: params});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'hiscores',
+          mypos: params.mypos || false,
+          size: params.size,
+          page: params.page || 1,
+          search: params.search
+        }
+      }],
+      {type: 'rpc', name: 'hof', params: params}
+    );
   },
 
   account: function(account){
-    var request = {
-      action: 'account',
-      data: {
-        'agent[cmd]': 'account',
-        'agent[account]': account
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'account', params: account});
-    AJAX.call(request);
+    // FIXME: this command don't use execute action but account
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'account',
+          account: account
+        }
+      }],
+      {type: 'rpc', name: 'account', params: account}
+    );
   },
 
   list: function(){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'list'
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'list'});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'list'
+        }
+      }],
+      {type: 'rpc', name: 'list'}
+    );
   },
 
   saveSettings: function(settingsJson){
-    var request = {
-      action: 'execute',
-      data: {
-        'agent[cmd]': 'save_settings',
-        'agent[settings]' : settingsJson
-      }
-    };
-    this.toHistory(request, {type: 'rpc', name: 'list', params: settingsJson});
-    AJAX.call(request);
+    this.sendCommands(
+      [{
+        agent: {
+          cmd: 'save_settings',
+          settings: settingsJson
+        }
+      }],
+      {type: 'rpc', name: 'list', params: settingsJson}
+    );
   },
 
+  /*
+   * Translate the array of actions into the commands hash in the form
+   * accepted from the server.
+   */
+  toCommands: function(actions){
+    var commands = {
+      action: 'execute',
+      data: { actions: JSON.stringify(actions) },
+      dataType: 'json'
+    };
+    return commands;
+  },
+
+  /*
+   * Send a list of commands to the server via AJAX.
+   */
+  sendCommands: function(actions, success, error) {
+    var commands = this.toCommands(actions, history);
+    if(success != null)
+      commands.success = success;
+    if(error != null)
+      commands.error = error;
+    this.toHistory(commands, history);
+    AJAX.call(commands);
+  },
 
   /* Use this method in ajax success and error callbacks to fire
    * success or error messages. Example:

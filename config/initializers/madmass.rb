@@ -6,9 +6,7 @@
 
     # Configure Madmass to use
     #config.tx_adapter = :"Madmass::Transaction::ActiveRecordAdapter"
-    #config.tx_adapter = :"Madmass::Transaction::TorqueBoxAdapter"
     config.tx_adapter = :'Madmass::Transaction::CloudTmAdapter'
     config.perception_sender = :"Madmass::Comm::SockySender"
-    #config.domain_updater = :"MapUpdater"
     Madmass::Utils::InstallConfig.init
  end

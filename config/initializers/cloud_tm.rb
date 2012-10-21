@@ -15,26 +15,28 @@
 ###############################################################################
 ###############################################################################
 
+# hack to set the current datamodel ... need improvements
+#DataModel = Relational
+DataModel = Cloudtm
 
-begin
-  # hack to set the current datamodel ... need improvements
-  #DataModel = Relational
-  DataModel = Cloudtm
+if(DataModel == Cloudtm)
+  begin
+    require File.join(Rails.root, 'lib', 'cloud_tm', 'framework')
 
-  require File.join(Rails.root, 'lib', 'cloud_tm', 'framework')
+    # loading the Fenix Framework
+    Madmass.logger.debug "[initializers/cloud_tm] Initializing Framework"
+    CloudTm::Framework.init
+  rescue Exception => ex
+    Rails.logger.error "Cannot load Cloud-TM Framework: #{ex}"
+    Rails.logger.error ex.backtrace.join("\n")
 
-  # loading the Fenix Framework
-  Madmass.logger.debug "[initializers/cloud_tm] Initializing Framework"
-  CloudTm::Framework.init
-rescue Exception => ex
-  Rails.logger.error "Cannot load Cloud-TM Framework: #{ex}"
-  Rails.logger.error ex.backtrace.join("\n")
-
-  Madmass.logger.error "*********** LOOKING FOR CAUSES ************"
-  current = ex
-  while current
-    Madmass.logger.error("Inspecting cause: #{current.class} --  #{current.message}")
-    Madmass.logger.error current.backtrace.join("\n")
-    current = current.class.method_defined?(:cause) ? current.cause : nil
+    Madmass.logger.error "*********** LOOKING FOR CAUSES ************"
+    current = ex
+    while current
+      Madmass.logger.error("Inspecting cause: #{current.class} --  #{current.message}")
+      Madmass.logger.error current.backtrace.join("\n")
+      current = current.class.method_defined?(:cause) ? current.cause : nil
+    end
   end
 end
+

@@ -22,6 +22,7 @@
 module Actions
   class SelectAvatarAction < Madmass::Action::Action
     extend ActiveModel::Translation
+    include Actions::PerceptionHelper
 
     action_params :avatar
     action_states :join
@@ -45,12 +46,10 @@ module Actions
     def build_result
       p = Madmass::Perception::Percept.new(self)
       p.add_headers({ :topics => 'list' }) #who must receive the percept
-      user_data = User.current.to_hash([:id, :nickname, :state, :score])
-      user_data[:player] = DataModel::Player.current.to_hash([:id, :avatar, :slot, :ready])
       p.data = DataModel::Game.current.to_percept.merge(
         :user_id => User.current.id,
         :user_state => User.current.state,
-        :users => [ user_data ],
+        :users => user_data,
         :event => 'select-avatar'
       )
       Madmass.current_perception << p
