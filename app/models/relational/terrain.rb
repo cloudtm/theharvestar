@@ -70,7 +70,7 @@ module Relational
           result[:wasted_terrains] = params[:wasted_terrains]
           params[:wasted_terrains].each do |wasted|
             terrain = where(:game_id => DataModel::Game.current.id, :x => wasted[0], :y => wasted[1]).first
-            Calamity.happens terrain
+            #DataModel::Calamity.happens terrain
           end
         else
           result[:wasted_terrains] = []
@@ -84,7 +84,7 @@ module Relational
           #collects all the information in the result hash
           wasted_terrains_indexes.each do |index|
             result[:wasted_terrains] << [target_terrains[index].x, target_terrains[index].y]
-            DataModel::Calamity.happens target_terrains[index]
+            #DataModel::Calamity.happens target_terrains[index]
           end
         end
         result

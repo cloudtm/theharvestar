@@ -129,6 +129,48 @@ module Cloudtm
       DataModel::Game.current.removePlayers(self)
     end
 
+    # Returns true if involved player has enough resources to pay the costs.
+    def can_buy? costs
+      costs.each do |key, value|
+        wallet = attributes_to_hash[key.to_sym]
+        if (wallet < value.abs)
+          return false
+        end
+      end
+      return true
+    end
+
+    def pay! payment
+      payment.each do |resource, income|
+        total = self.send(resource)
+        self.send("#{resource}=", total + income)
+      end
+    end
+
+    # This method is used in to implements one of the postconditions of the settlement initial placement.
+    # For each productive terrain reached by the settlement it adds on resource to the player.
+    def init_resources target
+      settlement_terrains = DataModel::Terrain.find_by_hexes(target.hexes)
+      resources = {}
+      settlement_terrains.each { |t|
+        resource_type = GameOptions.options(DataModel::Game.current.format)[t.terrain_type]
+        unless resource_type.nil?
+          resources[resource_type] ||= 0
+          resources[resource_type] += 1
+        end
+      }
+      DataModel::Player.current.update_resources(resources)
+    end
+
+    # Increment player resources with values in the hash passed as method parameter.
+    def update_resources(resources)
+      resources.each do |key, value|
+        res = self.send(key)
+        res += value
+        self.send("#{key}=", res)
+      end
+    end
+
     class << self
       # Sets the current player
       def current=(player)

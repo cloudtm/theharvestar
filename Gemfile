@@ -5,8 +5,8 @@ source "http://gems.github.com"
 
 gem 'rails', '3.2.6'
 gem 'jquery-rails'
-#gem "madmass", :git => "git://github.com/algorithmica/madmass.git"
-gem 'madmass', :path => '/Users/genzo/algo_projects/madmass'
+gem "madmass", :git => "git://github.com/algorithmica/madmass.git"
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -61,7 +61,7 @@ group :development, :test do
   gem 'torquespec', ">= 0.3.5"
   gem 'capybara'
 #  gem 'akephalos'
-  gem 'torquebox-server', "~> 2.0.3"
+  gem 'torquebox-server', "~> 2.1.1"
 end
 
 group :test do

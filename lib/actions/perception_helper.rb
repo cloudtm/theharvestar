@@ -111,6 +111,11 @@ module Actions
       DataModel::Game.current.players.sort_by(&:id).map(&:to_info)
     end
 
+    #adds a list of players to the percept (used in ecocrime and production)
+    def raw_players(players)
+      players.map{|player| player.to_hash([:id, :user_id, :avatar, :slot, :total_score, :titanium, :magic_resource, :energy, :water, :silicon, :grain, :version])}
+    end
+
     def current_market
       market = {}
       # FIXME:

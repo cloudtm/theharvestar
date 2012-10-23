@@ -61,6 +61,10 @@ module Relational
       players.map(&:id).include?(player.id)
     end
 
+    def created_time
+      created_at
+    end
+
     class << self
 
       # Returns the avarage rank of game users (or provided users in the param)
@@ -166,15 +170,20 @@ module Relational
         end
       end
 
-      #Return an array whose elements are couple of coords representing all the terrains currently affected by calamity
-      #def wasted_terrain_coords
-      #  wasted_terrains.map{|t| [t.x,t.y]}
-      #end
-      #
-      #def wasted_terrains
-      #  game_calamities = Calamity.where(:game_id => Game.current.id)
-      #  game_calamities.map(&:terrain)
-      #end
+      def find_by_states(states)
+        where(:state => states)
+      end
+
+      # Return an array whose elements are couple of coords representing all the terrains currently affected by calamity
+      def wasted_terrain_coords
+        wasted_terrains.map{|t| [t.x,t.y]}
+      end
+      
+      def wasted_terrains
+        #game_calamities = Calamity.where(:game_id => Game.current.id)
+        #game_calamities.map(&:terrain)
+        []
+      end
 
       #def current_rank
       #  #returns an array of hash {:id => player.id, :score =>player.total_score,:rank=> rank}, ordered by total_score.

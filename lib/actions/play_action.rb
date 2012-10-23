@@ -39,7 +39,6 @@ module Actions
 
       p = Madmass::Perception::Percept.new(self)
       p.add_headers({ :topics => DataModel::Game.current.channel }) #who must receive the percept
-      Rails.logger.debug "CURRENT GAME: #{DataModel::Game.current.to_percept.inspect} - #{DataModel::Game.current.format}"
       p.data = DataModel::Game.current.to_percept.merge(
         :user_id => User.current.id,
         :user_state => User.current.state,

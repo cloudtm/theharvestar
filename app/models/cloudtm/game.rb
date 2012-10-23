@@ -33,6 +33,23 @@ module Cloudtm
       app.removeGames(self)
     end
 
+    def created_time
+      Time.at(created_at.getTime/1000)
+    end
+
+    # Returns the column format (string) as symbol.
+    def format_with_sym
+      frmt = format_without_sym
+      frmt ? frmt.to_sym : frmt
+    end
+
+    alias_method_chain :format, :sym
+
+    # Returns the class name associated to the format.
+    def format_class
+      format.to_s.camelize
+    end
+
     class << self
 
       # Assigns the current game in the thread hash.
@@ -62,7 +79,13 @@ module Cloudtm
       def factory params
         params[:format] = :base unless params[:format]
         map_terrains = params[:terrains] || Map::MapFactory.make(:type => params[:format])
-        game = self.create(:name => params[:name], :format => params[:format], :state => initial_state)
+        game = self.create(
+          :name => params[:name], 
+          :format => params[:format], 
+          :state => initial_state, 
+          :created_at => java.util.Date.new
+        )
+
         #game.update_attribute(:state, initial_state)
         # associate terrains with game
         map_terrains.each do |map_terrain|
@@ -97,6 +120,17 @@ module Cloudtm
         app.getGames
       end
 
+      # Returns the list of active games.
+      def all_by_states(states)
+        find_by_states(states).map do |game|
+          game.to_hash {|g| {:player_count => g.players.size}}
+        end
+      end
+
+      def find_by_states(states)
+        DataModel::Game.all.select{ |game| states.include?(game.state) }
+      end
+
       def games_list(options)
         return []
         
@@ -112,6 +146,17 @@ module Cloudtm
 
         end
         percept[:games_list] = h_games
+      end
+
+      # Return an array whose elements are couple of coords representing all the terrains currently affected by calamity
+      def wasted_terrain_coords
+        wasted_terrains.map{|t| [t.x,t.y]}
+      end
+      
+      def wasted_terrains
+        #game_calamities = Calamity.where(:game_id => Game.current.id)
+        #game_calamities.map(&:terrain)
+        []
       end
 
     end

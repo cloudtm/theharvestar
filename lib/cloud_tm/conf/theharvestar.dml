@@ -1,5 +1,10 @@
 package it.algo.theharvestar.domain;
 
+valueType java.util.Date as JavaDate {
+  externalizeWith {
+    String toString();
+  }
+}
 
 //CLASSES
 
@@ -10,6 +15,7 @@ class Game {
   Integer version;
   Integer socialCount;
   Integer transportCount;
+  JavaDate createdAt;
 }
 
 
