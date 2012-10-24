@@ -107,6 +107,11 @@ relation GameHasRoads {
   Road playsRole roads { multiplicity *; }
 }
 
+relation GameHasWinner {
+  Game playsRole winnergame;
+  Player playsRole winner;
+}
+
 relation PlayerHasSettlements {
   Player playsRole player;
   Settlement playsRole settlements { multiplicity *; }

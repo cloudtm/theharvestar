@@ -3,7 +3,7 @@ require 'open-uri'
 require 'net/http'
 
 
-describe "production actions in torquebox" do
+describe "build outpost actions in torquebox" do
 
   @auth_token = nil
 
@@ -16,21 +16,21 @@ application:
     @auth_token = signin_with("email" => "test-user-1@email.com", "password" => "password")
   end
 
-  it "production should be fired" do
-    game_data = initialize_game(@auth_token, 'production')
+  it "outpost should be built" do
+    game_data = initialize_game(@auth_token, 'build-outpost')
 
-    production_response = invoke_remote_action(
+    build_response = invoke_remote_action(
       'auth_token' => @auth_token,
       'actions' => [{ 
         'agent' => { 
-          'cmd' => 'production',
-          'game_id' => game_data['data']['id'],
-          'roll' => 3
+          'cmd' => 'build_outpost',
+          'target' => [0, 0, 1, 0, 1, -1]
         }
       }]
     )
-    production_data = JSON.parse(production_response.body).first
-    puts production_data.inspect
+    build_data = JSON.parse(build_response.body).first
+    #puts build_data.inspect
+    build_data['data']['event'].should eq('update-player')
     # TODO: assertions
   end
 

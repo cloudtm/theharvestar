@@ -63,15 +63,16 @@ class GameController < ApplicationController
   def execute
     actions = ActiveSupport::JSON::decode(params[:actions])
     return unless actions
+    @perceptions = []
     actions.each do |action|
       action = HashWithIndifferentAccess.new(action)
       status = Madmass.current_agent.execute(action[:agent])
-      @perception = Madmass.current_perception
+      @perceptions += Madmass.current_perception
     end
 
     respond_to do |format|
       format.html {render :execute, :status => status}
-      format.json {render :json => @perception.to_json, :status => status}
+      format.json {render :json => @perceptions.to_json, :status => status}
     end
 
   rescue Madmass::Errors::StateMismatchError

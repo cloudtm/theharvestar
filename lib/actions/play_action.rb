@@ -59,9 +59,18 @@ module Actions
     # applicable (i.e. to verify the action preconditions).
     def applicable?
       if !DataModel::Game.current
-        why_not_applicable.publish(:name => :game_not_exist, :message => I18n.t(:'action.game.not_exists'), :recipients => [User.current.id])
+        why_not_applicable.publish(
+          :name => :game_not_exist, 
+          #:message => I18n.t(:'action.game.not_exists'), 
+          :key => 'action.game.not_exists',
+          :recipients => [User.current.id]
+        )
       elsif (!DataModel::Game.current.all_players_ready?)
-        why_not_applicable.publish(:name => :game_not_all_ready, :message => I18n.t(:'action.game.not_exists'), :recipients => [User.current.id])
+        why_not_applicable.publish(
+          :name => :game_not_all_ready, 
+          #:message => I18n.t(:'action.game.not_exists'), 
+          :key => 'action.game.not_exists',
+          :recipients => [User.current.id])
       end
 
       return why_not_applicable.empty?

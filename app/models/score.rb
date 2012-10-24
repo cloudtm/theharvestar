@@ -9,18 +9,20 @@
         DataModel::Player.current.save!
         self.winner?
 
-        DataModel::Game.current.next_state!
+        # fire a state change
+        DataModel::Game.current.score_changed
         return DataModel::Player.current.score
       end
 
       def winner?
-        if(DataModel::Player.current.total_score >= GameOptions.options(DataModel::Game.format)[:winner_score] and not DataModel::Game.current.winner)
+        if(DataModel::Player.current.total_score >= GameOptions.options(DataModel::Game.current.format)[:winner_score] and not DataModel::Game.current.winner)
          and_the_winner_is DataModel::Player.current
         end
       end
 
       #increases the settlement and cultural level score of the current player
       def increase_score inc = 1
+        DataModel::Player.current.score ||= 0
         DataModel::Player.current.score += inc
       end
 
@@ -41,13 +43,13 @@
       # Returns the amount of points provided by the transport challenge. The amount is zero
       # if the player is not the transport leader.
       def transport_score(player)
-        player.game_transport_leader ? GameOptions.options(DataModel::Game.format)[:transport_challenge_points] : 0
+        player.game_transport_leader ? GameOptions.options(DataModel::Game.current.format)[:transport_challenge_points] : 0
       end
 
       # Returns the size of the longest road (called the transport score).
       def transport_level(player)
-        # roads not placed have 0,0 coords
-        roads = player.roads.where('x <> 0 OR y <> 0')
+        # roads not placed 
+        roads = player.unplaced_roads
         #create array of edges (eg, pairs of nodes)
         edges = []
         roads.each do |r|
@@ -67,7 +69,7 @@
 
       # Returns the amount of points provided to the game winner.
       def victory_score(player)
-        (player == DataModel::Game.current.winner) ? GameOptions.options(DataModel::Game.format)[:victory_bonus] : 0
+        (player == DataModel::Game.current.winner) ? GameOptions.options(DataModel::Game.current.format)[:victory_bonus] : 0
       end
 
       # Returns the amount of social progresses used by the player.
@@ -84,7 +86,7 @@
       # Returns the amount of points provided by the social challenge. The amount is zero
       # if the player is not the social leader.
       def social_score(player)
-        player.game_social_leader ? GameOptions.options(DataModel::Game.format)[:social_challenge_points] : 0
+        player.game_social_leader ? GameOptions.options(DataModel::Game.current.format)[:social_challenge_points] : 0
       end
 
 
@@ -110,7 +112,7 @@
 
       def social_goal_achieved?
         DataModel::Game.current.players.each do |player|
-          return false if(player.total_score < GameOptions.options(DataModel::Game.format)[:minimum_player_score])
+          return false if(player.total_score < GameOptions.options(DataModel::Game.current.format)[:minimum_player_score])
         end
         return true
       end

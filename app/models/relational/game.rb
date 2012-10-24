@@ -92,14 +92,14 @@ module Relational
       end
 
       # Returns the format of the current game (e.g., :base)
-      def format
-        DataModel::Game.current ? DataModel::Game.current.format : nil
-      end
+      #def format
+      #  DataModel::Game.current ? DataModel::Game.current.format : nil
+      #end
 
       # Returns the format of the current game (e.g., :base)
-      def format_class
-        DataModel::Game.current ? DataModel::Game.current.format_class : nil
-      end
+      #def format_class
+      #  DataModel::Game.current ? DataModel::Game.current.format_class : nil
+      #end
 
       # Generates a new game instance, including the terrains
       # that constitute its map

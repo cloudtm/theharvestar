@@ -101,6 +101,10 @@ module CloudTm
     def save
       #does nothing, kept for compatibility with AR
     end
+    
+    def save!
+      #does nothing, kept for compatibility with AR
+    end
 
     def to_hash(selection = nil)
       if (selection)

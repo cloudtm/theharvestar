@@ -76,3 +76,57 @@ def signin_with(params)
   signin_response = http.request(signin_request)
   JSON.parse(signin_response.body)['token']
 end
+
+def initialize_game(auth_token, step = nil)
+  # there is a minimum number of players that can start a game
+  create_game_response = invoke_remote_action(
+    'auth_token' => auth_token,
+    'actions' => [{ 
+      'agent' => { 
+        'cmd' => 'create_game',
+        'name' => "test#{step ? '-'+step : ''}-game"
+      }
+    }]
+  )
+  game_data = JSON.parse(create_game_response.body).first
+  
+  ready_response = invoke_remote_action(
+    'auth_token' => auth_token,
+    'actions' => [{ 
+      'agent' => { 'cmd' => 'ready' }
+    }]
+  )
+
+  # join other users to the game
+  2.upto(GameOptions.options(:base)[:min_player_limit]) do |index|
+    new_auth_token = signin_with('email' => "test-user-#{index}@email.com", 'password' => 'password')
+
+    join_game_response = invoke_remote_action(
+      'auth_token' => new_auth_token,
+      'actions' => [{ 
+        'agent' => {
+          'cmd' => 'join_game',
+          'game_id' => game_data['data']['id'],
+          'slot' => index
+        }
+      }]
+    )
+    ready_response = invoke_remote_action(
+      'auth_token' => new_auth_token,
+      'actions' => [{ 
+        'agent' => { 'cmd' => 'ready' }
+        }]
+    )
+
+  end
+
+  # the game should start playing
+  play_game_response = invoke_remote_action(
+    'auth_token' => auth_token,
+    'actions' => [{ 
+      'agent' => { 'cmd' => 'play' }
+      }]
+  )
+
+  return game_data
+end

@@ -65,6 +65,62 @@ module Cloudtm
       }
     end
 
+    class << self
+      # Sets the current player
+      def current=(player)
+        Thread.current[:player] = player
+      end
+
+      # Note: current player is set by User in Thread
+      def current
+        Thread.current[:player]
+      end
+
+      def ready(ready, demo = false)
+        current.ready = ready
+        # refresh the player in the memory in the current Game and User
+        #User.current.player = current #FIXME, is it needed?
+        #DataModel::Game.current.players.each do |player|
+        #  if(current.id == player.id)
+        #    player = current
+        #    break
+        #  end
+        #end
+        demo ? DataModel::Game.current.demo : DataModel::Game.current.ready
+      end
+
+      def ready?
+        current.ready
+      end
+
+      # Check if  pieces for building a specific infrastructure are depleted.
+      def depleted?(infrastructure)
+        association_name = infrastructure.to_s.pluralize
+        placed = DataModel::Player.current.send(association_name).size
+        available = GameOptions.options(DataModel::Game.current.format)[:"max_#{association_name}"]
+        return placed == available unless placed > available
+        raise GameError::CatastrophicError, %Q{
+           Inconsistent state:
+           placed #{association_name} cannot be more than #{available}.
+           Already (placed #{placed})
+        }
+      end
+
+      def create_with_root attrs = {}, &block
+        create_without_root(attrs) do |instance|
+          app.add_players instance
+        end
+      end
+
+      alias_method_chain :create, :root
+
+      def all
+        app.getPlayers
+      end
+
+    end
+
+
     def initial_to_place(infrastructure)
       association_name = infrastructure.to_s.pluralize
       placed = send(association_name).size
@@ -117,7 +173,6 @@ module Cloudtm
 
     # Adapter to use the user association in the rails way
     def user
-      Rails.logger.debug "@@@@@@@@@@@@@@@@@ READ USERID: [#{user_id}] @@@@@@@@@@@@@@@@@@@@@"
       User.find_by_id(user_id)
     end
 
@@ -152,8 +207,8 @@ module Cloudtm
     def init_resources target
       settlement_terrains = DataModel::Terrain.find_by_hexes(target.hexes)
       resources = {}
-      settlement_terrains.each { |t|
-        resource_type = GameOptions.options(DataModel::Game.current.format)[t.terrain_type]
+      settlement_terrains.each { |terrain|
+        resource_type = GameOptions.options(DataModel::Game.current.format)[terrain.terrain_type.to_sym]
         unless resource_type.nil?
           resources[resource_type] ||= 0
           resources[resource_type] += 1
@@ -165,52 +220,28 @@ module Cloudtm
     # Increment player resources with values in the hash passed as method parameter.
     def update_resources(resources)
       resources.each do |key, value|
-        res = self.send(key)
+        res = self.send(key) || 0
         res += value
         self.send("#{key}=", res)
       end
     end
 
-    class << self
-      # Sets the current player
-      def current=(player)
-        Thread.current[:player] = player
-      end
-
-      # Note: current player is set by User in Thread
-      def current
-        Thread.current[:player]
-      end
-
-      def ready(ready, demo = false)
-        current.ready = ready
-        # refresh the player in the memory in the current Game and User
-        #User.current.player = current #FIXME, is it needed?
-        #DataModel::Game.current.players.each do |player|
-        #  if(current.id == player.id)
-        #    player = current
-        #    break
-        #  end
-        #end
-        demo ? DataModel::Game.current.demo : DataModel::Game.current.ready
-      end
-
-      def ready?
-        current.ready
-      end
-
-      def create_with_root attrs = {}, &block
-        create_without_root(attrs) do |instance|
-          app.add_players instance
-        end
-      end
-
-      alias_method_chain :create, :root
-
-      def all
-        app.getPlayers
-      end
-
+    # Roads not placed have 0,0 or nil,nil coords
+    def unplaced_roads
+      roads.select{ |road| (road.x != 0 or road.y != 0) and (road.x != nil or road.y != nil) } 
     end
+
+    private
+      
+    # Provides alla the colonies of a player
+    def colonies
+      settlements.select{ |settlement| settlement.level == 1 }
+    end
+
+    # Provides all the cities of a player
+    def cities
+      settlements.select{ |settlement| settlement.level == 2 }
+    end
+
   end
 end

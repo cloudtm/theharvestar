@@ -50,6 +50,19 @@ module Relational
       def ready?
         current.ready
       end
+
+      # Check if  pieces for building a specific infrastructure are depleted.
+      def depleted?(infrastructure)
+        association_name = infrastructure.to_s.pluralize
+        placed = DataModel::Player.current.send(association_name).size
+        available = GameOptions.options(DataModel::Game.current.format)[:"max_#{association_name}"]
+        return placed == available unless placed > available
+        raise GameError::CatastrophicError, %Q{
+           Inconsistent state:
+           placed #{association_name} cannot be more than #{available}.
+           Already (placed #{placed})
+        }
+      end
     end
 
     #def add_game(_game)
@@ -191,6 +204,23 @@ module Relational
         self.send("#{key}=", res)
       end
       self.save
+    end
+
+    # Roads not placed have 0,0 coords
+    def unplaced_roads
+      roads.where('x <> 0 OR y <> 0') 
+    end
+
+    private
+
+    # Provides alla the colonies of a player
+    def colonies
+      settlements.find(:all, :conditions => "level = 1")
+    end
+
+    # Provides all the cities of a player
+    def cities
+      settlements.find(:all, :conditions => "level = 2")
     end
 
   end

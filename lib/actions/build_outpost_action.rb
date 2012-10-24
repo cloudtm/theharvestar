@@ -23,11 +23,15 @@ module Actions
       # Build the colony
       DataModel::Settlement.build @parameters[:target]
       #consume the resources (unless we are in the initial placement phase)
-      DataModel::Player.pay! options(:colony_cost) unless @for_free
-      DataModel::Player.init_resources @parameters[:target] if @for_free
+      DataModel::Player.current.pay! options(:colony_cost) unless @for_free
+      DataModel::Player.current.init_resources @parameters[:target] if @for_free
       # update the score
       Score.increase_score options(:settlement_score_increment)
       Score.update_score
+      
+      # FIXME: chenge this
+      # increment game version
+      DataModel::Game.current.version += 1
       
       # change player version
       #trace :current, :player, :game
@@ -37,11 +41,11 @@ module Actions
     # the perception content.
     def build_result
       p = Madmass::Perception::Percept.new(self)
-      p.add_headers({ :topics => 'list' }) #who must receive the percept
-      p.data = {
-        :id => DataModel::Game.current.id,
-        :event => 'game-started'
-      }
+      p.add_headers({ :clients => [ User.current.id ] }) #who must receive the percept
+      p.data = DataModel::Player.current.to_percept.merge(
+        :event => 'update-player',
+        :version => DataModel::Game.current.version
+      )
       Madmass.current_perception << p
 
       p = Madmass::Perception::Percept.new(self)
@@ -49,13 +53,8 @@ module Actions
       p.data = DataModel::Game.current.to_percept.merge(
         :user_id => User.current.id,
         :user_state => User.current.state,
-        :users => user_data,
-        :map => current_map,
-        :market => current_market,
         :infrastructures => current_infrastructures,
-        :players => [ DataModel::Player.current.to_percept ],
-        :players_info => players_info,
-        :event => 'manage-state'
+        :event => 'update-game'
       )
       Madmass.current_perception << p
       
@@ -68,19 +67,39 @@ module Actions
       if DataModel::Player.depleted? :colony
         # msg = {:key => 'action.build.pieces_depleted', :subs => {:type => 'outpost'}, :level => 3}
         # not_applicable(msg);@message_builder.add_alert(msg)
-        why_not_applicable.publish(:name => :build_pieces_depleted, :message => I18n.t(:'action.build.pieces_depleted', {:type => 'outpost'}), :recipients => [User.current.id])
+        why_not_applicable.publish(
+          :name => :build_pieces_depleted, 
+          #:message => I18n.t(:'action.build.pieces_depleted', {:type => 'outpost'}), 
+          :key => 'action.build.pieces_depleted',
+          :subs => {:type => 'outpost'},
+          :level => 3, 
+          :recipients => [User.current.id]
+        )
       end
       # initial placement ----------------------
       unless initial_placement?
         unless DataModel::Player.current.can_buy? options(:colony_cost)
           # msg = {:key => 'action.build.no_resource', :subs => {:type => 'outpost'}}
           # not_applicable(msg);@message_builder.add_alert(msg)
-          why_not_applicable.publish(:name => :build_no_resource, :message => I18n.t(:'action.build.no_resource', {:type => 'outpost'}), :recipients => [User.current.id])
+          why_not_applicable.publish(
+            :name => :build_no_resource, 
+            #:message => I18n.t(:'action.build.no_resource'),
+            :key => 'action.build.no_resource',
+            :subs => {:type => 'outpost'},
+            :recipients => [User.current.id]
+          )
         end
         unless DataModel::Settlement.reachable? @parameters[:target]
           # msg = {:key => 'action.outpost.not_connected', :level => 2}
           # not_applicable(msg);@message_builder.add_alert(msg)
-          why_not_applicable.publish(:name => :outpost_not_connected, :message => I18n.t(:'action.outpost.not_connected', {:type => 'outpost'}), :recipients => [User.current.id])
+          why_not_applicable.publish(
+            :name => :outpost_not_connected, 
+            #:message => I18n.t(:'action.outpost.not_connected'), 
+            :key => 'action.outpost.not_connected',
+            :subs => {:type => 'outpost'}, 
+            :level => 2, 
+            :recipients => [User.current.id]
+          )
         end
       end
       # ----------------------------------------
@@ -88,9 +107,19 @@ module Actions
       if distance < 2
         if distance == 0
           # msg = {:key => 'action.build.already_occupied', :level => 1}
-          why_not_applicable.publish(:name => :build_already_occupied, :message => I18n.t(:'action.build.already_occupied'), :recipients => [User.current.id])
+          why_not_applicable.publish(
+            :name => :build_already_occupied, 
+            #:message => I18n.t(:'action.build.already_occupied'), 
+            :key => 'action.build.already_occupied',
+            :recipients => [User.current.id]
+          )
         elsif distance == 1
-          why_not_applicable.publish(:name => :outpost_too_near, :message => I18n.t(:'action.outpost.too_near'), :recipients => [User.current.id])
+          why_not_applicable.publish(
+            :name => :outpost_too_near, 
+            #:message => I18n.t(:'action.outpost.too_near'), 
+            :key => 'action.outpost.too_near',
+            :recipients => [User.current.id]
+          )
         end
       end
 

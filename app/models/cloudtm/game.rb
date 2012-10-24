@@ -83,7 +83,8 @@ module Cloudtm
           :name => params[:name], 
           :format => params[:format], 
           :state => initial_state, 
-          :created_at => java.util.Date.new
+          :created_at => java.util.Date.new,
+          :version => 1
         )
 
         #game.update_attribute(:state, initial_state)

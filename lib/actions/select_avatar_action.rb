@@ -61,7 +61,11 @@ module Actions
     def applicable?
       
       unless User.joined?
-        why_not_applicable.publish(:name => :cannot_select_avatar, :message => I18n.t(:'action.cannot_select_avatar'), :recipients => [User.current.id])
+        why_not_applicable.publish(
+          :name => :cannot_select_avatar, 
+          #:message => I18n.t(:'action.cannot_select_avatar'), 
+          :key => 'action.cannot_select_avatar',
+          :recipients => [User.current.id])
       end
       return why_not_applicable.empty?
     end

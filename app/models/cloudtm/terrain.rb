@@ -24,9 +24,6 @@ module Cloudtm
     end
 
     def terrain_label
-      Rails.logger.debug "TERRAIN TYPE: #{terrain_type}"
-      Rails.logger.debug "GAME FORMAT: #{DataModel::Game.current.format}"
-      Rails.logger.debug "TERRAIN LABEL: #{GameOptions.options(DataModel::Game.current.format)[:terrain_labels][terrain_type.to_sym]}"
       GameOptions.options(DataModel::Game.current.format)[:terrain_labels][terrain_type.to_sym]
     end
 
@@ -109,7 +106,7 @@ module Cloudtm
         producing_terrains.each do |t|
           t.settlements.each do |s|
             production[s.player.id] ||= {}
-            resource_type = GameOptions.options(DataModel::Game.current.format)[t.terrain_type]
+            resource_type = GameOptions.options(DataModel::Game.current.format)[t.terrain_type.to_sym]
             production[s.player.id][resource_type] ||= 0
             production[s.player.id][resource_type] += 1 * s.level; #FIXME depends on settlement_type
           end
@@ -119,20 +116,15 @@ module Cloudtm
       end
 
       # Returns an array of Terrains
-      #def find_by_hexes hexes
-      #  query = []
-      #  hash = {}
-      #  hexes.each_with_index do |h, idx|
-      #    query << "(x = :x#{idx} and y = :y#{idx})"
-      #    hash[:"x#{idx}"] =h.x
-      #    hash[:"y#{idx}"] =h.y
-      #  end
-      #
-      #  where_query = "game_id = :game and "
-      #  where_query += "(#{query.join(" or ")})"
-      #
-      #  return where(where_query, {:game => DataModel::Game.current.id}.merge(hash) )
-      #end
+      def find_by_hexes hexes
+        DataModel::Game.current.terrains.select{ |terrain| 
+          hexes_conditions = hexes.map do |hex|
+            (hex.x == terrain.x) and (hex.y == terrain.y)
+          end
+          # all hex conditions in or
+          hexes_conditions.inject(false){|hex_cond, global_cond| global_cond or hex_cond }
+        }
+      end
 
     end
 

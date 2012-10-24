@@ -60,14 +60,29 @@ module Actions
       # rollback proof assignment
       @already_joined = User.joined? if DataModel::Game.set_current(@parameters)
       unless DataModel::Game.current and ['joining', 'armed'].include? DataModel::Game.current.state
-        why_not_applicable.publish(:name => :game_not_exist, :message => I18n.t(:'action.game.not_exists'), :recipients => [User.current.id])
+        why_not_applicable.publish(
+          :name => :game_not_exist, 
+          #:message => I18n.t(:'action.game.not_exists'), 
+          :key => 'action.game.not_exists',
+          :recipients => [User.current.id]
+        )
       else if not @already_joined and DataModel::Game.current.full? @parameters[:game_id]
-             why_not_applicable.publish(:name => :game_full, :message => I18n.t(:'action.game.full'), :recipients => [User.current.id])
+             why_not_applicable.publish(
+              :name => :game_full, 
+              #:message => I18n.t(:'action.game.full'), 
+              :key => 'action.game.full',
+              :recipients => [User.current.id]
+            )
            end
       end
 
       if DataModel::Game.current and DataModel::Game.current.players.detect{|player| player.slot == @parameters[:slot].to_i}
-        why_not_applicable.publish(:name => :slot_taken, :message => I18n.t(:'action.game.slot_taken'), :recipients => [User.current.id])
+        why_not_applicable.publish(
+          :name => :slot_taken, 
+          #:message => I18n.t(:'action.game.slot_taken'), 
+          :key => 'action.game.slot_taken',
+          :recipients => [User.current.id]
+        )
       end
 
       return why_not_applicable.empty?

@@ -1,6 +1,11 @@
 module Actions
   module PerceptionHelper
 
+    # Allows easy access to the configuration variables in the game_options.yml
+    def options key
+      GameOptions.options(DataModel::Game.current.format)[key]
+    end
+
     def user_data
       data = User.current.to_hash([:id, :nickname, :state, :score])
       data[:player] = DataModel::Player.current.to_hash([:id, :avatar, :slot, :ready])
@@ -93,7 +98,7 @@ module Actions
       #settlements = DataModel::Settlement.where(:game_id => DataModel::Game.current.id)
       settlements = DataModel::Game.current.settlements
       settlements.each do |settlement|
-        infrastructures[:s] << {:c => settlement.to_vertex.coords, :l => settlement.level, :p => settlement.player_id}
+        infrastructures[:s] << {:c => settlement.to_vertex.coords, :l => settlement.level, :p => settlement.player.id}
       end
       #add_to_check :settlements => settlements if(settlements.any?)
 
@@ -101,7 +106,7 @@ module Actions
       infrastructures[:r] = []
       roads = DataModel::Road.roads_on_map
       roads.each do |road|
-        infrastructures[:r] << {:c => road.to_edge.coords, :l => 1, :p => road.player_id}
+        infrastructures[:r] << {:c => road.to_edge.coords, :l => 1, :p => road.player.id}
       end
       #add_to_check :roads => roads if(roads.any?)
       return infrastructures

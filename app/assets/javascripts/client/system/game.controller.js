@@ -336,7 +336,9 @@ Game.GameController = new Class.Singleton({
     playerInfos.each(function(player){
       player['power'] = Game.Helpers.userLevel(player.score);
       player['map'] = {stations: 0, outposts: 0, links: 0};
-      var pid = parseInt(player.id);
+      // TODO: check if the pid of type String cause problems
+      //var pid = parseInt(player.id);
+      var pid = player.id;
       this.pids.push(pid);
       this.players.set(pid, player);
       if(player.user == CONFIG.userId){

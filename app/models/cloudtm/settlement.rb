@@ -4,9 +4,19 @@ module Cloudtm
   class Settlement
     include CloudTm::Model
     
+    def attributes_to_hash
+      {
+        :id => id,
+        :x => x,
+        :y => y,
+        :level => level
+      }
+    end
+
     # returns the vertex where the settlement is build
     def to_vertex
-      Map::Hex::Vertex.new(terrains[0].to_hex, terrains[1].to_hex, terrains[2].to_hex )
+      terrains_ary = terrains.map(&:to_hex)
+      Map::Hex::Vertex.new( terrains_ary[0], terrains_ary[1], terrains_ary[2] )
     end
 
     # returns the settlements on the requested vertexes if any (that means that thos vertexes are occupied)
@@ -19,7 +29,7 @@ module Cloudtm
         vertexes.each do |vertex|
           if( (vertex.x == settlement.x) and (vertex.y == settlement.y) )
             settlements << settlement 
-            next
+            #next
           end
         end  
       end
@@ -31,12 +41,14 @@ module Cloudtm
       def build  vertex
         settlement = self.new
         settlement.level = 1
-        settlement.terrains = DataModel::Terrain.find_by_hexes(vertex.hexes)
+        DataModel::Terrain.find_by_hexes(vertex.hexes).each do |terrain|
+          settlement.addTerrains terrain
+        end
+        settlement.generate_coords
+
         settlement.game = DataModel::Game.current
         settlement.player = DataModel::Player.current
-        #      settlement.save
-
-        DataModel::Player.current.addSettlements settlement
+        #DataModel::Player.current.addSettlements settlement
       end
 
       # Upgrades the settlement at placed at the vertex provided as input
@@ -120,7 +132,7 @@ module Cloudtm
 
     end
 
-    private
+    #private
 
     # Generates a unique coordinate for the settlement
     # as the sum of the coordinates of the neighboring
@@ -132,8 +144,8 @@ module Cloudtm
         coord_x += terrain.x
         coord_y += terrain.y
       end
-      x = coord_x
-      y = coord_y
+      self.x = coord_x
+      self.y = coord_y
     end
   end
 end
