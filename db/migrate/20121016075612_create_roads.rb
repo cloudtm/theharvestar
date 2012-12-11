@@ -2,6 +2,7 @@ class CreateRoads < ActiveRecord::Migration
   def change
     create_table :roads do |t|
       t.integer :x, :y
+      t.bolean :from_progress, :default => false
       t.references :player, :game
       t.timestamps
     end

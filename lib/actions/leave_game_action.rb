@@ -43,7 +43,7 @@ module Actions
 
       # second perception to notify all others
       p = Madmass::Perception::Percept.new(self)
-      p.add_headers({:topics => DataModel::Game.current.channel})
+      p.add_headers({:topics => [DataModel::Game.current.channel]})
       p.data =  {
         :event => 'summary-leaved',
         :pid => DataModel::Player.current.id

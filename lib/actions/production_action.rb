@@ -14,9 +14,10 @@ module Actions
       
       # FIXME: chenge this
       # increment game version
-      DataModel::Game.current.version += 1
-      #trace :current, :game
-      #trace :players, @production[:raw_players]
+      DataModel::Game.current.increase_version
+      @production[:raw_players].each do |player|
+        player.increase_version
+      end
     end
 
     # [MANDATORY] Override this method in your action to define
@@ -25,7 +26,7 @@ module Actions
       #Example
       wasted_terrains = DataModel::Game.wasted_terrain_coords
       produce_perception = Madmass::Perception::Percept.new(self)
-      produce_perception.add_headers({ :topics => DataModel::Game.current.channel }) #who must receive the percept
+      produce_perception.add_headers({ :topics => [DataModel::Game.current.channel] }) #who must receive the percept
       produce_perception.data = {
         :event => 'update-production',
         :producing => @production[:producing_terrains], 

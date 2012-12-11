@@ -47,7 +47,7 @@ module GenericAssociation
 
     def create_player!
       _player = DataModel::Player.create :user_id => self.id
-      update_attribute(:agent_id, _player.getExternalId)
+      update_attributes(:agent_id => _player.getExternalId)
       @player = _player
     end
 

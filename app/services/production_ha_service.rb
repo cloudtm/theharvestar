@@ -1,3 +1,10 @@
+# This is needed for the ha service, seems that the same code in config/initializers/cloudtm.rb 
+# don't affect the service.
+# Hack to set the current datamodel ... need improvements
+#DataModel = Relational
+#DataModel = Cloudtm
+require File.join(Rails.root, 'config', 'initializers', 'cloud_tm')
+
 # High availability service, in charge of periodically rolling dices and
 # sending production requests through JMS.
 class ProductionHAService
@@ -10,8 +17,6 @@ class ProductionHAService
   # Intializes the service, mainly defining production interval and
   # the jms queue.
   def initialize(options={})
-    #@queue = TorqueBox::Messaging::Queue.new(options['queue_name'])
-    #@queue = inject('/queues/production_queue')
     Madmass::current_agent = Madmass::Agent::ProxyAgent.new(:status => 'init')
     @tick = options['sleep_time']
     # FIXME: remove and reenter the Game.created_at property

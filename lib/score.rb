@@ -49,7 +49,7 @@
       # Returns the size of the longest road (called the transport score).
       def transport_level(player)
         # roads not placed 
-        roads = player.unplaced_roads
+        roads = player.placed_roads
         #create array of edges (eg, pairs of nodes)
         edges = []
         roads.each do |r|

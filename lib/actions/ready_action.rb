@@ -36,7 +36,7 @@ module Actions
     def build_result
       #Example
       p = Madmass::Perception::Percept.new(self)
-      p.add_headers({:topics => DataModel::Game.current.channel}) #who must receive the percept
+      p.add_headers({:topics => [DataModel::Game.current.channel]}) #who must receive the percept
 
       p.data = DataModel::Game.current.to_percept.merge(
         # upadtes the state as it certainly changes on transitions

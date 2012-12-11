@@ -2,6 +2,8 @@ module Relational
   class Player < ActiveRecord::Base
     
     include Madmass::Agent::Executor
+    extend Challenges::TransportChallenge
+
     attr_accessible :state
 
     belongs_to :user
@@ -17,7 +19,7 @@ module Relational
     # TODO
     # has_many :offers, :foreign_key => 'trader_id', :dependent => :destroy
     # has_one :trade_request, :foreign_key => 'publisher_id', :dependent => :destroy
-    # has_many :red_progresses, :dependent => :destroy
+    has_many :red_progresses, :dependent => :destroy
 
     class << self
       # Sets the current player
@@ -81,7 +83,7 @@ module Relational
           :red_lab => {
             :social => unused_social_group_amount,
             :recycle=> magic_resource,
-            :transport =>  unplaced_roads.size
+            :transport =>  red_lab_roads.count
           },
           :red_history => {
             :social_level => social_level,
@@ -91,7 +93,7 @@ module Relational
           },
           :bonuses => {
             :links => [0, initial_to_place(:road)].max,
-            :outposts => [0, options[:init_settlements] - settlements.size].max
+            :outposts => [0, options[:init_settlements] - settlements.count].max
           },
           :total_score => total_score
         }
@@ -111,18 +113,23 @@ module Relational
       }
     end
 
+    # Increase the version to order the perceptions in the GUI. 
+    def increase_version
+      # using the optimistic locking on version column so cannot increment 
+      # version directly, we force the activerecord callback by updating the 
+      # updated_at attribute.
+      update_attribute(:updated_at, Time.now)
+    end
+
     def initial_to_place(infrastructure)
       association_name = infrastructure.to_s.pluralize
-      placed = send(association_name).size
-
+      placed = send(association_name).count
+      
       if (infrastructure == :road)
         # terrible: this two ugly lines of code have been added because
         # if you don't place your initial free roads before getting a transport progress,
         # you loose the chance of using them
-        # TODO
-        #red_road = ((red_progresses.where('type = ?', 'TransportProgress').count) * GameOptions.options(DataModel::Game.current.format)[:transport_amount])
-        red_road = 0
-        placed = placed - red_road
+        placed = placed - red_lab_roads.count
       end
 
       available = GameOptions.options(DataModel::Game.current.format)[:"init_#{association_name}"]
@@ -143,22 +150,33 @@ module Relational
 
 
     def cultural_level
-      0 #self.red_progresses.where('type = ? and used = ?', 'CulturalProgress', true).count
+      self.red_progresses.where('type = :type and used = :used', {:type => 'Relational::CulturalProgress', :used => true}).count
     end
 
     #returns the amount of recycled resources used by the player
     def recycle_level
-      0 #((self.red_progresses.where('type = ?', 'RecyclingProgress').count) * GameOptions.options(DataModel::Game.current.format)[:recycling_prize]) - self.magic_resource
+      recycle_count = self.red_progresses.where('type = :type and used = :used', {:type => 'Relational::RecyclingProgress', :used => true}).count
+      ((recycle_count) * GameOptions.options(DataModel::Game.current.format)[:recycling_prize]) - self.magic_resource
     end
 
-    # Provides  player unplaced road
+    # Provides player unplaced roads (x and y are 0)
     def unplaced_roads
-      roads.find(:all, :conditions => "x = 0  and y = 0")
+      roads.where(:x => 0, :y => 0)
+    end
+
+    # Provides player placed roads (x and y are not 0)
+    def placed_roads
+      roads.where("x <> :x and y <> :y", {:x => 0, :y => 0})
+    end
+
+    # Roads won with research and development.
+    def red_lab_roads
+      unplaced_roads.where(:from_progress => true)
     end
 
     # Provides the amount of the available social group
     def unused_social_group_amount
-      0 #self.red_progresses.where('type = ? and used = ?', 'SocialProgress', false).count
+      self.red_progresses.where('type = :type and used = :used', {:type => 'Relational::SocialProgress', :used => false}).count
     end
 
      # Returns true if involved player has enough resources to pay the costs.
@@ -206,9 +224,29 @@ module Relational
       self.save
     end
 
-    # Roads not placed have 0,0 coords
-    def unplaced_roads
-      roads.where('x <> 0 OR y <> 0') 
+    # Add a random research and development progress (RedProgress hierarchy).
+    def add_progress!(progress = nil)
+      begin
+        progress = DataModel::RedProgress.factory(progress)
+        self.red_progresses << progress
+        return progress
+      rescue Exception => ex
+        Rails.logger.error "Add progress error: #{ex.message}"
+        Rails.logger.error ex.backtrace.join("\n")
+        return nil
+      end
+    end
+
+
+    # Returns the first progress associated to this player having the argument as name.
+    # Note that the progress loaded is not used.
+    def progress_by_name progress_name
+      red_progresses.where('type = :type and used = :used', {:type => "Relational::#{progress_name.classify}Progress", :used => false}).first
+    end
+
+    #increment player magic resource amount. By default increment amount is made of one magic resource unit
+    def add_magic_resource inc = 1
+      update_attribute(:magic_resource, self.magic_resource + inc)
     end
 
     private

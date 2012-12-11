@@ -13,7 +13,7 @@ module Actions
       @parameters[:target] = Map::Hex::Vertex.factory(@parameters[:target])
       map_stragegy = "Map::#{DataModel::Game.current.format_class}::HexMap".constantize
       unless map_stragegy.in_map?(@parameters[:target].hexes)
-        raise GameErrors::WrongInputError, "#{self.class.name}: target is out of the map!"
+        raise Madmass::Errors::WrongInputError, "#{self.class.name}: target is out of the map!"
       end
     end
 
@@ -23,18 +23,19 @@ module Actions
       # Build the colony
       DataModel::Settlement.build @parameters[:target]
       #consume the resources (unless we are in the initial placement phase)
-      DataModel::Player.current.pay! options(:colony_cost) unless @for_free
-      DataModel::Player.current.init_resources @parameters[:target] if @for_free
+      DataModel::Player.current.pay! options(:colony_cost) unless initial_placement?
+      DataModel::Player.current.init_resources @parameters[:target] if initial_placement?
       # update the score
       Score.increase_score options(:settlement_score_increment)
       Score.update_score
       
       # FIXME: chenge this
       # increment game version
-      DataModel::Game.current.version += 1
+      DataModel::Game.current.increase_version
       
+      # FIXME: chenge this
       # change player version
-      #trace :current, :player, :game
+      DataModel::Player.current.increase_version
     end
 
     # [MANDATORY] Override this method in your action to define
@@ -49,7 +50,7 @@ module Actions
       Madmass.current_perception << p
 
       p = Madmass::Perception::Percept.new(self)
-      p.add_headers({ :topics => DataModel::Game.current.channel }) #who must receive the percept
+      p.add_headers({ :topics => [DataModel::Game.current.channel] }) #who must receive the percept
       p.data = DataModel::Game.current.to_percept.merge(
         :user_id => User.current.id,
         :user_state => User.current.state,
@@ -127,7 +128,7 @@ module Actions
     end
 
     def initial_placement?
-      @for_free = (DataModel::Player.current.initial_to_place(:settlement) > 0)
+      @for_free ||= (DataModel::Player.current.initial_to_place(:settlement) > 0)
     end
 
   end

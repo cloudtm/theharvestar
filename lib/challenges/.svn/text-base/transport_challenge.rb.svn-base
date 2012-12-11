@@ -1,0 +1,51 @@
+# This module contains the logic to manage the transport challenge.
+# Each game has some challenges like social challenge e transport challenge
+# where players compete to gain victory points.
+# A player win the transport challenge if he place the major number of roads
+# in the map (he become the transport leader).
+# The transport leader can change during all the game.
+# This challenge assigns 1 victory point to the player that gains it.
+module Challenges::TransportChallenge
+  
+  # Updates the transport leadership.
+  # Note that this mechanism pertain only the current player. No other players
+  # in the game are considered to compute the transport leadership (the game
+  # trace the current leader and its points).
+  def compute_transport_challenge
+    # get transport points from the current player
+    transport_level = self.current.transport_level
+    # return if the transport points don't exceed the threshold
+    return false if transport_under_threshold?(transport_level)
+
+    is_leader = false
+    if not Game.current.transport_leader
+      # set the current player as transport leader if it has not yet
+      # been assigned
+      is_leader = true
+    elsif most_transporter_player?(transport_level)
+      # set the current player as transport leader if he has
+      # more transport points than the current leader
+      is_leader = true
+    end
+
+    # set the social leader
+    set_transport_leader(transport_level) if is_leader
+    return is_leader
+  end
+
+  # Check that the transport points amount is below the threshold
+  # specified in the Game Options.
+  def transport_under_threshold?(transport_level)
+    transport_level <= GameOptions.options(Game.format)[:transport_threshold]
+  end
+
+  # Returns true if the transport points are more than the transport leader points.
+  def most_transporter_player?(transport_level)
+    transport_level > Game.current.transport_count
+  end
+
+  # Set the transport leader in the current game.
+  def set_transport_leader(transport_level)
+    Game.current.update_transport_leader(Player.current, transport_level)
+  end
+end

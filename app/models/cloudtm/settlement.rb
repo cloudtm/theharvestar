@@ -25,8 +25,10 @@ module Cloudtm
       DataModel::Game.current.settlements.each do |settlement|
         is_occupied = false
         # if player_id is specified skip settlements that don't belongs to the player
-        continue if( options[:player_id] and (options[:player_id] != settlement.player.id) )
+        Rails.logger.debug "PLAYER IS: #{options[:player_id]} AND PLAYER IN SETTLEMENT IS: #{settlement.player.id}"
+        next if( options[:player_id] and (options[:player_id] != settlement.player.id) )
         vertexes.each do |vertex|
+          Rails.logger.debug "VERTEX: #{vertex.x}-#{vertex.y} - SETTLEMENT: #{settlement.x}-#{settlement.y}"
           if( (vertex.x == settlement.x) and (vertex.y == settlement.y) )
             settlements << settlement 
             #next
@@ -54,7 +56,7 @@ module Cloudtm
       # Upgrades the settlement at placed at the vertex provided as input
       def upgrade vertex
         #check if any of these locations is occupied
-        to_upgrade = find_by_coords_and_level(vertex, level).first
+        to_upgrade = find_by_coords_and_level(vertex, 1).first
         to_upgrade.update_attribute(:level, 2)
       end
 
@@ -112,7 +114,7 @@ module Cloudtm
       # and that the current player owns it.
       def colony? vertex
         #check if any of these locations is occupied
-        return find_by_coords_and_level(vertex, level).any?
+        return find_by_coords_and_level(vertex, 1).any?
       end
 
       # Store associations between settlements and terrains.

@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :nickname, :password, :password_confirmation,
                   :remember_me, :state, :first_name, :last_name, :picture,
                   :country, :language, :birthday, :gender, #,:name
-                  :preview, :crop_x, :crop_y, :crop_w, :crop_h, :role
+                  :preview, :crop_x, :crop_y, :crop_w, :crop_h, :role, :agent_id
 
   #has_one :player, :dependent => :destroy TODO add Player
 

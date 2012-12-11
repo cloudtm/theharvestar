@@ -21,6 +21,12 @@ module Cloudtm
       }
     end
 
+    # Increase the version to order the perceptions in the GUI. 
+    def increase_version
+      self.version ||= 0
+      update_attribute(:version, self.version + 1)
+    end
+
     def to_json
       attributes_to_hash.to_json
     end
@@ -48,6 +54,18 @@ module Cloudtm
     # Returns the class name associated to the format.
     def format_class
       format.to_s.camelize
+    end
+
+    # Set the social leader and the social count.
+    def update_social_leader(player, points)
+      social_leader = player
+      social_count = points
+    end
+
+    # Set the transport leader and the transport count.
+    def update_transport_leader(player, points)
+      transport_leader = player
+      transport_count = points
     end
 
     class << self
@@ -80,9 +98,9 @@ module Cloudtm
         params[:format] = :base unless params[:format]
         map_terrains = params[:terrains] || Map::MapFactory.make(:type => params[:format])
         game = self.create(
-          :name => params[:name], 
-          :format => params[:format], 
-          :state => initial_state, 
+          :name => params[:name],
+          :format => params[:format],
+          :state => initial_state,
           :created_at => java.util.Date.new,
           :version => 1
         )
@@ -132,9 +150,16 @@ module Cloudtm
         DataModel::Game.all.select{ |game| states.include?(game.state) }
       end
 
+      def search(options)
+        return all_by_states(options[:states]) if(options[:states])
+
+        games = all.map do |game|
+          game.to_hash {|g| {:player_count => g.players.size}}
+        end
+        games
+      end
+
       def games_list(options)
-        return []
-        
         h_games = DataModel::Game.search(options)
 
         #FIXME use add_all_users and make this return an array of percepts
@@ -146,14 +171,14 @@ module Cloudtm
           end
 
         end
-        percept[:games_list] = h_games
+        h_games
       end
 
       # Return an array whose elements are couple of coords representing all the terrains currently affected by calamity
       def wasted_terrain_coords
         wasted_terrains.map{|t| [t.x,t.y]}
       end
-      
+
       def wasted_terrains
         #game_calamities = Calamity.where(:game_id => Game.current.id)
         #game_calamities.map(&:terrain)

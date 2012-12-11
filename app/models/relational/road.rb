@@ -42,12 +42,20 @@ module Relational
       # This function builds a road and places it on a target edge. If no edge parameter is passed to the function,
       # an UNPLACED road will be created (e.g. if current player has performed a use progress action
       # on a transport progress previously bought)
-      def build (edge = nil)
+      def build(edge = nil)
         road = self.new
         road.game = DataModel::Game.current
         road.player = DataModel::Player.current
         road.terrains = DataModel::Terrain.find_by_hexes(edge.hexes) if edge
         DataModel::Player.current.roads << road
+        road
+      end
+
+      # Build a road and mark that is created from R&D progress (transport progress).
+      def build_from_progress
+        road = build
+        road.update_attribute(:from_progress, true)
+        road
       end
 
       # This function assigns the chosen edge as destination of any unplaced road of the current player.
@@ -60,8 +68,13 @@ module Relational
         end
       end
 
+      # Return unplaced roads (x and y are 0) for the current player (in the current game).
+      def unplaced
+        where(:game_id => DataModel::Game.current.id,:player_id => DataModel::Player.current.id, :x => 0, :y=> 0)
+      end
+
       def unplaced_roads_available?
-        where(:game_id => DataModel::Game.current.id,:player_id => DataModel::Player.current.id, :x => 0, :y=> 0).any?
+        unplaced.any?
       end
 
       # This method returns the subset of roads of the current game that are already placed

@@ -45,7 +45,7 @@ module Actions
     # the perception content.
     def build_result
       p = Madmass::Perception::Percept.new(self)
-      p.add_headers({ :topics => 'list' }) #who must receive the percept
+      p.add_headers({ :topics => ['list'] }) #who must receive the percept
       p.data = DataModel::Game.current.to_percept.merge(
         :user_id => User.current.id,
         :user_state => User.current.state,

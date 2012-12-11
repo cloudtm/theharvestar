@@ -39,6 +39,7 @@ class Player {
   Integer grain;
   Integer score;
   Integer magicResource;
+  Integer version;
 }
 
 class Settlement {

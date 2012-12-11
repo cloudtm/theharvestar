@@ -95,7 +95,6 @@ module Actions
 
       #collect settlements
       infrastructures[:s] =[]
-      #settlements = DataModel::Settlement.where(:game_id => DataModel::Game.current.id)
       settlements = DataModel::Game.current.settlements
       settlements.each do |settlement|
         infrastructures[:s] << {:c => settlement.to_vertex.coords, :l => settlement.level, :p => settlement.player.id}

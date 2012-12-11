@@ -79,7 +79,7 @@ module CloudTm
 
     def update_attributes attrs = {}
       attrs.each do |property, value|
-        send("#{property}=", value)
+        update_attribute property, value        
       end
     end
 

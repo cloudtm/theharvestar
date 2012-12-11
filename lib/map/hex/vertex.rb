@@ -18,7 +18,7 @@ class Map::Hex::Vertex
 
   # Validates the six coordinates [x1,y1,x2,y2,x3,y3] that should specify the vertex. It can be used in 2 ways:
   # * without specifying a block:  it will simply return the validation result in the form of true or false
-  # * specifying a block: it will raise a GameErrors::WrongInputError if the validation does not pass.
+  # * specifying a block: it will raise a Madmass::Errors::WrongInputError if the validation does not pass.
   # If you use a block, it will recevie the 3 Hex objects that define the vertex.
   def self.valid? coords
     error = nil
@@ -43,7 +43,7 @@ class Map::Hex::Vertex
       end
 
     end
-    raise GameErrors::WrongInputError, error if(block_given? and !error.blank?)
+    raise Madmass::Errors::WrongInputError, error if(block_given? and !error.blank?)
     return result
   end
 

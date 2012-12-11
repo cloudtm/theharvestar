@@ -44,7 +44,7 @@ module Actions
           :user_state => 'list', #User.current.state,
           :users => user_data,
           :channel => 'list',
-          :games_list => [], #DataModel::Game.games_list(:states => ['joining', 'armed'], :text => @parameters[:text]),
+          :games_list => DataModel::Game.games_list(:states => ['joining', 'armed'], :text => @parameters[:text]),
           :settings => User.current.settings
         )
       }

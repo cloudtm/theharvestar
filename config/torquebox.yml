@@ -45,3 +45,6 @@ tasks:
 pooling:
   messaging: shared
 
+ruby:
+  version: 1.9
+

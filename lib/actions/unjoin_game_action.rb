@@ -29,13 +29,14 @@ module Actions
       # first perception to sender only
       p = Madmass::Perception::Percept.new(self)
       p.add_headers({:topics => [ 'list' ]})
-      p.data =  @game_zombie.merge(
+      p.data = {
         :user_id => User.current.id,
         :user_state => User.current.state,
         # TODO: check if channel is in use in the client
         :channel => 'list',
         :event => 'unjoin-game'
-      )
+      }
+      p.data.merge!(@game_zombie) if @game_zombie
       Madmass.current_perception << p
     end
 

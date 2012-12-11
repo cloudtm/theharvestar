@@ -9,8 +9,8 @@ module Relational
     enum_field :terrain_type, GameOptions.options(:base)[:terrain_types].keys
 
     belongs_to :game
-    #has_and_belongs_to_many :settlements
-    #has_and_belongs_to_many :roads
+    has_and_belongs_to_many :settlements
+    has_and_belongs_to_many :roads
     #has_one :calamity
 
     validates_uniqueness_of :game_id, :scope => [:x, :y]
@@ -52,12 +52,12 @@ module Relational
         result[:raw_players] = []
         productions(not_wasted_terrains).each do |player_id, resources|
           #Player.update_counters(player_id, resources)
-          player = Player.where(:id => player_id).first # The query also pick ups the newly updated values by the previous update_counters
+          player = DataModel::Player.where(:id => player_id).first # The query also pick ups the newly updated values by the previous update_counters
           player.update_resources(resources)
           result[:raw_players] << player
           #result[:players] << player.to_percept
         end
-        Game.current.reload
+        DataModel::Game.current.reload
         return result
       end
 

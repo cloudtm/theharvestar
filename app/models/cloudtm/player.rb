@@ -1,7 +1,10 @@
+require 'challenges/transport_challenge'
+
 module Cloudtm
   class Player
     include CloudTm::Model
     include Madmass::Agent::Executor
+    extend Challenges::TransportChallenge
 
     def attributes_to_hash
       {
@@ -35,7 +38,7 @@ module Cloudtm
           :red_lab => {
             :social => unused_social_group_amount,
             :recycle => magic_resource,
-            :transport =>  unplaced_roads.size
+            :transport =>  red_lab_roads.size
           },
           :red_history => {
             :social_level => social_level,
@@ -63,6 +66,12 @@ module Cloudtm
         :avatar => avatar,
         :user => user.id
       }
+    end
+
+    # Increase the version to order the perceptions in the GUI. 
+    def increase_version
+      self.version ||= 0
+      update_attribute(:version, self.version + 1)
     end
 
     class << self
@@ -99,7 +108,7 @@ module Cloudtm
         placed = DataModel::Player.current.send(association_name).size
         available = GameOptions.options(DataModel::Game.current.format)[:"max_#{association_name}"]
         return placed == available unless placed > available
-        raise GameError::CatastrophicError, %Q{
+        raise Madmass::Errors::CatastrophicError, %Q{
            Inconsistent state:
            placed #{association_name} cannot be more than #{available}.
            Already (placed #{placed})
@@ -123,16 +132,15 @@ module Cloudtm
 
     def initial_to_place(infrastructure)
       association_name = infrastructure.to_s.pluralize
+      Rails.logger.debug "ASSOCIATION IS: #{association_name}"
       placed = send(association_name).size
+      Rails.logger.debug "PLACED ARE: #{placed}"
 
-      if (infrastructure == :road)
+      if(infrastructure == :road)
         # terrible: this two ugly lines of code have been added because
         # if you don't place your initial free roads before getting a transport progress,
         # you loose the chance of using them
-        # TODO
-        #red_road = ((red_progresses.where('type = ?', 'TransportProgress').count) * GameOptions.options(DataModel::Game.current.format)[:transport_amount])
-        red_road = 0
-        placed = placed - red_road
+        placed = placed - red_lab_roads.size
       end
 
       available = GameOptions.options(DataModel::Game.current.format)[:"init_#{association_name}"]
@@ -140,35 +148,46 @@ module Cloudtm
     end
 
     def total_score
-      return 0#Score.total_score(self)
+      return Score.total_score(self)
     end
 
     def transport_level
-      return 0 #Score.transport_level(self)
+      return Score.transport_level(self)
     end
 
     def social_level
-      return 0 #Score.social_level(self)
+      return Score.social_level(self)
     end
 
 
     def cultural_level
-      0 #self.red_progresses.where('type = ? and used = ?', 'CulturalProgress', true).count
+      red_progresses.select{|red_progress| red_progress.type == 'CulturalProgress' and red_progress.used }.size
     end
 
     #returns the amount of recycled resources used by the player
     def recycle_level
-      0 #((self.red_progresses.where('type = ?', 'RecyclingProgress').count) * GameOptions.options(DataModel::Game.current.format)[:recycling_prize]) - self.magic_resource
+      recycle_count = red_progresses.select{|red_progress| red_progress.type == 'RecyclingProgress' and red_progress.used }.size
+      ((recycle_count) * GameOptions.options(DataModel::Game.current.format)[:recycling_prize]) - self.magic_resource
     end
 
-    # Provides  player unplaced road
+    # Provides player unplaced road
     def unplaced_roads
-      roads.select{|road| road.x == 0 and road.y == 0 }
+      DataModel::Road.unplaced_roads_for_player(self)
+    end
+
+    # Provides player placed roads (x and y are not 0)
+    def placed_roads
+      roads.select{|road| (road.x != 0 and !road.x.nil?) and (road.y != 0 and !road.y.nil?)}
+    end
+
+    # Roads won with research and development.
+    def red_lab_roads
+      unplaced_roads.select{|road| road.from_progress }
     end
 
     # Provides the amount of the available social group
     def unused_social_group_amount
-      0 #self.red_progresses.where('type = ? and used = ?', 'SocialProgress', false).count
+      red_progresses.select{|red_progress| red_progress.type == 'SocialProgress' and (not red_progress.used) }.size
     end
 
     # Adapter to use the user association in the rails way
@@ -197,7 +216,8 @@ module Cloudtm
 
     def pay! payment
       payment.each do |resource, income|
-        total = self.send(resource)
+        total = self.send(resource) || 0
+        update_attribute(resource, total + income)
         self.send("#{resource}=", total + income)
       end
     end
@@ -226,9 +246,29 @@ module Cloudtm
       end
     end
 
-    # Roads not placed have 0,0 or nil,nil coords
-    def unplaced_roads
-      roads.select{ |road| (road.x != 0 or road.y != 0) and (road.x != nil or road.y != nil) } 
+    # Add a random research and development progress (RedProgress hierarchy).
+    def add_progress!(progress = nil)
+      begin
+        progress = DataModel::RedProgress.factory(progress)
+        self.add_red_progresses(progress)
+        return progress
+      rescue Exception => ex
+        Rails.logger.error "Add progress error: #{ex.message}"
+        Rails.logger.error ex.backtrace.join("\n")
+        return nil
+      end
+    end
+
+
+    # Returns the first progress associated to this player having the argument as name.
+    # Note that the progress loaded is not used.
+    def progress_by_name progress_name
+      red_progresses.detect{|red_progress| red_progress.type == "#{progress_name.classify}Progress" and (not red_progress.used) }
+    end
+
+    #increment player magic resource amount. By default increment amount is made of one magic resource unit
+    def add_magic_resource inc = 1
+      update_attribute(:magic_resource, self.magic_resource + inc)
     end
 
     private

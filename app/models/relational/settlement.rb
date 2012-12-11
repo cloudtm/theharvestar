@@ -39,7 +39,7 @@ module Relational
         settlement.terrains = DataModel::Terrain.find_by_hexes(vertex.hexes)
         settlement.game = DataModel::Game.current
         settlement.player = DataModel::Player.current
-        #      settlement.save
+        settlement.save
 
         DataModel::Player.current.settlements << settlement
       end

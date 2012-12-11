@@ -5,7 +5,8 @@ source "http://gems.github.com"
 
 gem 'rails', '3.2.6'
 gem 'jquery-rails'
-gem "madmass", :git => "git://github.com/algorithmica/madmass.git"
+#gem "madmass", :git => "git://github.com/algorithmica/madmass.git"
+gem "madmass", :path => "/Users/genzo/algo_projects/madmass"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -51,7 +52,7 @@ group :development, :test do
   #gem "socky-server", ">= 0.4.0"
   #gem 'mysql2', "< 0.3.0" #FIXME
   gem "chronic"
-  gem "mongrel"
+  #gem "mongrel"
   gem "packet", ">= 0.1.15"
   # Job scheduler for development: http://backgroundrb.rubyforge.org/
   gem 'backgroundrb-rails3', ">= 1.1.3", :require => 'backgroundrb'
@@ -61,7 +62,7 @@ group :development, :test do
   gem 'torquespec', ">= 0.3.5"
   gem 'capybara'
 #  gem 'akephalos'
-  gem 'torquebox-server', "~> 2.1.1"
+  gem 'torquebox-server', "~> 2.0.3"
 end
 
 group :test do

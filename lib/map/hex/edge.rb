@@ -17,7 +17,7 @@ class Map::Hex::Edge
 
   # Validates the four coordinates [x1,y1,x2,y2] that should specify the edge. It can be used in 2 ways:
   # * without specifying a block:  it will simply return the validation result in the form of true or false
-  # * specifying a block: it will raise a GameErrors::WrongInputError if the validation does not pass.
+  # * specifying a block: it will raise a Madmass::Errors::WrongInputError if the validation does not pass.
   # If you use a block, it will receive the 2 Hex objects that define the edge.
   def self.valid? coords
     error = nil
@@ -41,7 +41,7 @@ class Map::Hex::Edge
       end
 
     end
-    raise GameErrors::WrongInputError, error if(block_given? and !error.blank?)
+    raise Madmass::Errors::WrongInputError, error if(block_given? and !error.blank?)
     return result
   end
 

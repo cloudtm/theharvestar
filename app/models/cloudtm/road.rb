@@ -2,7 +2,14 @@ module Cloudtm
   class Road
     include CloudTm::Model
     
-    #before_save :generate_coords
+
+    def attributes_to_hash
+      {
+        :id => id,
+        :x => x,
+        :y => y
+      }
+    end
 
     class << self
       # Checks if a target edge is reached either by an existing road  or by a settlement
@@ -40,9 +47,11 @@ module Cloudtm
       def find_by_player_and_coords(coord_x, coord_y)
         roads = []
         DataModel::Player.current.roads.each do |road|
+          Rails.logger.debug "PLAYER ROAD: #{road.x}-#{road.y} WITH #{coord_x}-#{coord_y}"
           if( (DataModel::Game.current.id == road.game.id) and 
               (road.x == coord_x) and 
               (road.y == coord_y) )
+            Rails.logger.debug "THE ROAD IS ASSOCIATED TO THE CURRENT GAME"
             roads << road
           end
         end
@@ -52,6 +61,7 @@ module Cloudtm
       # Find the road in the current game that has specific coordinates.
       def find_by_coords(coord_x, coord_y)
         DataModel::Game.current.roads.each do |road|
+          Rails.logger.debug "COMPARING ROAD #{road.x}-#{road.y} WITH #{coord_x}-#{coord_y}"
           if(road.x == coord_x and road.y == coord_y)
             return road
           end
@@ -62,12 +72,27 @@ module Cloudtm
       # This function builds a road and places it on a target edge. If no edge parameter is passed to the function,
       # an UNPLACED road will be created (e.g. if current player has performed a use progress action
       # on a transport progress previously bought)
-      def build (edge = nil)
+      def build(edge = nil)
         road = self.new
         road.game = DataModel::Game.current
-        road.player = DataModel::Player.current
-        road.addTerrains DataModel::Terrain.find_by_hexes(edge.hexes) if edge
+        #road.player = DataModel::Player.current
+        
+        if edge
+          DataModel::Terrain.find_by_hexes(edge.hexes).each do |terrain|
+            road.addTerrains terrain 
+          end          
+        end
+        # This generate_coords is invoked in order to re-assign x and y attributes accordingly to the terrains just associated to road
+        road.generate_coords
         DataModel::Player.current.addRoads road
+        road
+      end
+
+      # Build a road and mark that is created from R&D progress (transport progress).
+      def build_from_progress
+        road = build
+        road.update_attribute(:from_progress, true)
+        road
       end
 
       # This function assigns the chosen edge as destination of any unplaced road of the current player.
@@ -77,8 +102,7 @@ module Cloudtm
         if road
           road.addTerrains DataModel::Terrain.find_by_hexes(edge.hexes)
 
-          #road.save 
-          #This save is invoked in order to re-assign x and y attributes accordingly to the terrains just associated to road
+          # This generate_coords is invoked in order to re-assign x and y attributes accordingly to the terrains just associated to road
           generate_coords
         end
       end
@@ -88,11 +112,16 @@ module Cloudtm
       end
 
       def unplaced_roads
-        _unplaced_roads = []
-        DataModel::Player.current.roads.each do |road|
-          _unplaced_roads << road if(road.game.id == DataModel::Game.current.id and road.x == 0 and road.y == 0)
-        end        
-        _unplaced_roads
+        unplaced_roads_for_player(DataModel::Player.current)
+      end
+
+      def unplaced_roads_for_player(_player)
+        _player.roads.each do |road|
+          Rails.logger.debug "ROAD PLACED: #{road.inspect}"
+        end
+        _player.roads.select{|road| 
+          (road.game.id == DataModel::Game.current.id) and (road.x == 0 or road.x.nil?) and (road.y == 0 or road.y.nil?)
+        }        
       end
 
       # This method returns the subset of roads of the current game that are already placed
@@ -125,10 +154,11 @@ module Cloudtm
     #returns the edge representation of the current road
     def to_edge
       return nil if terrains.empty?
-      Map::Hex::Edge.new(terrains.first.to_hex, terrains.last.to_hex)
+      ary_terrains = terrains.to_a
+      Map::Hex::Edge.new(ary_terrains.to_a[0].to_hex, ary_terrains[1].to_hex)
     end
 
-    private
+    #private
 
     # Generates a unique coordinate for the road
     # as the sum of the coordinates of the neighboring
@@ -141,8 +171,8 @@ module Cloudtm
         coord_x += terrain.x
         coord_y += terrain.y
       end
-      x = coord_x
-      y = coord_y
+      self.x = coord_x
+      self.y = coord_y
     end
   end
 end

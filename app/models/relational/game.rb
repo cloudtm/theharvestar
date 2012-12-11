@@ -57,6 +57,14 @@ module Relational
       to_hash([:id, :transport_count, :channel, :state, :social_leader_id, :transport_leader_id, :social_count, :version, :winner_id])
     end
 
+    # Increase the version to order the perceptions in the GUI. 
+    def increase_version
+      # using the optimistic locking on version column so cannot increment 
+      # version directly, we force the activerecord callback by updating the 
+      # updated_at attribute.
+      update_attribute(:updated_at, Time.now)
+    end
+
     def player_in_game?(player)
       players.map(&:id).include?(player.id)
     end
@@ -178,7 +186,7 @@ module Relational
       def wasted_terrain_coords
         wasted_terrains.map{|t| [t.x,t.y]}
       end
-      
+
       def wasted_terrains
         #game_calamities = Calamity.where(:game_id => Game.current.id)
         #game_calamities.map(&:terrain)
@@ -196,23 +204,39 @@ module Relational
       #    p.merge!({:rank => i+1})
       #  end
       #end
+
+      def games_list(options)
+        #return []
+        h_games = DataModel::Game.search(options)
+
+        #FIXME use add_all_users and make this return an array of percepts
+        h_games.each do |game|
+          game[:users] = DataModel::Game.find_by_id(game[:id]).players.map do |player|
+            player.user.to_hash([:id, :nickname, :state, :score]) do |user|
+              {:player => player.to_hash([:id, :avatar, :slot, :ready]) }
+            end if player.user
+          end
+
+        end
+        h_games
+      end
     end
 
     # Set the social leader and the social count.
-    #def update_social_leader(player, points)
-    #  update_attributes(
-    #    :social_leader => player,
-    #    :social_count => points
-    #  )
-    #end
+    def update_social_leader(player, points)
+      update_attributes(
+        :social_leader => player,
+        :social_count => points
+      )
+    end
 
     # Set the transport leader and the transport count.
-    #def update_transport_leader(player, points)
-    #  update_attributes(
-    #    :transport_leader => player,
-    #    :transport_count => points
-    #  )
-    #end
+    def update_transport_leader(player, points)
+      update_attributes(
+        :transport_leader => player,
+        :transport_count => points
+      )
+    end
 
     # Returns all users associated with this game.
     #def users
@@ -232,22 +256,6 @@ module Relational
       valid_format = GAME_FORMATS.include?(format)
       errors.add(:format, 'is not allowed') unless valid_format
       return valid_format
-    end
-
-    def games_list(options)
-      return []
-      h_games = DataModel::Game.search(options)
-
-      #FIXME use add_all_users and make this return an array of percepts
-      h_games.each do |game|
-        game[:users] = DataModel::Game.find_by_id(game[:id]).players.map do |player|
-          player.user.to_hash([:id, :nickname, :state, :score]) do |user|
-            {:player => player.to_hash([:id, :avatar, :slot, :ready]) }
-          end if player.user
-        end
-
-      end
-      percept[:games_list] = h_games
     end
 
   end
