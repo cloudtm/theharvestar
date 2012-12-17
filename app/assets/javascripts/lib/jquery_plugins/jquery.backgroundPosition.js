@@ -44,7 +44,7 @@
 	
 	$.fx.step. backgroundPosition = function(fx) {
 		if (!fx.bgPosReady) {
-			var start = $.curCSS(fx.elem,'backgroundPosition');
+			var start = $.css(fx.elem,'backgroundPosition');
 			if(!start){//FF2 no inline-style fallback
 				start = '0px 0px';
 			}

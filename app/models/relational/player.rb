@@ -3,6 +3,7 @@ module Relational
     
     include Madmass::Agent::Executor
     extend Challenges::TransportChallenge
+    include Trader
 
     attr_accessible :state
 
@@ -16,10 +17,9 @@ module Relational
     has_one :game_transport_leader, :class_name => '::DataModel::Game', :foreign_key => 'transport_leader_id'
     has_one :game_winner, :class_name => '::DataModel::Game', :foreign_key => 'winner_id'
 
-    # TODO
-    # has_many :offers, :foreign_key => 'trader_id', :dependent => :destroy
-    # has_one :trade_request, :foreign_key => 'publisher_id', :dependent => :destroy
-    has_many :red_progresses, :dependent => :destroy
+    has_many :offers, :class_name => '::DataModel::Offer', :foreign_key => 'trader_id', :dependent => :destroy
+    has_one :trade_request, :class_name => '::DataModel::TradeRequest', :foreign_key => 'publisher_id', :dependent => :destroy
+    has_many :red_progresses, :class_name => '::DataModel::RedProgress', :dependent => :destroy
 
     class << self
       # Sets the current player
@@ -199,6 +199,13 @@ module Relational
       self.save!
     end
 
+    # Decrements player resources accordingly to the construction cost
+    # Note: if you get an exception "NoMethodError: undefined method `<' for nil:NilClass"
+    # it could mean that you have a wrong definition of costs in game_options.yml:
+    # a key in costs could not be a (payable resource) attribute of Player
+    # receive is a pay action with positive income. The income is defined in the game_options.yml
+    alias receive! pay!
+
     # This method is used in to implements one of the postconditions of the settlement initial placement.
     # For each productive terrain reached by the settlement it adds on resource to the player.
     def init_resources target
@@ -237,6 +244,10 @@ module Relational
       end
     end
 
+    def add_offers(offer)
+      self.offers << offer
+    end
+
 
     # Returns the first progress associated to this player having the argument as name.
     # Note that the progress loaded is not used.
@@ -247,6 +258,10 @@ module Relational
     #increment player magic resource amount. By default increment amount is made of one magic resource unit
     def add_magic_resource inc = 1
       update_attribute(:magic_resource, self.magic_resource + inc)
+    end
+
+    def destroy_trade_request
+      trade_request.destroy
     end
 
     private

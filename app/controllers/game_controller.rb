@@ -37,42 +37,37 @@ class GameController < ApplicationController
 
   # The root action that renders the list or the game depending on the user state
   def index
-    status = Madmass.current_agent.execute(:cmd => "list_sensing")
-    #status = Madmass.current_agent.execute(:cmd => "#{current_user.state}_sensing")
+    status = Madmass.current_agent.execute(:cmd => "#{current_user.state}_sensing")
     @sensing = Madmass.current_perception.first.data[:sensing]
     respond_to do |format|
       format.html {render :index, :status => status}
     end
   end
 
-  # The root action that renders the game
-  #def play
-  #  return unless action_monitor do
-  #    @game_log.action({:cmd => :"#{current_user.state}_sensing"}) do |action_params|
-  #      @action = Mechanics::ActionFactory.make(action_params)
-  #      @percept = @action.do_it
-  #      {:action => @action, :percept => @percept}
-  #    end
-  #  end
-  #end
-
   #def comingsoon
   #  render :layout => 'comingsoon'
   #end
 
   def execute
+    #load 'lib/actions/counter_offer_action.rb'
     actions = ActiveSupport::JSON::decode(params[:actions])
     return unless actions
     @perceptions = []
     actions.each do |action|
       action = HashWithIndifferentAccess.new(action)
       status = Madmass.current_agent.execute(action[:agent])
-      @perceptions += Madmass.current_perception
+      #@perceptions += Madmass.current_perception
+    end
+
+    # FIXME: check if the game is finished
+    if(DataModel::Game.current and DataModel::Game.current.winner)
+      status = Madmass.current_agent.execute({:cmd => 'end_game'})
+      logger.info "GAME FINISHED: #{Madmass.current_perception.inspect}"
     end
 
     respond_to do |format|
       format.html {render :execute, :status => status}
-      format.json {render :json => @perceptions.to_json, :status => status}
+      format.json {render :json => Madmass.current_perception.to_json, :status => status}
     end
 
   rescue Madmass::Errors::StateMismatchError

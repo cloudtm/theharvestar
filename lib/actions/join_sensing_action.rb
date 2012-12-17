@@ -1,24 +1,26 @@
-# This action lists all games. This is a sensing action.
-#
-# Should sort list based on:
-#   1. Friends that joined the game (TODO)
-#   2. Number of players missing for starting the game
-#   3. List only pending games (not started and not full) (TODO)
+# This action joins the user to a game.
 #
 # === Accepted parameters
-# * text: full search text used to filter games (searched in game name and user names).
+# * game_id: game id to join, or...
+# * game_name: ... game name to join.
+#
+# This allows you to specify the game to join by id or by name.
 #
 # === Applicability
-# * The user can not list games while playing.
+# * The game to join must exist.
+# * The game must not be full.
+# * The user can not join the same game he is already playing.
+# * The user can play only one game at the time.
 #
 # === Trace
 # Nothing.
 #
 # === Perception
-# * All games.
+# * Game
+# * All players
 #
 module Actions
-  class ListSensingAction < Madmass::Action::Action
+  class JoinSensingAction < Madmass::Action::Action
     include Actions::PerceptionHelper
 
 
@@ -53,5 +55,4 @@ module Actions
     end
 
   end
-
 end

@@ -1,10 +1,14 @@
 require 'challenges/transport_challenge'
+require 'score'
+require 'trader'
 
 module Cloudtm
   class Player
+    
     include CloudTm::Model
     include Madmass::Agent::Executor
     extend Challenges::TransportChallenge
+    include Trader
 
     def attributes_to_hash
       {
@@ -72,6 +76,13 @@ module Cloudtm
     def increase_version
       self.version ||= 0
       update_attribute(:version, self.version + 1)
+    end
+
+    def destroy_trade_request
+      self.trade_request.offers.each do |offer|
+        self.removeOffers(offer)
+      end
+      self.removeTradeRequest
     end
 
     class << self
@@ -167,7 +178,7 @@ module Cloudtm
     #returns the amount of recycled resources used by the player
     def recycle_level
       recycle_count = red_progresses.select{|red_progress| red_progress.type == 'RecyclingProgress' and red_progress.used }.size
-      ((recycle_count) * GameOptions.options(DataModel::Game.current.format)[:recycling_prize]) - self.magic_resource
+      ((recycle_count) * GameOptions.options(DataModel::Game.current.format)[:recycling_prize]) - attributes_to_hash[:magic_resource]
     end
 
     # Provides player unplaced road
@@ -187,6 +198,7 @@ module Cloudtm
 
     # Provides the amount of the available social group
     def unused_social_group_amount
+      return 0 unless red_progresses
       red_progresses.select{|red_progress| red_progress.type == 'SocialProgress' and (not red_progress.used) }.size
     end
 
@@ -200,7 +212,7 @@ module Cloudtm
     end
 
     def destroy
-      DataModel::Game.current.removePlayers(self)
+      DataModel::Game.current.removePlayers(self) if DataModel::Game.current
     end
 
     # Returns true if involved player has enough resources to pay the costs.
@@ -221,6 +233,13 @@ module Cloudtm
         self.send("#{resource}=", total + income)
       end
     end
+
+    # Decrements player resources accordingly to the construction cost
+    # Note: if you get an exception "NoMethodError: undefined method `<' for nil:NilClass"
+    # it could mean that you have a wrong definition of costs in game_options.yml:
+    # a key in costs could not be a (payable resource) attribute of Player
+    # receive is a pay action with positive income. The income is defined in the game_options.yml
+    alias receive! pay!
 
     # This method is used in to implements one of the postconditions of the settlement initial placement.
     # For each productive terrain reached by the settlement it adds on resource to the player.
@@ -268,7 +287,7 @@ module Cloudtm
 
     #increment player magic resource amount. By default increment amount is made of one magic resource unit
     def add_magic_resource inc = 1
-      update_attribute(:magic_resource, self.magic_resource + inc)
+      update_attribute(:magic_resource, attributes_to_hash[:magic_resource] + inc)
     end
 
     private

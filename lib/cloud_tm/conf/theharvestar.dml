@@ -51,14 +51,38 @@ class Settlement {
 class Road {
   Integer x;
   Integer y;
+  boolean fromProgress;
 }
 
-// This is the root domain object
-class Root {
-  boolean loaded;         // auxiliary slot for the bootstrap sequence
-  Integer numGameIds;    // for the generation of games ids
-  Integer numPlayerIds;    // for the generation of players ids   
+class RedProgress {
+  String type;
+  boolean used;
+  JavaDate createdAt;
+  JavaDate updatedAt;
 }
+
+class Offer {
+  String message;
+  String lastTrader;
+  boolean traderAgrees;
+  boolean publisherAgrees;
+}
+
+class TradeRequest {}
+
+class ResourceHash {
+  int silicon;
+  int titanium;
+  int energy;
+  int water;
+  int grain;
+}
+
+
+// This is the root domain object
+class Root {}
+
+
 
 // RELATIONS
 
@@ -109,8 +133,18 @@ relation GameHasRoads {
 }
 
 relation GameHasWinner {
-  Game playsRole winnergame;
+  Game playsRole gameWinner;
   Player playsRole winner;
+}
+
+relation GameHasSocialLeader {
+  Game playsRole gameSocialLeader;
+  Player playsRole socialLeader; 
+}
+
+relation GameHasTransportLeader {
+  Game playsRole gameTransportLeader;
+  Player playsRole transportLeader; 
 }
 
 relation PlayerHasSettlements {
@@ -121,4 +155,39 @@ relation PlayerHasSettlements {
 relation PlayerHasRoads {
   Player playsRole player;
   Road playsRole roads { multiplicity *; }
+}
+
+relation PlayerHasRedProgresses {
+  Player playsRole player;
+  RedProgress playsRole redProgresses { multiplicity *; }
+}
+
+relation PlayerHasTradeRequest {
+  Player playsRole publisher;
+  TradeRequest playsRole tradeRequest;
+}
+
+relation PlayerHasOffers {
+  Player playsRole trader;
+  Offer playsRole offers { multiplicity *; }
+}
+
+relation TradeRequestHasOffers {
+  TradeRequest playsRole tradeRequest;
+  Offer playsRole offers { multiplicity *; }
+}
+
+relation TradeRequestHasReceive {
+  TradeRequest playsRole;
+  ResourceHash playsRole receive;
+}
+
+relation OfferHasReceive {
+  Offer playsRole;
+  ResourceHash playsRole receive;
+}
+
+relation OfferHasGive {
+  Offer playsRole;
+  ResourceHash playsRole give;
 }

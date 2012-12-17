@@ -99,11 +99,19 @@ module CloudTm
     end
 
     def save
-      #does nothing, kept for compatibility with AR
+      # does nothing, kept for compatibility with AR
     end
     
     def save!
-      #does nothing, kept for compatibility with AR
+      # does nothing, kept for compatibility with AR
+    end
+
+    def destroy
+      # does nothing, depends on implementation on subclasses
+    end
+
+    def reload
+      # does nothing, kept for compatibility with AR
     end
 
     def to_hash(selection = nil)
@@ -122,7 +130,6 @@ module CloudTm
     def app
       FenixFramework.getDomainRoot().getApp
     end
-
 
   end
 end

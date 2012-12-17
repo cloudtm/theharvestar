@@ -66,14 +66,15 @@ module Actions
           :key => 'action.game.not_exists',
           :recipients => [User.current.id]
         )
-      else if not @already_joined and DataModel::Game.current.full? @parameters[:game_id]
-             why_not_applicable.publish(
-              :name => :game_full, 
-              #:message => I18n.t(:'action.game.full'), 
-              :key => 'action.game.full',
-              :recipients => [User.current.id]
-            )
-           end
+      else 
+        if not @already_joined and DataModel::Game.current.full? @parameters[:game_id]
+          why_not_applicable.publish(
+            :name => :game_full, 
+            #:message => I18n.t(:'action.game.full'), 
+            :key => 'action.game.full',
+            :recipients => [User.current.id]
+          )
+        end
       end
 
       if DataModel::Game.current and DataModel::Game.current.players.detect{|player| player.slot == @parameters[:slot].to_i}

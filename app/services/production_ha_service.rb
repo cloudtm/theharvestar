@@ -1,9 +1,6 @@
-# This is needed for the ha service, seems that the same code in config/initializers/cloudtm.rb 
+# This is needed for the ha service, seems that the same code in config/initializers/madmass.rb 
 # don't affect the service.
-# Hack to set the current datamodel ... need improvements
-#DataModel = Relational
-#DataModel = Cloudtm
-require File.join(Rails.root, 'config', 'initializers', 'cloud_tm')
+#require File.join(Rails.root, 'config', 'initializers', 'madmass')
 
 # High availability service, in charge of periodically rolling dices and
 # sending production requests through JMS.

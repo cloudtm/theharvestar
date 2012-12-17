@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121119102232) do
+ActiveRecord::Schema.define(:version => 20121214130745) do
 
   create_table "games", :force => true do |t|
     t.string   "name"
@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(:version => 20121119102232) do
     t.integer  "transport_count",     :default => 0
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
+  end
+
+  create_table "offers", :force => true do |t|
+    t.text     "give"
+    t.text     "receive"
+    t.text     "message"
+    t.integer  "trade_request_id"
+    t.integer  "trader_id"
+    t.integer  "last_trader"
+    t.boolean  "trader_agrees"
+    t.boolean  "publisher_agrees"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "players", :force => true do |t|
@@ -58,8 +71,9 @@ ActiveRecord::Schema.define(:version => 20121119102232) do
     t.integer  "y"
     t.integer  "player_id"
     t.integer  "game_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.boolean  "from_progress", :default => false
   end
 
   add_index "roads", ["player_id"], :name => "index_roads_on_player_id"
@@ -98,6 +112,11 @@ ActiveRecord::Schema.define(:version => 20121119102232) do
     t.integer  "game_id"
     t.datetime "created_at",             :null => false
     t.datetime "updated_at",             :null => false
+  end
+
+  create_table "trade_requests", :force => true do |t|
+    t.integer "publisher_id"
+    t.text    "receive"
   end
 
   create_table "users", :force => true do |t|

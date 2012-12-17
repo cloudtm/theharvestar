@@ -140,8 +140,8 @@ Game.Strategy.SummaryLeaved = new Class({
   Extends: Game.Strategy,
   name: "SummaryLeaved",
 
-  crunch: function(pid){
-    this.send($msg.info.summaryLeaved, pid);
+  crunch: function(percept){
+    this.send($msg.info.summaryLeaved, percept.pid);
   }
 
 });

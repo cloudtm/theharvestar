@@ -160,6 +160,7 @@ class User < ActiveRecord::Base
       # We destroy the current player (not the user)
       DataModel::Player.current.destroy
       unless DataModel::Game.current
+        Rails.logger.debug ">>>>>>>>>>>>>>>>> USER:LEAVE => Game don't exists <<<<<<<<<<<<<<<<<<<<<"
         DataModel::Player.current = nil
         return
       end
@@ -171,6 +172,7 @@ class User < ActiveRecord::Base
       #game_zombie[:id] = DataModel::Game.current.id #removed by the active record clone (ar removes primary key from clone)
       # TODO: check what game properties are needed from unjoin game action (pass them as to_hash argument)
       game_zombie = DataModel::Game.current.to_hash([:id, :version])
+      Rails.logger.debug ">>>>>>>>>>>>>>>>> USER:LEAVE => zombie: #{game_zombie.inspect} <<<<<<<<<<<<<<<<<<<<<"
       if DataModel::Game.current.players.empty?
         DataModel::Game.current.destroy
       end

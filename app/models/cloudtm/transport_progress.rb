@@ -1,4 +1,4 @@
-module Relational
+module Cloudtm
   # This class represents the Transport Research & Development Progress.
   # If the player uses this development progress gains N (amount specified in Game Options: transport_amount)
   # railway (class Road) that can be placed without paying when he prefers.
@@ -12,7 +12,7 @@ module Relational
 
     def effect
       options = GameOptions.options(DataModel::Game.current.format)
-      @transport_amount = (DataModel::Player.current.roads.count + options[:transport_amount] <= options[:max_roads]) ? options[:transport_amount] : (options[:max_roads] - DataModel::Player.current.roads.count)
+      @transport_amount = (DataModel::Player.current.roads.size + options[:transport_amount] <= options[:max_roads]) ? options[:transport_amount] : (options[:max_roads] - DataModel::Player.current.roads.size)
       @transport_amount.times{ DataModel::Road.build_from_progress }
       used!
     end

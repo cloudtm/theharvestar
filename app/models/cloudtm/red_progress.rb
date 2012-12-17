@@ -1,13 +1,12 @@
-module Relational
+module Cloudtm
   # Research and Development Progress.
   # This is the super class for all Research and Development Progressess in the game.
   # A R&D Progress can be bought by users paying its specific cost (specified in the Game Options yaml file: development_cost).
   # Each R&D Progress has its own effect that is implemented in the sub-classes that specialize it.
   # The player can't choose the type of progress by himself. When the player buys a progress the game selects the type depending
   # on a probability distribution defined in the Game Options (development_probability).
-  class RedProgress < ActiveRecord::Base
-
-    belongs_to :player
+  class RedProgress
+    include CloudTm::Model
 
     class << self
       # Factory method.
@@ -26,7 +25,7 @@ module Relational
           progress_class = "DataModel::#{ptype.camelize}Progress".constantize
           # create the record in the db and return it
         end
-        progress_class.create
+        progress_class.create :type => "#{ptype.camelize}Progress"
       end
 
       def probability_distribution

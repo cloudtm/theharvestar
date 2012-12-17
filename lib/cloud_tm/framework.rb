@@ -71,12 +71,16 @@ end
 # TODO: make this step dynamic
 # Load domain models
 
-Cloudtm::Player      = Java::ItAlgoTheharvestarDomain::Player
-Cloudtm::Game        = Java::ItAlgoTheharvestarDomain::Game
-Cloudtm::Terrain     = Java::ItAlgoTheharvestarDomain::Terrain
-Cloudtm::Settlement  = Java::ItAlgoTheharvestarDomain::Settlement
-Cloudtm::Road        = Java::ItAlgoTheharvestarDomain::Road
-Cloudtm::Root        = Java::ItAlgoTheharvestarDomain::Root
+Cloudtm::Player       = Java::ItAlgoTheharvestarDomain::Player
+Cloudtm::Game         = Java::ItAlgoTheharvestarDomain::Game
+Cloudtm::Terrain      = Java::ItAlgoTheharvestarDomain::Terrain
+Cloudtm::Settlement   = Java::ItAlgoTheharvestarDomain::Settlement
+Cloudtm::Road         = Java::ItAlgoTheharvestarDomain::Road
+Cloudtm::RedProgress  = Java::ItAlgoTheharvestarDomain::RedProgress
+Cloudtm::Offer        = Java::ItAlgoTheharvestarDomain::Offer
+Cloudtm::TradeRequest = Java::ItAlgoTheharvestarDomain::TradeRequest
+Cloudtm::ResourceHash = Java::ItAlgoTheharvestarDomain::ResourceHash
+Cloudtm::Root         = Java::ItAlgoTheharvestarDomain::Root
 
 Dir[File.join(CLOUDTM_PATH, '*.rb')].each { |ruby|
   next if ruby.match(/framework\.rb/)

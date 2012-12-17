@@ -12,6 +12,12 @@ module Actions
       return [ data ]
     end
 
+    # Adds all the users in the specified states (array)
+    def users_in_states(states)
+      User.where(:state => states).map(&:id)
+    end
+    
+
     # Collects all the needed information to start the game on client side: terrains, vertices
     # where the player can place a colony and edges where the player can build roads. There is no
     # constrain to map topology.
@@ -123,12 +129,12 @@ module Actions
     def current_market
       market = {}
       # FIXME:
-      return market
+      #return market
 
       # cerca le offerte per cui sono trader (fatte da altre)
       all_offers = DataModel::Player.current.offers.map do |offer|
         offer.to_hash do |o|
-          {:publisher_id => o.publisher.id}
+          {:publisher_id => o.publisher ? o.publisher.id : nil}
         end
       end
       if all_offers.any?
@@ -143,12 +149,81 @@ module Actions
         #add_to_check :trade => trade
         market[:trade_request][:offers] = trade.offers.map do |offer|
           offer.to_hash do |o|
-            {:publisher_id => trade.publisher_id}
+            {:publisher_id => trade.publisher.id}
           end
         end
         #add_to_check :offers => trade.offers
       end
       return market
+    end
+
+    # Adds the trade request passed as argument.
+    def trade_request trade_request
+      unless trade_request
+        return {}
+      end
+
+      #add_to_check :trade => trade_request
+      td_hash = trade_request.to_hash do
+        trade_offers = trade_request.offers.map do |offer|
+          offer.to_hash do
+            {:publisher_id => trade_request.publisher.id}
+          end
+        end
+        {:offers => trade_offers}
+      end
+      #add_to_check :offers => trade_request.offers
+      td_hash
+    end
+
+    def offer(offer_id)
+      offer = DataModel::Offer.find_by_id(offer_id)
+      this_trade_request = offer.trade_request
+      
+      #add_to_check :trade => trade_request
+      #add_to_check :offer => offer
+      #offer_percept = {}
+      #offer_percept[:trade_request] ||= trade_request.to_hash
+      #offer_percept[:trade_request][:offers] ||= []
+      #offer_percept[:trade_request][:offers] << offer.to_hash do
+      #  {:publisher_id => trade_request.publisher_id}
+      #end
+
+      players = []
+      players << offer.trader.to_hash([:id, :user_id])
+      players << this_trade_request.publisher.to_hash([:id, :user_id])
+      
+      offer_percept = { 
+        :trade_request => trade_request(this_trade_request),
+        :players => players
+      }
+      offer_percept
+    end
+
+    # Add to the game hash all informations needed by the final game summary.
+    def summary
+      summary = []
+      # retrieve all player scores
+      # sort players by total score
+      players = DataModel::Game.current.players.sort_by(&:total_score)
+      players.reverse.each do |player|
+        user = player.user
+        summary << {
+          :id => player.id,
+          :score => player.score,
+          :total_score => player.total_score,
+          :user_score => user.score,
+          :user_img => user.picture.url(:small),
+          :user_name => user.nickname,
+          :longest_path => Score.transport_level(player),
+          :cultural_level => Score.cultural_level(player),
+          :game_awards => {
+            :transport_score => Score.transport_score(player),
+            :social_score => Score.social_score(player)
+          }
+        }
+      end
+      summary
     end
 
   end

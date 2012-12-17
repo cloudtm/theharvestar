@@ -20,6 +20,9 @@ module Actions
     # [MANDATORY] Override this method in your action to define
     # the action effects.
     def execute
+      # FIXME: change this
+      # increment game and players version
+      DataModel::Game.current.increase_version if DataModel::Game.current
       @game_zombie = User.leave
     end
 

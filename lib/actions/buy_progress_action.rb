@@ -57,7 +57,7 @@ module Actions
     # [OPTIONAL] - The default implementation returns always true
     # Override this method in your action to define when the action is
     # applicable (i.e. to verify the action preconditions).
-    def applicable
+    def applicable?
       unless DataModel::Player.current.can_buy?  options :development_cost
         why_not_applicable.publish(
           :name => :research_no_resource,

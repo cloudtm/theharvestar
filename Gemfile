@@ -11,7 +11,7 @@ gem "madmass", :path => "/Users/genzo/algo_projects/madmass"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'jruby-openssl'
+#gem 'jruby-openssl'
 gem 'json'
 
 # Gems used only for assets and not required

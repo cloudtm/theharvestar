@@ -30,7 +30,7 @@
       # The total score is the actual score plus points of challenges where
       # the player is the leader.
       def total_score(player)
-        tscore = player.score # monotonic score (can not decrese) FIXME naming
+        tscore = player.score || 0 # monotonic score (can not decrese) FIXME naming
         # add the transport challenge points
         tscore += transport_score(player)
         # add the social challenge points
