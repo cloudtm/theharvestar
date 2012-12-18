@@ -62,7 +62,7 @@ group :development, :test do
   gem 'torquespec', ">= 0.3.5"
   gem 'capybara'
 #  gem 'akephalos'
-  gem 'torquebox-server', "~> 2.0.3"
+  gem 'torquebox-server', "~> 2.1.2"
 end
 
 group :test do
