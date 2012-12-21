@@ -58,13 +58,9 @@
            n2 = edge.vertexes[1]
            edges <<  [n1.to_s, n2.to_s]
         end
-        g = Map::LongestPath::Graph.new edges
-        path = g.longest_path
-        # TODO add the path to the game
-        # TODO add convert edges to hex representation (pair of terrains)
-        # return this path and put it in Game/Percept
-        # puts "longest path: #{path.inspect}"
-        return path.size
+        p = Map::LongestPath::Planner.new
+        # TODO return the actual longest path to display in UI (not just the length)
+        return p.longest_path_len edges
       end
 
       # Returns the amount of points provided to the game winner.
