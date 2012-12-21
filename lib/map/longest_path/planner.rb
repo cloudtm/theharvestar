@@ -1,7 +1,13 @@
-#This class implements the computation of the longest path
-#on a connected graph represented as a list of edges.
+#This class implements the computation of the longest path.
 
+require 'matrix'
+require 'set'
 
+class Matrix
+  def []=(i, j, x)
+    @rows[i][j] = x
+  end
+end
 
 class Map::LongestPath::Planner
 
@@ -11,7 +17,7 @@ class Map::LongestPath::Planner
      for i in 0..@nodes_size-1 do
        res << max_length(i)
      end
-     res.max
+     res.max || 0
    end
 
    def max_length v
