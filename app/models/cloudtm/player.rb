@@ -188,7 +188,7 @@ module Cloudtm
 
     # Provides player placed roads (x and y are not 0)
     def placed_roads
-      roads.select{|road| (road.x != 0 and !road.x.nil?) and (road.y != 0 and !road.y.nil?)}
+      roads.select{|road| (road.x != 0 and !road.x.nil?) or (road.y != 0 and !road.y.nil?)}
     end
 
     # Roads won with research and development.

@@ -6,7 +6,6 @@ source "http://gems.github.com"
 gem 'rails', '3.2.6'
 gem 'jquery-rails'
 gem "madmass", :git => "git://github.com/algorithmica/madmass.git"
-#gem "madmass", :path => "/Users/genzo/algo_projects/madmass"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

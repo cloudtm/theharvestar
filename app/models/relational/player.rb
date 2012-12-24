@@ -166,7 +166,7 @@ module Relational
 
     # Provides player placed roads (x and y are not 0)
     def placed_roads
-      roads.where("x <> :x and y <> :y", {:x => 0, :y => 0})
+      roads.where("x <> :x or y <> :y", {:x => 0, :y => 0})
     end
 
     # Roads won with research and development.

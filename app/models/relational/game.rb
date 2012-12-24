@@ -8,7 +8,7 @@ module Relational
 
 
     # can mass assign some attributes
-    attr_accessible :name, :format, :state
+    attr_accessible :name, :format, :state, :transport_leader, :transport_count
     self.locking_column = :version
 
     include GameStates
