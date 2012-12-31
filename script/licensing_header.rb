@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 ###############################################################################
 ###############################################################################
 #
@@ -28,16 +30,32 @@
 ###############################################################################
 ###############################################################################
 
-class CreatePlayers < ActiveRecord::Migration
-  def change
-    create_table :players do |t|
-      t.string :state
-      t.string :avatar, :default => 'none'
-      t.integer :slot, :version, :default => 1
-      t.integer :silicon, :energy, :water, :titanium, :grain, :score, :magic_resource, :default => 0
-      t.boolean :ready, :default => false
-      t.references :user, :game
-      t.timestamps
-    end
-  end
+# This script put in the header of all ruby source file in the project the license statement.
+# The script read the header text from the file 'license_header.txt' placed in this same folder.
+
+require 'find'
+require 'fileutils'
+
+def add_license_header(file)
+	license_text = File.open(@license_header_file, 'r'){|source_file| source_file.read }
+	original_text = File.open(file, 'r'){|source_file| source_file.read }
+	File.open(file, 'w') do |source_file|
+		#original_text = source_file.read
+		source_file.write license_text + original_text
+	end
 end
+
+@app_folder = File.join(File.dirname(__FILE__), '..')
+@license_header_file = File.join(File.dirname(__FILE__), 'license_header.txt')
+
+puts "serching for source code on #{@app_folder} ..."
+
+Find.find(@app_folder) do |path|
+	if path.match /\.rb$/
+		puts "writing #{path} ..."	  
+		add_license_header(path)
+		Find.prune
+	end
+end
+
+puts "finished."
