@@ -44,7 +44,7 @@ This project is part of the Specific Targeted Research Project (STReP) Cloud-TM[
 European Commission under the Seventh Framework Programme for Research and Technological Development (FP7 - 2007-2013) with contract no. 257784.
 
 
-The names, logos and images are trademarks of Algorithmica Srl.
+The names, logos, music and images are trademarks of Algorithmica Srl.
 
 
 
