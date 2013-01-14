@@ -44,11 +44,11 @@ This project is part of the Specific Targeted Research Project (STReP) Cloud-TM[
 European Commission under the Seventh Framework Programme for Research and Technological Development (FP7 - 2007-2013) with contract no. 257784.
 
 
-The names and logos for Algorithmica are trademarks of Algorithmica Srl.
+The names, logos and images are trademarks of Algorithmica Srl.
 
 
 
 == Copyright
 
-Madmass is Copyright (c) 2010-2013 Algorithmica Srl. It is free software, and may be redistributed under the terms specified in the
-LICENSE.txt file.
+The Harvestar is Copyright (c) 2010-2013 Algorithmica Srl. It is free software, and may be redistributed under the terms specified in the
+LICENSE.txt file. All the images, music and artwork are licensed under the Attribution-NonCommercial-NoDerivs 3.0 Creative Commons License. See http://creativecommons.org/licenses/by-nc-nd/3.0/legalcode for details.
