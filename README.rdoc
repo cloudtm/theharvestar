@@ -39,7 +39,7 @@ In order to run the application follow these steps:
 
 http://algorithmica.it/images/logo.png
 
-The Harvestar is owned by [Algorithmica Srl](http://algorithmica.it). 
+The Harvestar is owned by (Algorithmica Srl)[http://algorithmica.it].
 This project is part of the Specific Targeted Research Project (STReP) Cloud-TM[http://www.cloudtm.eu] and is partially funded by the
 European Commission under the Seventh Framework Programme for Research and Technological Development (FP7 - 2007-2013) with contract no. 257784.
 
