@@ -1,12 +1,16 @@
 == The Harvestar (aka AI-Colony)
 
 This repository contains the community version of AI-Colony.
+
 == Getting started
 
 In order to run the application follow these steps:
 1. Install TorqueBox v2.1.2 (download it here[http://torquebox.org/release/org/torquebox/torquebox-dist/2.1.2/torquebox-dist-2.1.2-bin.zip] and follow these[http://torquebox.org/documentation/2.1.2/installation.html] instructions).
+
 2. Install the Cloud-TM modules into Torquebox (you can find more details here[http://github.com/algorithmica/cloudtm-jboss-modules])
+
 3. Clone the project
+
 4. Install the needed gem libraries:
    open a shell,
    cd to the project folder
@@ -16,14 +20,19 @@ In order to run the application follow these steps:
    open the Gemfile (in the root of the application) and add
     gem 'execjs'
     gem 'therubyracer'
+
 5. Setup the database (make sure sqlite3 is installed):
     jruby -S rake db:setup
+
 6. Deploy the application into TorqueBox by executing this command in the project folder:
     jruby -S rake torquebox:deploy
+
 7. Run TorqueBox:
     jruby -S rake torquebox:run
+
 8. Run the Socky Websockets server by executing this command in the project folder:
     jruby -S socky -c socky_server.yml
+
 9. Open the browser at http://localhost:8080, signup and access AI-Colony.
 
 Credits
