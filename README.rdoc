@@ -21,8 +21,10 @@ In order to run the application follow these steps:
     gem 'execjs'
     gem 'therubyracer'
 
-5. Setup the database (make sure sqlite3 is installed):
+5. Setup the user database (make sure sqlite3 is installed):
     jruby -S rake db:setup
+    rake db:migrate
+    rake db:seed
 
 6. Deploy the application into TorqueBox by executing this command in the project folder:
     jruby -S rake torquebox:deploy
@@ -34,6 +36,8 @@ In order to run the application follow these steps:
     jruby -S socky -c socky_server.yml
 
 9. Open the browser at http://localhost:8080, signup and access AI-Colony.
+
+10. Check out our wiki[https://github.com/algorithmica/theharvestar/wiki/How-to-switch-data-model-adapter] for how to switch among the several data tier technologies available.
 
 == Credits
 
