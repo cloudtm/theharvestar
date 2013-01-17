@@ -5,9 +5,9 @@ This repository contains the community version of AI-Colony.
 == Getting started
 
 In order to run the application follow these steps:
-1. Install TorqueBox v2.1.2 (download it here[http://torquebox.org/release/org/torquebox/torquebox-dist/2.1.2/torquebox-dist-2.1.2-bin.zip] and follow these[http://torquebox.org/documentation/2.1.2/installation.html] instructions).
+1. Install TorqueBox v2.2.0 (download it here[http://torquebox.org/release/org/torquebox/torquebox-dist/2.2.0/torquebox-dist-2.2.0-bin.zip] and follow these[http://torquebox.org/documentation/2.2.0/installation.html] instructions).
 
-2. Install the Cloud-TM modules into Torquebox (you can find more details here[http://github.com/algorithmica/cloudtm-jboss-modules])
+2. Add the Cloud-TM modules  as descibed here[https://github.com/algorithmica/cloudtm-jboss-modules] and modify the "$JBOSS_HOME/standalone/bin/standalone.conf" as needed for your environment.
 
 3. Clone the project
 
