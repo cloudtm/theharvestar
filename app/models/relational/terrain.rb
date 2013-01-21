@@ -62,7 +62,7 @@ module Relational
     # Converts the Terrain to a geometrical object,
     # namely a hexagon of a hex grid
     def to_hex
-      Map::Hex::Hex.new(x,y)
+      Map::HexGrid::Hex.new(x,y)
     end
 
     class << self

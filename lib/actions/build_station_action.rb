@@ -40,7 +40,7 @@ module Actions
     # [OPTIONAL] Override this method to add parameters preprocessing code
     # The parameters can be found in the @parameters hash
     def process_params
-      @parameters[:target] = Map::Hex::Vertex.factory(@parameters[:target])
+      @parameters[:target] = Map::HexGrid::Vertex.factory(@parameters[:target])
     end
 
     # [MANDATORY] Override this method in your action to define

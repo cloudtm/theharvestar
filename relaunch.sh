@@ -5,12 +5,8 @@ killall -9 java
 rm -rf ${JBOSS_HOME}/standalone/tmp/*
 rm -rf ${JBOSS_HOME}/standalone/data/*
 rm -rf ${JBOSS_HOME}/standalone/deployments/*
-echo "" >  ~/dev/theharvestar/log/production.log
-
-jruby -S backstage deploy
-
-cd ~/dev/theharvestar && RAILS_ENV=production jruby -S bundle exec rake torquebox:deploy
-
-$JBOSS_HOME/bin/standalone.sh --server-config=standalone-ha.xml &
-
-
+echo "" >  log/devlopement.log
+echo "" >  log/production.log
+socky -c socky_server.yml &
+RAILS_ENV=production rake torquebox:deploy
+torquebox run

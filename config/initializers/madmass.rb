@@ -38,7 +38,7 @@ Madmass.setup do |config|
   # default is :"Madmass::Transaction::NoneAdapter".
   # You can also create your own adapter and pass it to the configuration
   # {"config.tx_adapter = :'Madmass::Transaction::ActiveRecordAdapter'" if @ar}
-  if(DataModel == Cloudtm)
+  if (DataModel == Cloudtm)
     config.tx_adapter = :"Madmass::Transaction::CloudTmAdapter"
   else
     config.tx_adapter = :"Madmass::Transaction::ActiveRecordAdapter"
@@ -49,7 +49,7 @@ Madmass.setup do |config|
 end
 
 
-if(DataModel == Cloudtm)
+if (DataModel == Cloudtm)
   begin
     require File.join(Rails.root, 'lib', 'cloud_tm', 'framework')
 

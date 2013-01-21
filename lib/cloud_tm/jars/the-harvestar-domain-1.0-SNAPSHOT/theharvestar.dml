@@ -1,0 +1,220 @@
+/**************************************************************************
+* This file is part of TheHarvestar.
+*
+* TheHarvestar is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* TheHarvestar is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with TheHarvestar.  If not, see <http://www.gnu.org/licenses/>.
+*
+* Copyright (c) 2010-2013 Algorithmica Srl
+*
+*
+* Contact us via email at info@algorithmica.it or at
+*
+* Algorithmica Srl
+* Largo Alfredo Oriani 12
+* 00152 Rome, Italy
+*
+**************************************************************************/
+
+package it.algo.theharvestar.domain;
+
+valueType java.util.Date as JavaDate {
+  externalizeWith {
+    String toString();
+  }
+}
+
+//CLASSES
+
+class Game {
+  String state;
+  String name;
+  String format;
+  Integer version;
+  Integer socialCount;
+  Integer transportCount;
+  JavaDate createdAt;
+}
+
+
+class Terrain {
+  Integer x;
+  Integer y;
+  Integer productionProbability;
+  String terrainType;
+}
+
+class Player {
+  String state;
+  Integer userId;
+  Integer slot;
+  boolean ready;
+  String avatar;
+  Integer silicon;
+  Integer energy;
+  Integer water;
+  Integer titanium;
+  Integer grain;
+  Integer score;
+  Integer magicResource;
+  Integer version;
+}
+
+class Settlement {
+  Integer level;
+  Integer x;
+  Integer y;
+}
+
+class Road {
+  Integer x;
+  Integer y;
+  boolean fromProgress;
+}
+
+class RedProgress {
+  String type;
+  boolean used;
+  JavaDate createdAt;
+  JavaDate updatedAt;
+}
+
+class Offer {
+  String message;
+  String lastTrader;
+  boolean traderAgrees;
+  boolean publisherAgrees;
+}
+
+class TradeRequest {}
+
+class ResourceHash {
+  int silicon;
+  int titanium;
+  int energy;
+  int water;
+  int grain;
+}
+
+
+// This is the root domain object
+class Root {}
+
+
+
+// RELATIONS
+
+relation DomainRootHasRoot {
+    .pt.ist.fenixframework.DomainRoot playsRole;
+    Root playsRole app;
+}
+
+relation RootHasGames {
+  Root playsRole root;
+  Game playsRole games { multiplicity *; }
+}
+
+relation RootHasPlayers {
+  Root playsRole root;
+  Player playsRole players { multiplicity *; }
+}
+
+
+relation GameHasTerrains {
+  Game playsRole game;
+  Terrain playsRole terrains { multiplicity *; }
+}
+
+relation GameHasPlayers {
+  Game playsRole game;
+  Player playsRole players { multiplicity *; }
+}
+
+relation TerrainHasSettlements {
+  Terrain playsRole terrains { multiplicity *; }
+  Settlement playsRole settlements { multiplicity *; }
+}
+
+relation TerrainHasRoads {
+  Terrain playsRole terrains { multiplicity *; }
+  Road playsRole roads { multiplicity *; }
+}
+
+relation GameHasSettlements {
+  Game playsRole game;
+  Settlement playsRole settlements { multiplicity *; }
+}
+
+relation GameHasRoads {
+  Game playsRole game;
+  Road playsRole roads { multiplicity *; }
+}
+
+relation GameHasWinner {
+  Game playsRole gameWinner;
+  Player playsRole winner;
+}
+
+relation GameHasSocialLeader {
+  Game playsRole gameSocialLeader;
+  Player playsRole socialLeader; 
+}
+
+relation GameHasTransportLeader {
+  Game playsRole gameTransportLeader;
+  Player playsRole transportLeader; 
+}
+
+relation PlayerHasSettlements {
+  Player playsRole player;
+  Settlement playsRole settlements { multiplicity *; }
+}
+
+relation PlayerHasRoads {
+  Player playsRole player;
+  Road playsRole roads { multiplicity *; }
+}
+
+relation PlayerHasRedProgresses {
+  Player playsRole player;
+  RedProgress playsRole redProgresses { multiplicity *; }
+}
+
+relation PlayerHasTradeRequest {
+  Player playsRole publisher;
+  TradeRequest playsRole tradeRequest;
+}
+
+relation PlayerHasOffers {
+  Player playsRole trader;
+  Offer playsRole offers { multiplicity *; }
+}
+
+relation TradeRequestHasOffers {
+  TradeRequest playsRole tradeRequest;
+  Offer playsRole offers { multiplicity *; }
+}
+
+relation TradeRequestHasReceive {
+  TradeRequest playsRole;
+  ResourceHash playsRole receive;
+}
+
+relation OfferHasReceive {
+  Offer playsRole;
+  ResourceHash playsRole receive;
+}
+
+relation OfferHasGive {
+  Offer playsRole;
+  ResourceHash playsRole give;
+}

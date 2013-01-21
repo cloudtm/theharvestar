@@ -40,7 +40,7 @@ module Actions
     # [OPTIONAL] Override this method to add parameters preprocessing code
     # The parameters can be found in the @parameters hash
     def process_params
-      @parameters[:target] = Map::Hex::Edge.factory(@parameters[:target])
+      @parameters[:target] = Map::HexGrid::Edge.factory(@parameters[:target])
       map_stragegy = "Map::#{DataModel::Game.current.format_class}::HexMap".constantize
       if map_stragegy.blank_tiles?(@parameters[:target].hexes)
         raise Madmass::Errors::WrongInputError, "#{self.class.name}: target is in the sea!"

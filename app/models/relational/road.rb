@@ -133,7 +133,7 @@ module Relational
     #returns the edge representation of the current road
     def to_edge
       return nil if terrains.empty?
-      Map::Hex::Edge.new(terrains.first.to_hex, terrains.last.to_hex)
+      Map::HexGrid::Edge.new(terrains.first.to_hex, terrains.last.to_hex)
     end
 
     private

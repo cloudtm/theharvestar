@@ -27,6 +27,7 @@
 #
 ###############################################################################
 ###############################################################################
+require File.join(Rails.root, 'lib', 'map', 'hex_grid', 'hex')
 
 module Cloudtm
   class Road
@@ -185,7 +186,15 @@ module Cloudtm
     def to_edge
       return nil if terrains.empty?
       ary_terrains = terrains.to_a
-      Map::Hex::Edge.new(ary_terrains.to_a[0].to_hex, ary_terrains[1].to_hex)
+      Rails.logger.debug "ary_terrains #{ary_terrains.inspect}"
+      t1 = ary_terrains[0]
+      Rails.logger.debug "ary_terrains T1 #{t1.inspect}"
+      t2 = ary_terrains[1]
+      Rails.logger.debug "ary_terrains T2 #{t2.inspect}"
+      Rails.logger.debug "MAP: #{Map::HexGrid::Hex}"
+      h1 = t1.to_hex
+      h2 = t2.to_hex
+      Map::HexGrid::Edge.new(h1, h2)
     end
 
     #private

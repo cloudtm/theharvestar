@@ -40,7 +40,7 @@ module Relational
 
     #returns the vertex where the settlement is build
     def to_vertex
-      Map::Hex::Vertex.new(terrains[0].to_hex, terrains[1].to_hex, terrains[2].to_hex )
+      Map::HexGrid::Vertex.new(terrains[0].to_hex, terrains[1].to_hex, terrains[2].to_hex )
     end
 
     #returns the settlements on the requested vertexes if any (that means that thos vertexes are occupied)

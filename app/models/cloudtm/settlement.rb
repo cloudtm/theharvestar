@@ -46,7 +46,7 @@ module Cloudtm
     # returns the vertex where the settlement is build
     def to_vertex
       terrains_ary = terrains.map(&:to_hex)
-      Map::Hex::Vertex.new( terrains_ary[0], terrains_ary[1], terrains_ary[2] )
+      Map::HexGrid::Vertex.new( terrains_ary[0], terrains_ary[1], terrains_ary[2] )
     end
 
     # returns the settlements on the requested vertexes if any (that means that thos vertexes are occupied)
