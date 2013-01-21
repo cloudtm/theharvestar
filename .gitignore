@@ -23,5 +23,7 @@ config/database.yml
 .DS_Store
 /public/assets
 relaunch_dev.sh
-
+fenix-framework-*.jar
+dml-maven-plugin*.jar
+dap-framework-*.jar
 db/schema.rb
