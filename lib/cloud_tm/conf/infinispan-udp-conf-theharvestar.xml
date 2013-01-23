@@ -10,7 +10,7 @@
       <properties>
         <property
                 name="configurationFile"
-                value="jgroups/jgroups-udp-theharvestar.xml"/>
+                value="jgroups/jgroups-udp-geograph.xml"/>
       </properties>
     </transport>
   </global>

@@ -68,17 +68,24 @@ module Cloudtm
         expansion.shuffle
       end
 
-       def selectable?
-          true
-       end
+      def selectable?
+        true
+      end
 
-       def affect_score?
+      def affect_score?
         false
-       end
+      end
 
     end
 
-    
+    def attributes_to_hash
+      {
+        :id => id,
+        :type => type,
+        :used => used
+      }
+    end
+
 
     def name
       self.type.sub('Progress', '').underscore
@@ -108,9 +115,9 @@ module Cloudtm
 
     # In RedProgress subclasses this method can be redefined in order to assert if current player
     # can obtain, in the current state, a certain red_progress
-   
 
-    
+
+
   end
 
 end
